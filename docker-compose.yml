@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:14-alpine
+    container_name: db
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: "${POSTGRES_DB}"
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD}"
+      POSTGRES_USER: "${POSTGRES_USER}"
+
+  pgweb:
+    image: sosedoff/pgweb
+    container_name: pgweb
+    ports:
+      - "8081:8081"
+    environment:
+      DATABASE_URL: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}?sslmode=disable"
+    command: [
+      "/bin/sh", "-c",
+      "until pg_isready -h ${POSTGRES_HOST} -d ${POSTGRES_DB}; do echo 'wait for db'; sleep 1; done && pgweb --bind=0.0.0.0"
+    ]
+    depends_on:
+      - db
+
+  fastapi-template-service:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    image: fastapi-template-service
+    container_name: fastapi-template-service
+    ports:
+      - "8080:8080"
+    environment:
+      DB_DSN: "postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${POSTGRES_HOST}:${POSTGRES_PORT}/${POSTGRES_DB}"
+      DB_POOL_MIN_SIZE: 1
+      DB_POOL_MAX_SIZE: 50
+      TCP_MAX_SYN_BACKLOG: 8191
+      SERVICE_ADDR: "0.0.0.0"
+      SERVICE_PORT: 8080
+      ALEMBIC_AUTO_UPGRADE: 1
+      LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
+    depends_on:
+      - db
