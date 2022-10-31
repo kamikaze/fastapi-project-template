@@ -1,4 +1,4 @@
 pip
 setuptools
+setuptools_rust
 wheel
-
