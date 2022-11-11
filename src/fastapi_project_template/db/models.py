@@ -1,7 +1,4 @@
-from typing import Optional
-
-from fastapi_users import models
-from fastapi_users.db import SQLAlchemyBaseUserTable
+from fastapi_users_db_sqlalchemy import SQLAlchemyBaseUserTableUUID
 from sqlalchemy import Column, String, DateTime, ForeignKey, BIGINT
 from sqlalchemy.ext.compiler import compiles
 from sqlalchemy.sql import expression
@@ -38,13 +35,5 @@ class UserGroup(BaseDBModel, Base):
     name = Column(String, nullable=False)
 
 
-class User(models.BaseUser):
-    group_id: Optional[int] = None
-
-
-class UserDB(User, models.BaseUserDB):
-    pass
-
-
-class UserTable(Base, SQLAlchemyBaseUserTable):
+class User(SQLAlchemyBaseUserTableUUID, Base):
     group_id = Column(BIGINT, ForeignKey('user_groups.id'), nullable=True)

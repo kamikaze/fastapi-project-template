@@ -6,6 +6,7 @@ Create Date: ${create_date}
 
 """
 import sqlalchemy as sa
+import fastapi_users_db_sqlalchemy
 from alembic import op
 ${imports if imports else ""}
 

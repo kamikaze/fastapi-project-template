@@ -1,4 +1,5 @@
 import logging
+import uuid
 from functools import wraps
 from inspect import signature
 from typing import Optional, Any, List
@@ -13,12 +14,12 @@ from pydantic import Json
 from fastapi_project_template import core
 from fastapi_project_template.api import users
 from fastapi_project_template.api.users import get_user_manager
-from fastapi_project_template.api.v1.models import (
-    User, UserCreate, UserUpdate, UserItem, UserGroup
+from fastapi_project_template.api.v1.schemas import (
+    UserCreate, UserUpdate, UserItem, UserGroup, UserRead
 )
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db import database
-from fastapi_project_template.db.models import UserDB
+from fastapi_project_template.db.models import User
 from fastapi_project_template.helpers import connect_to_db
 
 logger = logging.getLogger(__name__)
@@ -32,17 +33,13 @@ def get_jwt_strategy() -> JWTStrategy:
 
 auth_backend = AuthenticationBackend(name='cluserauth', transport=cookie_transport, get_strategy=get_jwt_strategy)
 auth_backends = [auth_backend, ]
-fastapi_users = FastAPIUsers(
+fastapi_users = FastAPIUsers[User, uuid.UUID](
     get_user_manager,
-    auth_backends,
-    User,
-    UserCreate,
-    UserUpdate,
-    UserDB,
+    auth_backends
 )
 get_current_user = fastapi_users.current_user(active=True)
 auth_router = fastapi_users.get_auth_router(auth_backend, requires_verification=True)
-users_router = fastapi_users.get_users_router(requires_verification=True)
+users_router = fastapi_users.get_users_router(UserRead, UserUpdate, requires_verification=True)
 
 
 @router.on_event('startup')

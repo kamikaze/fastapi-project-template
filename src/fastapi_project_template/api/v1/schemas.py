@@ -1,16 +1,21 @@
+import uuid
 from typing import Optional
 
-from fastapi_users import models
+from fastapi_users import schemas
 from pydantic import BaseModel, UUID4
 
 from fastapi_project_template.db.models import User
 
 
-class UserCreate(models.BaseUserCreate):
+class UserRead(schemas.BaseUser[uuid.UUID]):
     group_id: Optional[int] = None
 
 
-class UserUpdate(User, models.BaseUserUpdate):
+class UserCreate(schemas.BaseUserCreate):
+    group_id: Optional[int] = None
+
+
+class UserUpdate(User, schemas.BaseUserUpdate):
     group_id: Optional[int] = None
 
 

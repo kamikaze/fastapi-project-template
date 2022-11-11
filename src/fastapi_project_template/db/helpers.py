@@ -1,20 +1,20 @@
 import logging
 
 import sqlalchemy as sa
-from fastapi_users.manager import UserAlreadyExists
+from fastapi_users.exceptions import UserAlreadyExists
 from passlib import pwd
 
 from fastapi_project_template.api.users import create_user
-from fastapi_project_template.api.v1.models import UserCreate
+from fastapi_project_template.api.v1.schemas import UserCreate
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db import database
-from fastapi_project_template.db.models import UserTable
+from fastapi_project_template.db.models import User
 
 logger = logging.getLogger()
 
 
 async def bootstrap_db():
-    user_count = await database.fetch_val(sa.select([sa.func.count(UserTable.id)]))
+    user_count = await database.fetch_val(sa.select([sa.func.count(User.id)]))
 
     if user_count == 0:
         password = pwd.genword(length=16, entropy=52)
