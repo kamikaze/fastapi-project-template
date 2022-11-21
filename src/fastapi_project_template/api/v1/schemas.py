@@ -4,8 +4,6 @@ from typing import Optional
 from fastapi_users import schemas
 from pydantic import BaseModel, UUID4
 
-from fastapi_project_template.db.models import User
-
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
     group_id: Optional[int] = None
@@ -15,7 +13,7 @@ class UserCreate(schemas.BaseUserCreate):
     group_id: Optional[int] = None
 
 
-class UserUpdate(User, schemas.BaseUserUpdate):
+class UserUpdate(schemas.BaseUserUpdate):
     group_id: Optional[int] = None
 
 
