@@ -9,6 +9,7 @@ class Settings(BaseSettings):
     service_port: int = 8080
     alembic_auto_upgrade: bool = False
     alembic_config: str = 'alembic.ini'
+    bootstrap_user_email: Optional[str] = None
     auth_secret: str = 'TODO-REPLACE'
 
 
