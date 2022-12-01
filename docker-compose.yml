@@ -7,7 +7,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_DB: "${POSTGRES_DB:-fastapi_template_app_db}"
+      POSTGRES_DB: "${POSTGRES_DB:-template_app_db}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-dev}"
       POSTGRES_USER: "${POSTGRES_USER:-dev}"
 
@@ -17,10 +17,10 @@ services:
     ports:
       - "8081:8081"
     environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-fastapi_template_app_db}?sslmode=disable"
+      DATABASE_URL: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}?sslmode=disable"
     command: [
       "/bin/sh", "-c",
-      "until pg_isready -h ${POSTGRES_HOST:-db} -d ${POSTGRES_DB:-fastapi_template_app_db}; do echo 'wait for db'; sleep 1; done && pgweb --bind=0.0.0.0"
+      "until pg_isready -h ${POSTGRES_HOST:-db} -d ${POSTGRES_DB:-template_app_db}; do echo 'wait for db'; sleep 1; done && pgweb --bind=0.0.0.0"
     ]
     depends_on:
       - db
@@ -34,7 +34,7 @@ services:
     ports:
       - "8080:8080"
     environment:
-      DB_DSN: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-fastapi_template_app_db}"
+      DB_DSN: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
       DB_POOL_MIN_SIZE: 1
       DB_POOL_MAX_SIZE: 50
       TCP_MAX_SYN_BACKLOG: 8191
