@@ -13,9 +13,9 @@ from fastapi_project_template.conf import settings
 logger = logging.getLogger(__name__)
 
 
-def date_from_string(string: str) -> datetime.date:
+def date_from_string(string: str, fmt: str = '%d.%m.%Y') -> datetime.date:
     try:
-        return datetime.datetime.strptime(string, '%d.%m.%Y').date()
+        return datetime.datetime.strptime(string, fmt).date()
     except ValueError:
         return datetime.date.fromisoformat(string)
 
