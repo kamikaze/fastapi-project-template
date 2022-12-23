@@ -1,0 +1,20 @@
+{{- if .Values.ingress.enabled }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  name: fastapi-project-template
+spec:
+  entryPoints:
+    - web
+    - websecure
+  routes:
+    {{- range $item := .Values.ingress.hosts }}
+    {{- if $item.host }}
+    - match: Host(`{{ $item.host }}`) && PathPrefix(`{{ $item.path }}`)
+      kind: Rule
+      services:
+        - name: {{ $item.name }}
+          port: {{ $item.port }}
+    {{- end }}
+    {{- end }}
+{{- end }}

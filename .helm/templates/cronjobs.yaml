@@ -1,0 +1,61 @@
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: foo
+spec:
+  schedule: "@monthly"
+  concurrencyPolicy: Forbid
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: foo
+              image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: IfNotPresent
+              args:
+                - /usr/local/app/venv/bin/python3
+                - -m
+                - fastapi_project_template.jobs
+                - --job
+                - foo
+              env:
+                - name: DB_DSN
+                  value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
+                - name: LOGGING_LEVEL
+                  value: "{{ .Values.backend.loggingLevel }}"
+                - name: TIMEZONE
+                  value: "{{ .Values.backend.timezone }}"
+          restartPolicy: OnFailure
+---
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: bar
+spec:
+  schedule: "@monthly"
+  concurrencyPolicy: Forbid
+  suspend: true
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          containers:
+            - name: bar
+              image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
+              imagePullPolicy: IfNotPresent
+              args:
+                - /usr/local/app/venv/bin/python3
+                - -m
+                - fastapi_project_template.jobs
+                - --job
+                - bar
+              env:
+                - name: DB_DSN
+                  value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
+                - name: LOGGING_LEVEL
+                  value: "{{ .Values.backend.loggingLevel }}"
+                - name: TIMEZONE
+                  value: "{{ .Values.backend.timezone }}"
+          restartPolicy: OnFailure

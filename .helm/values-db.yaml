@@ -1,0 +1,12 @@
+image:
+  pullPolicy: Always
+  tag: "15.1.0"
+
+primary:
+  persistence:
+    size: 1Gi
+
+auth:
+  database: "fastapi_project_template"
+  username: "dev"
+  password: "dev"
