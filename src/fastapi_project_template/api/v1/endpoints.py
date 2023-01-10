@@ -2,11 +2,12 @@ import logging
 import uuid
 from functools import wraps
 from inspect import signature
-from typing import Optional, Any, List
+from typing import Sequence
 
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import ORJSONResponse
 from fastapi_pagination import Page
+from fastapi_pagination.bases import AbstractPage
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import AuthenticationBackend, JWTStrategy, CookieTransport
 from pydantic import Json
@@ -28,7 +29,7 @@ cookie_transport = CookieTransport(cookie_max_age=3600)
 
 
 def get_jwt_strategy() -> JWTStrategy:
-    return JWTStrategy(secret=settings.auth_secret, lifetime_seconds=3600)
+    return JWTStrategy(secret=settings.auth_secret.get_secret_value(), lifetime_seconds=3600)
 
 
 auth_backend = AuthenticationBackend(name='cluserauth', transport=cookie_transport, get_strategy=get_jwt_strategy)
@@ -76,19 +77,19 @@ def handle_exceptions(func):
     return wrapper
 
 
-@router.get('/users', response_model=Page[UserItem], response_class=ORJSONResponse, tags=['Admin'])
+@router.get('/users', response_class=ORJSONResponse, tags=['Admin'])
 @handle_exceptions
-async def get_users(search: Optional[Json] = None, order_by: Optional[str] = None,
-                    user=Depends(get_current_user)):
+async def get_users(search: Json | None = None, order_by: str | None = None,
+                    user=Depends(get_current_user)) -> Page[UserItem]:
     if user.is_superuser:
         return await core.get_users(database, search, order_by)
 
     raise HTTPException(status_code=403)
 
 
-@router.post('/users', response_model=UserItem, response_class=ORJSONResponse, tags=['Admin'])
+@router.post('/users', response_class=ORJSONResponse, tags=['Admin'])
 @handle_exceptions
-async def create_user(new_user: UserCreate, user=Depends(get_current_user)):
+async def create_user(new_user: UserCreate, user=Depends(get_current_user)) -> UserItem:
     if user.is_superuser:
         created_user = await users.create_user(new_user)
 
@@ -97,10 +98,10 @@ async def create_user(new_user: UserCreate, user=Depends(get_current_user)):
     raise HTTPException(status_code=403)
 
 
-@router.get('/user-groups', response_model=List[UserGroup], response_class=ORJSONResponse, tags=['Admin'])
+@router.get('/user-groups', response_class=ORJSONResponse, tags=['Admin'])
 @handle_exceptions
-async def get_user_groups(search: Optional[Json[Any]] = None, order_by: Optional[str] = None,
-                          user=Depends(get_current_user)):
+async def get_user_groups(search: Json | None = None, order_by: str | None = None,
+                          user=Depends(get_current_user)) -> Sequence[UserGroup]:
     if user.is_active:
         return await core.get_user_groups(database, search, order_by)
 
