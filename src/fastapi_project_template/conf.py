@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     alembic_auto_upgrade: bool = False
     alembic_config: str = 'alembic.ini'
     bootstrap_user_email: str | None = None
+    bootstrap_user_password: SecretStr = None
     auth_secret: SecretStr = 'TODO-REPLACE'
 
 

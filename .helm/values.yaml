@@ -23,6 +23,8 @@ backend:
     pathPrefix: "/api"
   loggingLevel: INFO
   timezone: "UTC"
+  bootstrapUserEmail: ""
+  bootstrapUserPassword: ""
 
 imageCredentials:
   name: dockerregistrycreds

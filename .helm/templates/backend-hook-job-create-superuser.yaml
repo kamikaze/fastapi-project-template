@@ -10,7 +10,7 @@ metadata:
     # This is what defines this resource as a hook. Without this line, the
     # job is considered part of the release.
     "helm.sh/hook": pre-install,pre-upgrade
-    "helm.sh/hook-weight": "-5"
+    "helm.sh/hook-weight": "-4"
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
 spec:
   template:
@@ -32,7 +32,11 @@ spec:
           {{- toYaml .Values.securityContext | nindent 12 }}
         image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
         imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
-        command: ["/usr/local/app/venv/bin/python3", "-m", "alembic", "upgrade", "head"]
+        command: ["/usr/local/app/venv/bin/python3", "-m", "fastapi_project_template.jobs", "--job", "create_superuser"]
         env:
           - name: DB_DSN
             value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
+          - name: BOOTSTRAP_USER_EMAIL
+            value: "{{ .Values.backend.bootstrapUserEmail }}"
+          - name: BOOTSTRAP_USER_PASSWORD
+            value: "{{ .Values.backend.bootstrapUserPassword }}"
