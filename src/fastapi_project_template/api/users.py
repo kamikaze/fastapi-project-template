@@ -4,7 +4,9 @@ import uuid
 
 from fastapi import Request, Depends
 from fastapi_users import BaseUserManager, UUIDIDMixin
+from fastapi_users.password import PasswordHelper
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
+from passlib.context import CryptContext
 
 from fastapi_project_template.api.v1.schemas import UserCreate, UserUpdate
 from fastapi_project_template.conf import settings
@@ -12,6 +14,8 @@ from fastapi_project_template.db.models import User
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
 logger = logging.getLogger(__name__)
+context = CryptContext(schemes=['argon2', 'bcrypt'], deprecated='auto')
+password_helper = PasswordHelper(context)
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
@@ -29,7 +33,7 @@ class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
 
 
 async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
-    yield UserManager(user_db)
+    yield UserManager(user_db, password_helper)
 
 
 get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
