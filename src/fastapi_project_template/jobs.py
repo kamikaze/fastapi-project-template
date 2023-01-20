@@ -14,23 +14,39 @@ logging.config.dictConfig({
     'version': 1,
     'disable_existing_loggers': False,
     'formatters': {
-        'standard': {
-            'format': settings.logging_format,
+        'default': {
+            '()': 'fastapi_project_template.logging.formatter.JSONFormatter',
         },
     },
+    'filters': {
+        'info_and_below': {
+            '()': 'fastapi_project_template.logging.filters.filter_maker',
+            'level': 'INFO'
+        }
+    },
     'handlers': {
-        'default': {
+        'default_stdout': {
             'level': settings.logging_level,
             'class': 'logging.StreamHandler',
             'stream': 'ext://sys.stdout',
-            'formatter': 'standard',
+            'formatter': 'default',
+            'filters': ['info_and_below', ],
+        },
+        'default_stderr': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stderr',
+            'formatter': 'default',
         },
     },
     'loggers': {
         '': {
-            'handlers': ['default'],
+            'handlers': ['default_stderr', 'default_stdout', ],
+        },
+        'fastapi_project_template': {
+            'handlers': ['default_stderr', 'default_stdout', ],
             'level': settings.logging_level,
-            'propagate': True,
+            'propagate': False,
         }
     }
 })
