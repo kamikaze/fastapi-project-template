@@ -12,6 +12,9 @@ spec:
     {{- if $item.host }}
     - match: Host(`{{ $item.host }}`) && PathPrefix(`{{ $item.path }}`)
       kind: Rule
+      middlewares:
+        - name: test-compress
+          namespace: {{.Release.Namespace}}
       services:
         - name: {{ $item.name }}
           port: {{ $item.port }}
