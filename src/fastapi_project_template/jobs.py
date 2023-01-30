@@ -47,6 +47,11 @@ logging.config.dictConfig({
             'handlers': ['default_stderr', 'default_stdout', ],
             'level': settings.logging_level,
             'propagate': False,
+        },
+        '__main__': {
+            'handlers': ['default_stderr', 'default_stdout', ],
+            'level': settings.logging_level,
+            'propagate': False,
         }
     }
 })
