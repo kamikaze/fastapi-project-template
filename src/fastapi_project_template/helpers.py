@@ -63,15 +63,6 @@ async def connect_to_db(database):
         logger.error(msg)
         raise ConnectionRefusedError(msg)
 
-    try:
-        if settings.alembic_auto_upgrade and settings.alembic_config:
-            script_location = str(pathlib.Path(__file__).parent.absolute())
-            run_db_migrations(settings.alembic_config, settings.db_dsn, f'{script_location}/db')
-        else:
-            logger.info('Automatic DB migration is disabled')
-    except Exception as e:
-        logger.error(f'Automatic DB migration failed: {e}')
-
 
 def tries(times):
     def func_wrapper(f):
