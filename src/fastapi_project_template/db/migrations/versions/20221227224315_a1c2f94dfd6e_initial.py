@@ -5,8 +5,8 @@ Revises:
 Create Date: 2022-12-27 22:43:15.361538+00:00
 
 """
-import sqlalchemy as sa
 import fastapi_users_db_sqlalchemy
+import sqlalchemy as sa
 from alembic import op
 from sqlalchemy.dialects import postgresql
 

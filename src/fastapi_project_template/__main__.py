@@ -1,11 +1,10 @@
 import logging.config
 
 import uvicorn
+from fastapi_project_template.extmod import c_fib
 
 from fastapi_project_template.api.http import app
 from fastapi_project_template.conf import settings
-from fastapi_project_template.extmod import c_fib
-
 
 LOGGING_CONFIG = {
     'version': 1,

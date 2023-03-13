@@ -2,7 +2,6 @@ import asyncio
 import datetime
 import logging
 import os
-import pathlib
 
 from alembic import command
 from alembic.config import Config

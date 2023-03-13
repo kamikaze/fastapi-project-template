@@ -1,11 +1,16 @@
 import logging
+from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi_pagination import add_pagination
+from starlette.applications import Starlette
 
 from fastapi_project_template.api.v1.endpoints import router, auth_router, users_router
+from fastapi_project_template.db import database
+from fastapi_project_template.helpers import connect_to_db
 
+logger = logging.getLogger(__name__)
 origins = [
     'http://localhost',
     'http://localhost:3000',
@@ -13,8 +18,17 @@ origins = [
     'http://localhost:5000',
 ]
 
-logger = logging.getLogger(__name__)
-app = FastAPI(docs_url='/api/docs', openapi_url='/api/v1/openapi.json')
+
+@asynccontextmanager
+async def lifespan(app: Starlette):
+    await connect_to_db(database)
+
+    yield
+
+    await database.disconnect()
+
+
+app = FastAPI(docs_url='/api/docs', openapi_url='/api/v1/openapi.json', lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

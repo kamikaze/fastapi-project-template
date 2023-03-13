@@ -7,7 +7,6 @@ from typing import Sequence
 from fastapi import APIRouter, HTTPException, status, Depends
 from fastapi.responses import ORJSONResponse
 from fastapi_pagination import Page
-from fastapi_pagination.bases import AbstractPage
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import AuthenticationBackend, JWTStrategy, CookieTransport
 from pydantic import Json
@@ -21,7 +20,6 @@ from fastapi_project_template.api.v1.schemas import (
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db import database
 from fastapi_project_template.db.models import User
-from fastapi_project_template.helpers import connect_to_db
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -41,16 +39,6 @@ fastapi_users = FastAPIUsers[User, uuid.UUID](
 get_current_user = fastapi_users.current_user(active=True)
 auth_router = fastapi_users.get_auth_router(auth_backend, requires_verification=True)
 users_router = fastapi_users.get_users_router(UserRead, UserUpdate, requires_verification=True)
-
-
-@router.on_event('startup')
-async def startup():
-    await connect_to_db(database)
-
-
-@router.on_event('shutdown')
-async def shutdown():
-    await database.disconnect()
 
 
 def _handle_exceptions_helper(status_code, *args):

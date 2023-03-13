@@ -9,7 +9,6 @@ from sqlalchemy.ext.asyncio import AsyncEngine
 
 from fastapi_project_template.db.models import Base
 
-
 sys.path.append(os.getcwd())
 
 config = context.config
