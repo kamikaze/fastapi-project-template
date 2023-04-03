@@ -94,3 +94,18 @@ async def get_user_groups(search: Json | None = None, order_by: str | None = Non
         return await core.get_user_groups(database, search, order_by)
 
     raise HTTPException(status_code=403)
+
+
+@router.get('/alive', tags=['Probes'])
+async def alive():
+    return
+
+
+@router.get('/ready', tags=['Probes'])
+async def ready():
+    query = 'SELECT 1;'
+
+    value = await database.fetch_val(query)
+
+    if value != 1:
+        raise HTTPException(status_code=503)

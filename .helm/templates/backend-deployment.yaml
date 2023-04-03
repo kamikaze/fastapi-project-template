@@ -29,6 +29,7 @@ spec:
       serviceAccountName: {{ include "fastapi-project-template.serviceAccountName" . }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      terminationGracePeriodSeconds: 3600
       containers:
         - name: {{ .Chart.Name }}-backend
           securityContext:
@@ -39,14 +40,23 @@ spec:
             - name: http
               containerPort: {{ .Values.backend.service.port }}
               protocol: TCP
-#          livenessProbe:
-#            httpGet:
-#              path: /
-#              port: http
-#          readinessProbe:
-#            httpGet:
-#              path: /
-#              port: http
+          livenessProbe:
+            httpGet:
+              path: /api/v1/alive
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 30
+            timeoutSeconds: 1
+            failureThreshold: 1
+            terminationGracePeriodSeconds: 60
+          readinessProbe:
+            httpGet:
+              path: /api/v1/ready
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 60
+            timeoutSeconds: 5
+            failureThreshold: 1
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
