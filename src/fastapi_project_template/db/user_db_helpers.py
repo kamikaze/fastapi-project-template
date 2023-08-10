@@ -4,8 +4,8 @@ from typing import AsyncGenerator
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from sqlalchemy import MetaData
-from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession
-from sqlalchemy.orm import declarative_base, sessionmaker
+from sqlalchemy.ext.asyncio import create_async_engine, AsyncSession, async_sessionmaker
+from sqlalchemy.orm import declarative_base
 
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db.models import User
@@ -13,7 +13,7 @@ from fastapi_project_template.db.models import User
 metadata = MetaData()
 Base = declarative_base(metadata=metadata)
 engine = create_async_engine(settings.db_dsn)
-async_session_maker = sessionmaker(engine, class_=AsyncSession, expire_on_commit=False)
+async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
 async def get_async_session() -> AsyncGenerator[AsyncSession, None]:

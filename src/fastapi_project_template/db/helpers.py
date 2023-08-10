@@ -3,18 +3,19 @@ import logging
 import sqlalchemy as sa
 from fastapi_users.exceptions import UserAlreadyExists
 from passlib import pwd
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_project_template.api.users import create_user
 from fastapi_project_template.api.v1.schemas import UserCreate
 from fastapi_project_template.conf import settings
-from fastapi_project_template.db import database
+from fastapi_project_template.core.users import create_user
 from fastapi_project_template.db.models import User
 
 logger = logging.getLogger()
 
 
-async def bootstrap_db():
-    user_count = await database.fetch_val(sa.select([sa.func.count(User.id)]))
+async def bootstrap_db(session: AsyncSession):
+    cursor = await session.execute(sa.select(sa.func.count(User.id)))
+    user_count = cursor.scalar_one()
 
     if user_count == 0:
         logger.warning('No users in database')

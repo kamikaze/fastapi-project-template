@@ -13,6 +13,7 @@ from fastapi_project_template.conf import settings
 from fastapi_project_template.db.models import User
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
+
 logger = logging.getLogger(__name__)
 context = CryptContext(schemes=['argon2', 'bcrypt'], deprecated='auto')
 password_helper = PasswordHelper(context)

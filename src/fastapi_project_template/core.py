@@ -4,8 +4,9 @@ from pathlib import Path
 from typing import Mapping, Sequence
 
 import sqlalchemy as sa
-from fastapi_pagination.bases import AbstractPage
-from fastapi_pagination.ext.databases import paginate
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi_project_template.api.v1.schemas import UserItem
 from fastapi_project_template.db.models import UserGroup, User
@@ -15,23 +16,26 @@ t = gettext.translation('base', Path(Path(__file__).parent, 'locale'), fallback=
 _ = t.gettext
 
 
-async def get_users(database, search: Mapping[str, str] | None = None,
-                    order_by: str | None = None) -> AbstractPage[UserItem]:
+async def get_users(session: AsyncSession, search: Mapping[str, str] | None = None,
+                    order_by: str | None = None) -> Page[UserItem]:
     query = sa.select([User])
-    result = await paginate(database, query)
+    result = await paginate(session, query)
 
     return result
 
 
-async def get_user(database, user_id: str) -> UserItem:
+async def get_user(session: AsyncSession, user_id: str) -> UserItem:
     query = sa.select([User]).where(User.id == user_id)
+    cursor = await session.execute(query)
+    result = cursor.scalar()
 
-    return await database.fetch_row(query)
+    return result
 
 
-async def get_user_groups(database, search: Mapping[str, str] | None = None,
+async def get_user_groups(session: AsyncSession, search: Mapping[str, str] | None = None,
                           order_by: str | None = None) -> Sequence[UserGroup]:
     query = sa.select([UserGroup]).order_by(UserGroup.name)
-    result = await database.fetch_all(query)
+    cursor = await session.execute(query)
+    result = cursor.scalars()
 
     return result

@@ -4,10 +4,9 @@ import logging.config
 
 from fastapi_users.exceptions import UserAlreadyExists
 
-from fastapi_project_template.api.users import get_user_manager_context
 from fastapi_project_template.api.v1.schemas import UserCreate
 from fastapi_project_template.conf import settings
-from fastapi_project_template.db import database
+from fastapi_project_template.core.users import get_user_manager_context
 from fastapi_project_template.db.user_db_helpers import get_async_session_context, get_user_db_context
 
 logging.config.dictConfig({
@@ -60,8 +59,6 @@ logger = logging.getLogger(__name__)
 
 
 async def create_superuser():
-    await database.connect()
-
     try:
         async with get_async_session_context() as session:
             async with get_user_db_context(session) as user_db:
@@ -78,8 +75,6 @@ async def create_superuser():
                     logger.info(f'User created: {settings.bootstrap_user_email}')
     except UserAlreadyExists:
         logger.warning(f'User already exists: {settings.bootstrap_user_email}')
-    finally:
-        await database.disconnect()
 
 
 def get_parsed_args():

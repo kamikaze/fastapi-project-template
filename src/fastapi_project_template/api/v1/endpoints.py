@@ -10,16 +10,18 @@ from fastapi_pagination import Page
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import AuthenticationBackend, JWTStrategy, CookieTransport
 from pydantic import Json
+from sqlalchemy import text
+from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi_project_template import core
-from fastapi_project_template.api import users
-from fastapi_project_template.api.users import get_user_manager
 from fastapi_project_template.api.v1.schemas import (
     UserCreate, UserUpdate, UserItem, UserGroup, UserRead
 )
 from fastapi_project_template.conf import settings
-from fastapi_project_template.db import database
+from fastapi_project_template.core import users
+from fastapi_project_template.core.users import get_user_manager
 from fastapi_project_template.db.models import User
+from fastapi_project_template.db.user_db_helpers import get_async_session
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -68,9 +70,10 @@ def handle_exceptions(func):
 @router.get('/users', response_class=ORJSONResponse, tags=['Admin'])
 @handle_exceptions
 async def get_users(search: Json | None = None, order_by: str | None = None,
-                    user=Depends(get_current_user)) -> Page[UserItem]:
+                    user=Depends(get_current_user),
+                    session: AsyncSession = Depends(get_async_session)) -> Page[UserItem]:
     if user.is_superuser:
-        return await core.get_users(database, search, order_by)
+        return await core.get_users(session, search, order_by)
 
     raise HTTPException(status_code=403)
 
@@ -89,9 +92,10 @@ async def create_user(new_user: UserCreate, user=Depends(get_current_user)) -> U
 @router.get('/user-groups', response_class=ORJSONResponse, tags=['Admin'])
 @handle_exceptions
 async def get_user_groups(search: Json | None = None, order_by: str | None = None,
-                          user=Depends(get_current_user)) -> Sequence[UserGroup]:
+                          user=Depends(get_current_user),
+                          session: AsyncSession = Depends(get_async_session)) -> Sequence[UserGroup]:
     if user.is_active:
-        return await core.get_user_groups(database, search, order_by)
+        return await core.get_user_groups(session, search, order_by)
 
     raise HTTPException(status_code=403)
 
@@ -102,10 +106,11 @@ async def alive():
 
 
 @router.get('/ready', tags=['Probes'])
-async def ready():
-    query = 'SELECT 1;'
+async def ready(session: AsyncSession = Depends(get_async_session)):
+    query = text('SELECT 1;')
 
-    value = await database.fetch_val(query)
+    cursor = await session.execute(query)
+    value = cursor.scalar_one()
 
     if value != 1:
         raise HTTPException(status_code=503)
