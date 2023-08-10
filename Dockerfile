@@ -1,4 +1,4 @@
-FROM python:3.11-slim as build-image
+FROM python:3.11.4-slim-bookworm as build-image
 
 WORKDIR /usr/local/app
 
@@ -29,7 +29,7 @@ RUN  export APP_HOME=/usr/local/app \
          && python3 -m pip install -U fastapi_project_template --find-links=/tmp/build/dist)
 
 
-FROM python:3.11-slim
+FROM python:3.11.4-slim-bookworm
 
 ENV  PYTHONPATH=/usr/local/app
 
