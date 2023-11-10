@@ -12,7 +12,7 @@ from fastapi_project_template.db.models import User
 
 metadata = MetaData()
 Base = declarative_base(metadata=metadata)
-engine = create_async_engine(settings.db_dsn)
+engine = create_async_engine(str(settings.db_dsn))
 async_session_maker = async_sessionmaker(engine, expire_on_commit=False)
 
 
