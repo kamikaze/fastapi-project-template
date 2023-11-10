@@ -1,6 +1,6 @@
 FROM python:3.12.0-slim-bookworm as build-image
 
-WORKDIR /usr/local/app
+WORKDIR /app
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y curl ca-certificates gnupg
@@ -19,10 +19,8 @@ RUN  (cd /tmp/build \
      && python3 setup.py bdist_wheel)
 
 
-RUN  export APP_HOME=/usr/local/app \
+RUN  export APP_HOME=/app \
      && (cd $APP_HOME \
-         && python3 -m venv venv \
-         && . venv/bin/activate \
          && python3 -m pip install -U pip \
          && python3 -m pip install -U setuptools \
          && python3 -m pip install -U wheel \
@@ -31,25 +29,24 @@ RUN  export APP_HOME=/usr/local/app \
 
 FROM python:3.12.0-slim-bookworm
 
-ENV  PYTHONPATH=/usr/local/app
+ENV  PYTHONPATH=/app
 
-RUN  mkdir -p /usr/local/app \
+RUN  mkdir -p /app \
      && apt-get update \
      && apt-get -y upgrade \
      && apt-get install -y libpq-dev
 
-WORKDIR /usr/local/app
+WORKDIR /app
 
-COPY --from=build-image /usr/local/app/ ./
+COPY --from=build-image /app/ ./
 
 RUN  groupadd -r appgroup \
      && useradd -r -G appgroup -d /home/appuser appuser \
-     && install -d -o appuser -g appgroup /usr/local/app/logs
+     && install -d -o appuser -g appgroup /app/logs
 
 USER  appuser
 
 EXPOSE 8080
 
 
-CMD ["/usr/local/app/venv/bin/python3", "-m", "uvicorn", "fastapi_project_template.api.http:app", \
-     "--host", "0.0.0.0", "--port", "8080"]
+CMD ["python3", "-m", "fastapi_project_template"]

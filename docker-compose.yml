@@ -38,8 +38,6 @@ services:
       DB_POOL_MIN_SIZE: 1
       DB_POOL_MAX_SIZE: 50
       TCP_MAX_SYN_BACKLOG: 8191
-      SERVICE_ADDR: "0.0.0.0"
-      SERVICE_PORT: 8080
       ALEMBIC_AUTO_UPGRADE: 1
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
     depends_on:
