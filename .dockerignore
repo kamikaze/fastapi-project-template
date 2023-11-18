@@ -1,2 +1,7 @@
-venv
-docs
+*
+
+# Allow files and directories
+!/src
+!requirements.txt
+!setup.cfg
+!setup.py
