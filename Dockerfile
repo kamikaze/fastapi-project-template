@@ -1,52 +1,43 @@
 FROM python:3.12-slim-bookworm as build-image
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
 RUN apt-get update && apt-get upgrade -y
 RUN apt-get install -y curl ca-certificates gnupg
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
-RUN apt-get install -y gcc g++ make postgresql-server-dev-all libpq-dev libffi-dev git cargo
+RUN apt update && \
+    apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-all libpq-dev libffi-dev git cargo pkg-config && \
+    apt autoremove --purge -y && \
+    apt clean
 
-COPY ./ /tmp/build
-COPY src/fastapi_project_template/db/migrations ./migrations/
-COPY src/fastapi_project_template/db/alembic.ini ./alembic.ini
-
-RUN  (cd /tmp/build \
-     && python3 -m venv venv-dev \
-     && . venv-dev/bin/activate \
-     && python3 -m pip install -U -r requirements_dev.txt \
-     && python3 setup.py bdist_wheel)
-
-
-RUN  export APP_HOME=/app \
-     && (cd $APP_HOME \
-         && python3 -m pip install -U pip \
-         && python3 -m pip install -U setuptools \
-         && python3 -m pip install -U wheel \
-         && python3 -m pip install -U fastapi_project_template --find-links=/tmp/build/dist)
+COPY requirements.txt .
+RUN python3 -m pip wheel --no-cache-dir --wheel-dir /app/wheels -r requirements.txt
 
 
 FROM python:3.12-slim-bookworm
 
-ENV  PYTHONPATH=/app
-
-RUN  mkdir -p /app \
-     && apt-get update \
-     && apt-get -y upgrade \
-     && apt-get install -y libpq-dev
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
 WORKDIR /app
 
-COPY --from=build-image /app/ ./
+COPY --from=build-image /app/wheels /wheels
+
+RUN pip install --no-cache /wheels/*
 
 RUN  groupadd -r appgroup \
      && useradd -r -G appgroup -d /home/appuser appuser \
-     && install -d -o appuser -g appgroup /app/logs
+     && install -d -o appuser -g appgroup /usr/local/app/logs
 
 USER  appuser
 
-EXPOSE 8080
+COPY --chown=appuser src/fastapi_project_template ./fastapi_project_template/
 
+EXPOSE 8000
 
-CMD ["python3", "-m", "fastapi_project_template"]
+ENTRYPOINT ["python3", "-m", "fastapi_project_template"]
