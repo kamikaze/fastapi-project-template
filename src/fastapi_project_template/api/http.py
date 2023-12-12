@@ -19,6 +19,7 @@ origins = [
 
 @asynccontextmanager
 async def lifespan(app: Starlette):
+    logger.info('Started an application.')
     yield
 
 

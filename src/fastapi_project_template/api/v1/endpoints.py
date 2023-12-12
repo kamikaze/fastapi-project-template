@@ -32,7 +32,7 @@ def get_jwt_strategy() -> JWTStrategy:
     return JWTStrategy(secret=settings.auth_secret.get_secret_value(), lifetime_seconds=3600)
 
 
-auth_backend = AuthenticationBackend(name='cluserauth', transport=cookie_transport, get_strategy=get_jwt_strategy)
+auth_backend = AuthenticationBackend(name='userauth', transport=cookie_transport, get_strategy=get_jwt_strategy)
 auth_backends = [auth_backend, ]
 fastapi_users = FastAPIUsers[User, uuid.UUID](
     get_user_manager,
