@@ -1,7 +1,9 @@
 *
 
 # Allow files and directories
+!/migrations
 !/src
+!alembic.ini
 !requirements.txt
 !setup.cfg
 !setup.py

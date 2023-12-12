@@ -15,7 +15,7 @@ spec:
               image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: IfNotPresent
               args:
-                - /usr/local/app/venv/bin/python3
+                - python3
                 - -m
                 - fastapi_project_template.jobs
                 - --job
@@ -46,7 +46,7 @@ spec:
               image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag | default .Chart.AppVersion }}"
               imagePullPolicy: IfNotPresent
               args:
-                - /usr/local/app/venv/bin/python3
+                - python3
                 - -m
                 - fastapi_project_template.jobs
                 - --job

@@ -37,6 +37,8 @@ RUN  groupadd -r appgroup \
 USER  appuser
 
 COPY --chown=appuser src/fastapi_project_template ./fastapi_project_template/
+COPY --chown=appuser migrations ./migrations/
+COPY --chown=appuser alembic.ini ./alembic.ini
 
 EXPOSE 8000
 
