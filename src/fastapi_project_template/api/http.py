@@ -3,6 +3,7 @@ from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import ORJSONResponse
 from fastapi_pagination import add_pagination
 from starlette.applications import Starlette
 
@@ -23,7 +24,8 @@ async def lifespan(app: Starlette):
     yield
 
 
-app = FastAPI(docs_url='/api/docs', openapi_url='/api/v1/openapi.json', lifespan=lifespan)
+app = FastAPI(default_response_class=ORJSONResponse, docs_url='/api/docs', openapi_url='/api/v1/openapi.json',
+              lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=origins,

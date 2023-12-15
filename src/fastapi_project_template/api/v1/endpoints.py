@@ -5,7 +5,6 @@ from inspect import signature
 from typing import Sequence
 
 from fastapi import APIRouter, HTTPException, status, Depends
-from fastapi.responses import ORJSONResponse
 from fastapi_pagination import Page
 from fastapi_users import FastAPIUsers
 from fastapi_users.authentication import AuthenticationBackend, JWTStrategy, CookieTransport
@@ -67,7 +66,7 @@ def handle_exceptions(func):
     return wrapper
 
 
-@router.get('/users', response_class=ORJSONResponse, tags=['Admin'])
+@router.get('/users', tags=['Admin'])
 @handle_exceptions
 async def get_users(search: Json | None = None, order_by: str | None = None,
                     user=Depends(get_current_user),
@@ -78,7 +77,7 @@ async def get_users(search: Json | None = None, order_by: str | None = None,
     raise HTTPException(status_code=403)
 
 
-@router.post('/users', response_class=ORJSONResponse, tags=['Admin'])
+@router.post('/users', tags=['Admin'])
 @handle_exceptions
 async def create_user(new_user: UserCreate, user=Depends(get_current_user)) -> UserItem:
     if user.is_superuser:
@@ -89,7 +88,7 @@ async def create_user(new_user: UserCreate, user=Depends(get_current_user)) -> U
     raise HTTPException(status_code=403)
 
 
-@router.get('/user-groups', response_class=ORJSONResponse, tags=['Admin'])
+@router.get('/user-groups', tags=['Admin'])
 @handle_exceptions
 async def get_user_groups(search: Json | None = None, order_by: str | None = None,
                           user=Depends(get_current_user),
