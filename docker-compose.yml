@@ -1,6 +1,26 @@
 version: '3.8'
 
 services:
+  rabbitmq-service:
+    image: docker.io/rabbitmq:management
+    container_name: rabbitmq-service
+    environment:
+      RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    volumes:
+      - ./.docker/rabbitmq_init.sh:/rabbitmq_init.sh
+    command: [ "bash", "-c", "/rabbitmq_init.sh" ]
+
+  redis-service:
+    image: docker.io/redis
+    container_name: redis-service
+    ports:
+      - "6379:6379"
+
   db:
     image: postgres:16-alpine
     container_name: db
@@ -49,11 +69,8 @@ services:
     ports:
       - "8080:8080"
     environment:
+      AMQP_DSN: "${AMQP_DSN:-amqp://guest:guest@rabbitmq-service/}"
       DB_DSN: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
-      DB_POOL_MIN_SIZE: 1
-      DB_POOL_MAX_SIZE: 50
-      TCP_MAX_SYN_BACKLOG: 8191
-      ALEMBIC_AUTO_UPGRADE: 1
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
     depends_on:
       - db
