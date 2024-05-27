@@ -6,17 +6,21 @@ from fastapi import Request, Depends
 from fastapi_users import BaseUserManager, UUIDIDMixin
 from fastapi_users.password import PasswordHelper
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
-from passlib.context import CryptContext
+from pwdlib import PasswordHash
+from pwdlib.hashers.argon2 import Argon2Hasher
+from pwdlib.hashers.bcrypt import BcryptHasher
 
 from fastapi_project_template.api.v1.schemas import UserCreate, UserUpdate
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db.models import User
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
-
 logger = logging.getLogger(__name__)
-context = CryptContext(schemes=['argon2', 'bcrypt'], deprecated='auto')
-password_helper = PasswordHelper(context)
+password_hash = PasswordHash((
+    Argon2Hasher(),
+    BcryptHasher(),
+))
+password_helper = PasswordHelper(password_hash)
 
 
 class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
