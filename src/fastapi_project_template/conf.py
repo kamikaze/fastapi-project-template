@@ -1,7 +1,11 @@
-from typing import Sequence
+from typing import Sequence, Annotated
 
-from pydantic import PostgresDsn, SecretStr, field_validator
+from pydantic import PostgresDsn, SecretStr, field_validator, BeforeValidator
 from pydantic_settings import BaseSettings
+
+
+def parse_string_list(v: str) -> Sequence[str]:
+    return tuple(map(str.strip, v.split(',')))
 
 
 class Settings(BaseSettings):
@@ -10,16 +14,13 @@ class Settings(BaseSettings):
     db_dsn: PostgresDsn | None = None
     service_addr: str = '0.0.0.0'
     service_port: int = 8080
-    allowed_origins: Sequence[str] | None = ('*', 'http://localhost', 'http://localhost:3000', )
+    allowed_origins: Annotated[
+        Sequence[str] | None, BeforeValidator(parse_string_list)
+    ] = ('*', 'http://localhost', 'http://localhost:3000',)
     bootstrap_user_email: str | None = None
     bootstrap_user_password: SecretStr | None = None
     auth_secret: SecretStr = 'TODO-REPLACE'
     timezone: str = 'UTC'
-
-    @classmethod
-    @field_validator('allowed_origins', mode='before')
-    def parse_hosts(cls, v):
-        return tuple(map(str.strip, v.split(',')))
 
 
 settings = Settings()
