@@ -4,11 +4,11 @@ from pydantic import PostgresDsn, SecretStr, BeforeValidator
 from pydantic_settings import BaseSettings
 
 
-def parse_string_list(v: str) -> Sequence[str]:
+def parse_string_list(v: str | None) -> Sequence[str]:
     if v:
         return tuple(map(str.strip, v.split(',')))
 
-    return tuple()
+    return ('*', )
 
 
 class Settings(BaseSettings):
@@ -18,8 +18,8 @@ class Settings(BaseSettings):
     service_addr: str = '0.0.0.0'
     service_port: int = 8080
     allowed_origins: Annotated[
-        Sequence[str], BeforeValidator(parse_string_list)
-    ] = ('*', 'http://localhost', 'http://localhost:3000',)
+        Sequence[str] | tuple[str, ...], BeforeValidator(parse_string_list)
+    ] = ('*', )
     bootstrap_user_email: str | None = None
     bootstrap_user_password: SecretStr | None = None
     auth_secret: SecretStr = 'TODO-REPLACE'
