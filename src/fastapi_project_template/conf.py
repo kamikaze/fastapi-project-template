@@ -1,11 +1,14 @@
 from typing import Sequence, Annotated
 
-from pydantic import PostgresDsn, SecretStr, field_validator, BeforeValidator
+from pydantic import PostgresDsn, SecretStr, BeforeValidator
 from pydantic_settings import BaseSettings
 
 
 def parse_string_list(v: str) -> Sequence[str]:
-    return tuple(map(str.strip, v.split(',')))
+    if v:
+        return tuple(map(str.strip, v.split(',')))
+
+    return tuple()
 
 
 class Settings(BaseSettings):
@@ -15,7 +18,7 @@ class Settings(BaseSettings):
     service_addr: str = '0.0.0.0'
     service_port: int = 8080
     allowed_origins: Annotated[
-        Sequence[str] | None, BeforeValidator(parse_string_list)
+        Sequence[str], BeforeValidator(parse_string_list)
     ] = ('*', 'http://localhost', 'http://localhost:3000',)
     bootstrap_user_email: str | None = None
     bootstrap_user_password: SecretStr | None = None
