@@ -8,14 +8,9 @@ from fastapi_pagination import add_pagination
 from starlette.applications import Starlette
 
 from fastapi_project_template.api.v1.endpoints import router, auth_router, users_router
+from fastapi_project_template.conf import settings
 
 logger = logging.getLogger(__name__)
-origins = [
-    'http://localhost',
-    'http://localhost:3000',
-    'http://localhost:8080',
-    'http://localhost:5000',
-]
 
 
 @asynccontextmanager
@@ -28,7 +23,7 @@ app = FastAPI(default_response_class=ORJSONResponse, docs_url='/api/docs', opena
               lifespan=lifespan)
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=origins,
+    allow_origins=settings.allowed_origins,
     allow_credentials=True,
     allow_methods=['*'],
     allow_headers=['*'],
