@@ -4,11 +4,11 @@ from pydantic import PostgresDsn, SecretStr, BeforeValidator
 from pydantic_settings import BaseSettings
 
 
-def parse_string_list(v: str | None) -> Sequence[str]:
-    if v:
+def parse_string_list(v: str | Sequence[str]) -> Sequence[str]:
+    if isinstance(v, str):
         return tuple(map(str.strip, v.split(',')))
 
-    return ('*', )
+    return v
 
 
 class Settings(BaseSettings):
