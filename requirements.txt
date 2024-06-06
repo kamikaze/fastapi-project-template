@@ -8,9 +8,9 @@ fastapi-users[sqlalchemy]==13.0.0
 orjson==3.10.3
 passlib[argon2]==1.7.4
 pwdlib==0.2.0
-pydantic==2.7.1
-pydantic_settings==2.2.1
-python3-commons==0.3.19
+pydantic==2.7.2
+pydantic-settings==2.2.1
+python3-commons==0.5.14
 PyJWT==2.8.0
 python-dateutil==2.9.0.post0
 SQLAlchemy==2.0.30
