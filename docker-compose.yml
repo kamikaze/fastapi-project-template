@@ -1,5 +1,3 @@
-version: '3.8'
-
 services:
   rabbitmq-service:
     image: docker.io/rabbitmq:management

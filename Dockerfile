@@ -10,7 +10,7 @@ RUN apt-get install -y curl ca-certificates gnupg
 RUN curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | apt-key add -
 
 RUN apt update && \
-    apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-all libpq-dev libffi-dev git cargo pkg-config && \
+    apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-17 libpq-dev libffi-dev git cargo pkg-config && \
     apt autoremove --purge -y && \
     apt clean
 
