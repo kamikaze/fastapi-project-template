@@ -7,7 +7,8 @@ from fastapi.responses import ORJSONResponse
 from fastapi_pagination import add_pagination
 from starlette.applications import Starlette
 
-from fastapi_project_template.api.v1.endpoints import router, auth_router, users_router
+from fastapi_project_template.api.v1.endpoints import router
+from fastapi_project_template.api.v1.routers import auth_router, users_router
 from fastapi_project_template.conf import settings
 
 logger = logging.getLogger(__name__)
