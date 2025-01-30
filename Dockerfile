@@ -1,4 +1,4 @@
-FROM python:3.12-slim-bookworm AS build-image
+FROM python:3.13-slim-bookworm AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -34,7 +34,7 @@ COPY requirements.txt .
 RUN python3 -m pip wheel --wheel-dir /build/wheels -r requirements.txt
 
 
-FROM python:3.12-slim-bookworm AS app
+FROM python:3.13-slim-bookworm AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
