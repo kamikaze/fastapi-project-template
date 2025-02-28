@@ -15,4 +15,4 @@ PyJWT==2.10.1
 python-dateutil==2.9.0.post0
 SQLAlchemy==2.0.37
 uvicorn[standard]==0.34.0
-uvloop==0.21.0
+uvloop==0.21.0;platform_system=='linux'
