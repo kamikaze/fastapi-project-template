@@ -1,3 +1,70 @@
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[project]
+name = "fastapi-project-template"
+version = "0.1.0"
+description = "FastAPI project template"
+authors = [
+    {name = "Oleg Korsak", email = "kamikaze.is.waiting.you@gmail.com"}
+]
+license = {text = "GPL-3.0"}
+readme = {file = "README.rst", content-type = "text/x-rst; charset=UTF-8"}
+requires-python = ">=3.13"
+dependencies = [
+    "alembic==1.15.2",
+    "asyncpg==0.30.0",
+    "Authlib==1.5.1",
+    "fastapi==0.115.12",
+    "fastapi-pagination==0.12.34",
+    "fastapi-users-db-sqlalchemy==7.0.0",
+    "fastapi-users[sqlalchemy]==14.0.1",
+    "orjson==3.10.16",
+    "passlib[argon2]==1.7.4",
+    "pwdlib==0.2.1",
+    "pydantic==2.11.0",
+    "pydantic-settings==2.8.1",
+    "python3-commons==0.8.10",
+    "PyJWT==2.10.1",
+    "python-dateutil==2.9.0.post0",
+    "SQLAlchemy==2.0.40",
+    "uvicorn[standard]==0.34.0",
+    "uvloop==0.21.0" # Only for Linux
+]
+
+[project.optional-dependencies]
+testing = [
+    "pytest",
+    "pytest-cov"
+]
+
+[project.urls]
+Homepage = "https://github.com/kamikaze/fastapi-project-template"
+Documentation = "https://github.com/kamikaze/fastapi-project-template/wiki"
+
+[tool.pytest.ini_options]
+addopts = "--cov fastapi_project_template --cov-report term-missing --verbose"
+norecursedirs = ["dist", "build", ".tox"]
+testpaths = ["tests"]
+
+[tool.setuptools]
+packages = {find = {where = ["src"]}}
+zip-safe = false
+include-package-data = true
+
+[tool.setuptools.package-data]
+fastapi_project_template = ["*.rst", "*.txt", "*.md"]
+
+[tool.setuptools.dynamic]
+readme = {file = "README.rst"}
+
+[tool.black]
+line-length = 88
+
+[tool.flake8]
+exclude = [".tox", "build", "dist", ".eggs", "docs/conf.py"]
+
+[tool.pyscaffold]
+version = "3.2.3"
+package = "fastapi_project_template"

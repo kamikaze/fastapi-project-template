@@ -1,7 +1,13 @@
+import decimal
 from typing import Sequence, Annotated
 
-from pydantic import PostgresDsn, SecretStr, BeforeValidator
-from pydantic_settings import BaseSettings
+from pydantic import SecretStr, BeforeValidator, RedisDsn
+from pydantic_settings import SettingsConfigDict
+from python3_commons.conf import DBSettings, CommonSettings
+
+global_decimal_context = decimal.getcontext()
+global_decimal_context.rounding = decimal.ROUND_HALF_UP
+decimal.DefaultContext = global_decimal_context
 
 
 def parse_string_list(v: str | Sequence[str]) -> Sequence[str]:
@@ -11,19 +17,33 @@ def parse_string_list(v: str | Sequence[str]) -> Sequence[str]:
     return v
 
 
-class Settings(BaseSettings):
-    logging_level: str = 'INFO'
-    logging_format: str = '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
-    db_dsn: PostgresDsn | None = None
+class Settings(CommonSettings):
+    timezone: str = 'UTC'
+
     service_addr: str = '0.0.0.0'
     service_port: int = 8080
     allowed_origins: Annotated[
         Sequence[str] | tuple[str, ...], BeforeValidator(parse_string_list)
-    ] = ('*', )
+    ] = ('*',)
+
+    alembic_config: str = 'alembic.ini'
+
     bootstrap_user_email: str | None = None
+    bootstrap_user_name: str | None = None
     bootstrap_user_password: SecretStr | None = None
-    auth_secret: SecretStr = 'TODO-REPLACE'
-    timezone: str = 'UTC'
+
+    auth_secret: SecretStr = 'secret-string'
+
+    valkey_dsn: RedisDsn | None = None
+    valkey_sentinel_dsn: RedisDsn | None = None
+
+    telegram_api_token: SecretStr | None = None
+    telegram_chat_id: int | None = None
 
 
+class RODBSettings(DBSettings):
+    model_config = SettingsConfigDict(env_prefix='RO_DB_')
+
+
+ro_db_settings = RODBSettings()
 settings = Settings()

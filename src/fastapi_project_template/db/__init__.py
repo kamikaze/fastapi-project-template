@@ -1,9 +1,13 @@
-from sqlalchemy import MetaData
-from sqlalchemy.ext.declarative import declarative_base
+from python3_commons.conf import db_settings
+from python3_commons.db import AsyncSessionManager
 
-metadata = MetaData()
-Base = declarative_base(metadata=metadata)
+from fastapi_project_template.conf import ro_db_settings
 
+db_configs = {
+    'main': db_settings,
+    'ro': ro_db_settings if ro_db_settings.dsn else db_settings,
+}
 
-async def is_healthy(pg) -> bool:
-    return await pg.fetchval('SELECT 1 FROM alembic_version;') == 1
+async_session_manager = AsyncSessionManager(db_configs)
+get_main_db_session = async_session_manager.get_async_session('main')
+get_ro_db_session = async_session_manager.get_async_session('ro')

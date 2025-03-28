@@ -13,11 +13,18 @@ services:
       - ./.docker/rabbitmq_init.sh:/rabbitmq_init.sh
     command: [ "bash", "-c", "/rabbitmq_init.sh" ]
 
-  redis-service:
-    image: docker.io/redis
-    container_name: redis-service
+  valkey-service:
+    image: "docker.io/valkey/valkey:alpine"
+    container_name: valkey
+    command:
+      - /bin/sh
+      - -c
+      - valkey-server --requirepass "$${VALKEY_PASSWORD}"
     ports:
       - "6379:6379"
+    environment:
+      VALKEY_REPLICATION_MODE: "master"
+      VALKEY_PASSWORD: "${VALKEY_PASSWORD}"
 
   db:
     image: postgres:17-alpine
@@ -72,4 +79,6 @@ services:
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
     depends_on:
       - db
+      - rabbitmq-service
+      - valkey-service
       - fastapi-template-migrate

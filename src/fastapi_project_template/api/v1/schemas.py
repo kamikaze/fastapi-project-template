@@ -7,22 +7,40 @@ from pydantic import BaseModel, UUID4
 class UserRead(schemas.BaseUser[uuid.UUID]):
     group_id: int | None = None
 
+    class Config:
+        from_attributes = True
+
 
 class UserCreate(schemas.BaseUserCreate):
+    username: str
+    email: str | None = None
+    password: str
     group_id: int | None = None
+
+    class Config:
+        from_attributes = True
 
 
 class UserUpdate(schemas.BaseUserUpdate):
     group_id: int | None = None
 
+    class Config:
+        from_attributes = True
+
 
 class UserGroupSearchParams(BaseModel):
     name: str | None
 
+    class Config:
+        from_attributes = True
 
-class UserGroup(BaseModel):
+
+class UserGroupItem(BaseModel):
     id: int
     name: str
+
+    class Config:
+        from_attributes = True
 
 
 class UserItem(BaseModel):
@@ -32,3 +50,6 @@ class UserItem(BaseModel):
     is_active: bool
     is_superuser: bool
     is_verified: bool
+
+    class Config:
+        from_attributes = True

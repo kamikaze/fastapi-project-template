@@ -1,39 +1,39 @@
 import contextlib
 import logging
 import uuid
+from typing import Mapping, Sequence
 
+import sqlalchemy as sa
 from fastapi import Request, Depends
+from fastapi_pagination import Page
+from fastapi_pagination.ext.sqlalchemy import paginate
 from fastapi_users import BaseUserManager, UUIDIDMixin
 from fastapi_users.password import PasswordHelper
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
-from pwdlib import PasswordHash
-from pwdlib.hashers.argon2 import Argon2Hasher
-from pwdlib.hashers.bcrypt import BcryptHasher
+from passlib.context import CryptContext
+from python3_commons.db.models import User, UserGroup
+from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_project_template.api.v1.schemas import UserCreate, UserUpdate
+from fastapi_project_template.api.v1.schemas import UserCreate, UserUpdate, UserItem, UserGroupItem
 from fastapi_project_template.conf import settings
-from fastapi_project_template.db.models import User
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
 logger = logging.getLogger(__name__)
-password_hash = PasswordHash((
-    Argon2Hasher(),
-    BcryptHasher(),
-))
-password_helper = PasswordHelper(password_hash)
+context = CryptContext(schemes=['argon2', 'bcrypt'], deprecated='auto')
+password_helper = PasswordHelper(context)
 
 
-class UserManager(UUIDIDMixin, BaseUserManager[User, uuid.UUID]):
+class UserManager(UUIDIDMixin, BaseUserManager[UserItem, uuid.UUID]):
     reset_password_token_secret = settings.auth_secret.get_secret_value()
     verification_token_secret = settings.auth_secret.get_secret_value()
 
-    async def on_after_register(self, user: User, request: Request | None = None):
+    async def on_after_register(self, user: UserItem, request: Request | None = None):
         logger.info(f'User {user.id} has registered.')
 
-    async def on_after_forgot_password(self, user: User, token: str, request: Request | None = None):
+    async def on_after_forgot_password(self, user: UserItem, token: str, request: Request | None = None):
         logger.info(f'User {user.id} has forgot their password. Reset token: {token}')
 
-    async def on_after_request_verify(self, user: User, token: str, request: Request | None = None):
+    async def on_after_request_verify(self, user: UserItem, token: str, request: Request | None = None):
         logger.info(f'Verification requested for user {user.id}. Verification token: {token}')
 
 
@@ -60,3 +60,28 @@ async def update_user(user_id: str, user: UserUpdate):
             logger.info(f'updated: {r}')
 
     return user
+
+
+async def get_users(session: AsyncSession, search: Mapping[str, str] | None = None,
+                    order_by: str | None = None) -> Page[UserItem]:
+    query = sa.select(User)
+    result = await paginate(session, query)
+
+    return result
+
+
+async def get_user(session: AsyncSession, user_id: str) -> User:
+    query = sa.select(User).where(User.id == user_id)
+    cursor = await session.execute(query)
+    result = cursor.scalar_one()
+
+    return result
+
+
+async def get_user_groups(session: AsyncSession, search: Mapping[str, str] | None = None,
+                          order_by: str | None = None) -> Sequence[UserGroupItem]:
+    query = sa.select(UserGroup).order_by(UserGroup.name)
+    cursor = await session.execute(query)
+    result = cursor.scalars()
+
+    return result
