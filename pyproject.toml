@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools", "setuptools_rust", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -9,7 +9,7 @@ description = "FastAPI project template"
 authors = [
     {name = "Oleg Korsak", email = "kamikaze.is.waiting.you@gmail.com"}
 ]
-license = {text = "GPL-3.0"}
+license = "GPL-3.0"
 readme = {file = "README.rst", content-type = "text/x-rst; charset=UTF-8"}
 requires-python = ">=3.13"
 dependencies = [
@@ -49,22 +49,34 @@ norecursedirs = ["dist", "build", ".tox"]
 testpaths = ["tests"]
 
 [tool.setuptools]
-packages = {find = {where = ["src"]}}
 zip-safe = false
 include-package-data = true
 
+[tool.setuptools.packages.find]
+where = ["src"]
+exclude = ["tests"]
+
 [tool.setuptools.package-data]
-fastapi_project_template = ["*.rst", "*.txt", "*.md"]
+fastapi_project_template = [
+    "rustlib/Cargo.toml",
+    "rustlib/lib.rs",
+    "clib/extmod.c",
+    "*.rst",
+    "*.txt",
+    "*.md"
+]
 
 [tool.setuptools.dynamic]
 readme = {file = "README.rst"}
+version = {attr = "setuptools_scm.get_version"}
+
+[tool.setuptools_rust]
+# Optional Rust-specific configuration
+# Positioning of the compiled extension
+extensionmodule = true
 
 [tool.black]
 line-length = 88
 
 [tool.flake8]
 exclude = [".tox", "build", "dist", ".eggs", "docs/conf.py"]
-
-[tool.pyscaffold]
-version = "3.2.3"
-package = "fastapi_project_template"

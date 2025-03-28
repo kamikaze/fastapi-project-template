@@ -1,0 +1,13 @@
+[package]
+name = "rustmod"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+# See https://github.com/PyO3/pyo3 for details
+name = "_rustmod"  # private module to be nested into Python package
+path = "lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = "0.24.0"

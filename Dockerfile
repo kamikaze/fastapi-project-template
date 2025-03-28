@@ -42,7 +42,7 @@ ENV PYTHONPATH=/app
 
 COPY --from=build-image /build/wheels /wheels
 
-COPY --from=build-image /lib/linux-gnu/* /lib/linux-gnu/
+COPY --from=build-image /rustlib/linux-gnu/* /lib/linux-gnu/
 COPY --from=build-image /usr/lib/linux-gnu/* /usr/lib/linux-gnu/
 
 RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \

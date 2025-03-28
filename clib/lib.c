@@ -34,17 +34,17 @@ PyMethodDef module_methods[] =
 };
 
 // struct representing the module
-struct PyModuleDef extmod =
+struct PyModuleDef _cmod =
 {
     PyModuleDef_HEAD_INIT, // Always initialize this member to PyModuleDef_HEAD_INIT
-    "extmod", // module name
+    "_cmod", // module name
     "Module description", // module description
     -1, // module size (more on this later)
     module_methods // methods associated with the module
 };
 
 // function that initializes the module
-PyMODINIT_FUNC PyInit_extmod()
+PyMODINIT_FUNC PyInit__cmod()
 {
-    return PyModule_Create(&extmod);
+    return PyModule_Create(&_cmod);
 }

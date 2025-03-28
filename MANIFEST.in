@@ -1,0 +1,3 @@
+recursive-include rustlib *
+recursive-include clib *
+recursive-include src *
