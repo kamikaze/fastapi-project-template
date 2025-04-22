@@ -6,7 +6,7 @@ from typing import Mapping, Sequence
 import sqlalchemy as sa
 from fastapi import Request, Depends
 from fastapi_pagination import Page
-from fastapi_pagination.ext.sqlalchemy import paginate
+from fastapi_pagination.ext.sqlalchemy import apaginate
 from fastapi_users import BaseUserManager, UUIDIDMixin
 from fastapi_users.password import PasswordHelper
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
@@ -65,7 +65,7 @@ async def update_user(user_id: str, user: UserUpdate):
 async def get_users(session: AsyncSession, search: Mapping[str, str] | None = None,
                     order_by: str | None = None) -> Page[UserItem]:
     query = sa.select(User)
-    result = await paginate(session, query)
+    result = await apaginate(session, query)
 
     return result
 

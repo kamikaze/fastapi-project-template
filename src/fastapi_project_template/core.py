@@ -5,7 +5,7 @@ from typing import Mapping, Sequence
 
 import sqlalchemy as sa
 from fastapi_pagination import Page
-from fastapi_pagination.ext.sqlalchemy import paginate
+from fastapi_pagination.ext.sqlalchemy import apaginate
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi_project_template.api.v1.schemas import UserItem
@@ -19,7 +19,7 @@ _ = t.gettext
 async def get_users(session: AsyncSession, search: Mapping[str, str] | None = None,
                     order_by: str | None = None) -> Page[UserItem]:
     query = sa.select([User])
-    result = await paginate(session, query)
+    result = await apaginate(session, query)
 
     return result
 
