@@ -1,9 +1,11 @@
 *
 
 # Allow files and directories
+!/clib
 !/migrations
+!/rustlib
 !/src
 !alembic.ini
-!requirements.txt
 !pyproject.toml
 !setup.py
+!uv.lock

@@ -3,6 +3,8 @@ FROM python:3.13-slim-bookworm AS build-image
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
 WORKDIR /build
 
 RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
@@ -13,6 +15,7 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     echo "deb https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
     apt update && \
     apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-17 libpq-dev libpq5 libffi-dev git cargo pkg-config nfs-common weasyprint && \
+    curl https://sh.rustup.rs -sSf | bash -s -- -y && \
     mkdir -p /usr/lib/linux-gnu && \
     cp /usr/lib/${ARCH}-linux-gnu/libpq.so.* \
     /usr/lib/${ARCH}-linux-gnu/liblber-2.5.so.* \
@@ -30,8 +33,12 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     /lib/${ARCH}-linux-gnu/libkrb5support.so.* \
     /lib/linux-gnu/
 
-COPY requirements.txt .
-RUN python3 -m pip wheel --wheel-dir /build/wheels -r requirements.txt
+COPY ./ ./
+
+ENV PATH="/root/.cargo/bin:${PATH}"
+
+RUN uv sync --dev --frozen --no-cache && \
+    uvx pip wheel --wheel-dir /build/wheels .
 
 
 FROM python:3.13-slim-bookworm AS app
@@ -42,7 +49,7 @@ ENV PYTHONPATH=/app
 
 COPY --from=build-image /build/wheels /wheels
 
-COPY --from=build-image /rustlib/linux-gnu/* /lib/linux-gnu/
+COPY --from=build-image /lib/linux-gnu/* /lib/linux-gnu/
 COPY --from=build-image /usr/lib/linux-gnu/* /usr/lib/linux-gnu/
 
 RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
