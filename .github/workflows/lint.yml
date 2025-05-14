@@ -30,12 +30,12 @@ jobs:
 
       - name: Ruff default rules and import check
         run: |
-          ruff check --extend-select I ./src/
+          uvx ruff check --extend-select I ./src/
 
       - name: Ruff format check
         run: |
-          ruff format --diff ./src/
+          uvx ruff format --diff ./src/
 
       - name: Pyright check
         run: |
-          pyright ./src/
+          uvx pyright ./src/
