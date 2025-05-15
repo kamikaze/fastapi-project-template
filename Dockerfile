@@ -33,12 +33,11 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     /lib/${ARCH}-linux-gnu/libkrb5support.so.* \
     /lib/linux-gnu/
 
-COPY ./ ./
+COPY pyproject.toml uv.lock ./
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
-RUN uv sync --dev --frozen --no-cache && \
-    uvx pip wheel --wheel-dir /build/wheels .
+RUN uvx pip wheel --wheel-dir /build/wheels .
 
 
 FROM python:3.13-slim-bookworm AS app
