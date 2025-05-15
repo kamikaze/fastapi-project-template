@@ -49,6 +49,19 @@ testing = [
     "pytest-cov"
 ]
 
+[tool.ruff]
+line-length = 120
+
+[tool.ruff.format]
+quote-style = "single"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+reportMatchNotExhaustive = "error"
+reportUnnecessaryComparison = "error"
+
+
 [project.urls]
 Homepage = "https://github.com/kamikaze/fastapi-project-template"
 Documentation = "https://github.com/kamikaze/fastapi-project-template/wiki"
@@ -84,9 +97,3 @@ version = {attr = "setuptools_scm.get_version"}
 # Optional Rust-specific configuration
 # Positioning of the compiled extension
 extensionmodule = true
-
-[tool.black]
-line-length = 88
-
-[tool.flake8]
-exclude = [".tox", "build", "dist", ".eggs", "docs/conf.py"]

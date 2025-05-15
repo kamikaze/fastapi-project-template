@@ -28,13 +28,13 @@ jobs:
       - name: Install the project
         run: uv sync --locked --all-extras --dev
 
-      - name: Ruff default rules and import check
-        run: |
-          uvx ruff check --extend-select I ./src/
-
       - name: Ruff format check
         run: |
           uvx ruff format --diff ./src/
+
+      - name: Ruff default rules and import check
+        run: |
+          uvx ruff check --extend-select I ./src/
 
       - name: Pyright check
         run: |

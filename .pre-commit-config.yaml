@@ -1,7 +1,35 @@
 repos:
   - repo: https://github.com/astral-sh/uv-pre-commit
-    # uv version.
     rev: 0.7.3
     hooks:
       - id: uv-lock
       - id: uv-export
+
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.11.10
+    hooks:
+      # Run the linter.
+      - id: ruff-check
+        args: [ --fix ]
+        files: ^(src/|tests/).*
+        types_or: [ python, pyi ]
+      # Run the import sort.
+      - id: ruff-check
+        args:
+          - --select
+          - I
+          - --fix
+        files: ^(src/|tests/).*
+        types_or: [ python, pyi ]
+      # Run the formatter.
+      - id: ruff-format
+        files: ^(src/|tests/).*
+        types_or: [ python, pyi ]
+
+#  - repo: local
+#    hooks:
+#      - id: pyright
+#        name: Run pyright via uvx
+#        entry: uvx pyright ./src ./tests
+#        language: system
+#        pass_filenames: false
