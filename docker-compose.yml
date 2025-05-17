@@ -35,6 +35,20 @@ services:
       POSTGRES_DB: "${POSTGRES_DB:-template_app_db}"
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-dev}"
       POSTGRES_USER: "${POSTGRES_USER:-dev}"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "pg_isready",
+          "-d",
+          "${DATABASE_NAME}",
+          "-U",
+          "${DATABASE_USER}",
+        ]
+      start_period: 3s
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   pgweb:
     image: sosedoff/pgweb
@@ -49,7 +63,8 @@ services:
       "until pg_isready -h ${POSTGRES_HOST:-db} -d ${POSTGRES_DB:-template_app_db}; do echo 'wait for db'; sleep 1; done && pgweb --bind=0.0.0.0"
     ]
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   fastapi-template-migrate:
     build:
@@ -63,7 +78,8 @@ services:
     entrypoint: python3
     command: ["-m", "alembic", "upgrade", "head"]
     depends_on:
-      - db
+      db:
+        condition: service_healthy
 
   fastapi-template-service:
     build:
