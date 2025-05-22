@@ -4,6 +4,7 @@ import sys
 from logging.config import fileConfig
 
 from alembic import context
+from python3_commons.conf import DBSettings
 from sqlalchemy import engine_from_config, pool
 from sqlalchemy.ext.asyncio import AsyncEngine
 
@@ -19,8 +20,11 @@ if config.attributes.get('configure_logger', True):
 target_metadata = Base.metadata
 
 
-def get_url():
-    return os.getenv('DB_DSN', '')
+def get_url() -> str:
+    db_settings = DBSettings()
+    db_url = str(db_settings.dsn)
+
+    return db_url
 
 
 def run_migrations_offline():
