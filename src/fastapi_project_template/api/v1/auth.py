@@ -6,8 +6,8 @@ from typing import Optional
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
 from fastapi_users import FastAPIUsers, models
-from fastapi_users.authentication import JWTStrategy, CookieTransport, AuthenticationBackend
-from python3_commons.db.models import User, ApiKey
+from fastapi_users.authentication import AuthenticationBackend, CookieTransport, JWTStrategy
+from python3_commons.db.models import ApiKey, User
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
@@ -25,11 +25,10 @@ def get_jwt_strategy() -> JWTStrategy:
 
 
 auth_backend = AuthenticationBackend(name='cluserauth', transport=cookie_transport, get_strategy=get_jwt_strategy)
-auth_backends = [auth_backend, ]
-fastapi_users = FastAPIUsers[User, uuid.UUID](
-    get_user_manager,
-    auth_backends
-)
+auth_backends = [
+    auth_backend,
+]
+fastapi_users = FastAPIUsers[User, uuid.UUID](get_user_manager, auth_backends)
 get_current_user = fastapi_users.current_user(active=True)
 get_current_superuser = fastapi_users.current_user(active=True, superuser=True)
 optional_get_current_user = fastapi_users.current_user(optional=True, active=True)
@@ -40,8 +39,8 @@ optional_api_key_header = APIKeyHeader(name='X-API-Key', auto_error=False)
 
 
 async def verify_api_key(
-    api_key: str = Depends(api_key_header),
-    session: AsyncSession = Depends(get_main_db_session)) -> ApiKey:
+    api_key: str = Depends(api_key_header), session: AsyncSession = Depends(get_main_db_session)
+) -> ApiKey:
     query = select(ApiKey).where(ApiKey.key == api_key)
     result = await session.execute(query)
     row = result.fetchone()
@@ -59,7 +58,7 @@ async def verify_api_key(
 async def get_auth(
     user: Optional[models.UP] = Depends(optional_get_current_user),
     api_key: Optional[str] = Depends(optional_api_key_header),
-    session: AsyncSession = Depends(get_main_db_session)
+    session: AsyncSession = Depends(get_main_db_session),
 ) -> Optional[models.UP] | ApiKey:
     if user:
         logger.debug(f'Authenticated user: {user.email}')

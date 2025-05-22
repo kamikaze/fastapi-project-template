@@ -1,9 +1,9 @@
 import decimal
-from typing import Sequence, Annotated
+from typing import Annotated, Sequence
 
-from pydantic import SecretStr, BeforeValidator, RedisDsn
+from pydantic import BeforeValidator, RedisDsn, SecretStr
 from pydantic_settings import SettingsConfigDict
-from python3_commons.conf import DBSettings, CommonSettings
+from python3_commons.conf import CommonSettings, DBSettings
 
 global_decimal_context = decimal.getcontext()
 global_decimal_context.rounding = decimal.ROUND_HALF_UP
@@ -22,9 +22,7 @@ class Settings(CommonSettings):
 
     service_addr: str = '0.0.0.0'
     service_port: int = 8080
-    allowed_origins: Annotated[
-        Sequence[str] | tuple[str, ...], BeforeValidator(parse_string_list)
-    ] = ('*',)
+    allowed_origins: Annotated[Sequence[str] | tuple[str, ...], BeforeValidator(parse_string_list)] = ('*',)
 
     alembic_config: str = 'alembic.ini'
 

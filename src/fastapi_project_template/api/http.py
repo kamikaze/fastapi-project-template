@@ -23,19 +23,16 @@ LOGGING_CONFIG = {
             '()': 'python3_commons.logging.formatters.JSONFormatter',
         },
     },
-    'filters': {
-        'info_and_below': {
-            '()': 'python3_commons.logging.filters.filter_maker',
-            'level': 'INFO'
-        }
-    },
+    'filters': {'info_and_below': {'()': 'python3_commons.logging.filters.filter_maker', 'level': 'INFO'}},
     'handlers': {
         'default_stdout': {
             'level': settings.logging_level,
             'class': 'logging.StreamHandler',
             'stream': 'ext://sys.stdout',
             'formatter': settings.logging_formatter,
-            'filters': ['info_and_below', ],
+            'filters': [
+                'info_and_below',
+            ],
         },
         'default_stderr': {
             'level': 'WARNING',
@@ -46,19 +43,28 @@ LOGGING_CONFIG = {
     },
     'loggers': {
         '': {
-            'handlers': ['default_stderr', 'default_stdout', ],
+            'handlers': [
+                'default_stderr',
+                'default_stdout',
+            ],
         },
         'fastapi_project_template': {
-            'handlers': ['default_stderr', 'default_stdout', ],
+            'handlers': [
+                'default_stderr',
+                'default_stdout',
+            ],
             'level': settings.logging_level,
             'propagate': False,
         },
         '__main__': {
-            'handlers': ['default_stderr', 'default_stdout', ],
+            'handlers': [
+                'default_stderr',
+                'default_stdout',
+            ],
             'level': settings.logging_level,
             'propagate': False,
-        }
-    }
+        },
+    },
 }
 logging.config.dictConfig(LOGGING_CONFIG)
 
@@ -89,7 +95,7 @@ app = FastAPI(
     docs_url=f'{app_prefix}/docs',
     openapi_url=f'{app_prefix}/v1/openapi.json',
     lifespan=lifespan,
-    title='Project backend'
+    title='Project backend',
 )
 app.add_middleware(
     CORSMiddleware,
