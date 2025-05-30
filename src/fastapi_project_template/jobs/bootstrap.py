@@ -25,7 +25,7 @@ async def create_superuser():
                             password=settings.bootstrap_user_password.get_secret_value(),
                             is_superuser=True,
                             is_active=True,
-                            is_verified=True
+                            is_verified=True,
                         )
                     )
                     logger.info(f'User created: {settings.bootstrap_user_email}')

@@ -4,7 +4,7 @@ import uuid
 from typing import Mapping, Sequence
 
 import sqlalchemy as sa
-from fastapi import Request, Depends
+from fastapi import Depends, Request
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import apaginate
 from fastapi_users import BaseUserManager, UUIDIDMixin
@@ -14,7 +14,7 @@ from passlib.context import CryptContext
 from python3_commons.db.models import User, UserGroup
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_project_template.api.v1.schemas import UserCreate, UserUpdate, UserItem, UserGroupItem
+from fastapi_project_template.api.v1.schemas import UserCreate, UserGroupItem, UserItem, UserUpdate
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
@@ -62,8 +62,9 @@ async def update_user(user_id: str, user: UserUpdate):
     return user
 
 
-async def get_users(session: AsyncSession, search: Mapping[str, str] | None = None,
-                    order_by: str | None = None) -> Page[UserItem]:
+async def get_users(
+    session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
+) -> Page[UserItem]:
     query = sa.select(User)
     result = await apaginate(session, query)
 
@@ -78,8 +79,9 @@ async def get_user(session: AsyncSession, user_id: str) -> User:
     return result
 
 
-async def get_user_groups(session: AsyncSession, search: Mapping[str, str] | None = None,
-                          order_by: str | None = None) -> Sequence[UserGroupItem]:
+async def get_user_groups(
+    session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
+) -> Sequence[UserGroupItem]:
     query = sa.select(UserGroup).order_by(UserGroup.name)
     cursor = await session.execute(query)
     result = cursor.scalars()

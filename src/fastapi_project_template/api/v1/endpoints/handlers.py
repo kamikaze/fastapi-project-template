@@ -8,6 +8,7 @@ from pydantic_core import ValidationError
 
 logger = logging.getLogger(__name__)
 
+
 def _handle_exceptions_helper(status_code, *args):
     if args:
         raise HTTPException(status_code=status_code, detail=args[0])

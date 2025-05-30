@@ -5,56 +5,67 @@ import logging.config
 from fastapi_project_template.conf import settings
 from fastapi_project_template.jobs import bootstrap
 
-logging.config.dictConfig({
-    'version': 1,
-    'disable_existing_loggers': False,
-    'formatters': {
-        'default': {
-            '()': 'python3_commons.logging.formatters.JSONFormatter',
+logging.config.dictConfig(
+    {
+        'version': 1,
+        'disable_existing_loggers': False,
+        'formatters': {
+            'default': {
+                '()': 'python3_commons.logging.formatters.JSONFormatter',
+            },
         },
-    },
-    'filters': {
-        'info_and_below': {
-            '()': 'python3_commons.logging.filters.filter_maker',
-            'level': 'INFO'
-        }
-    },
-    'handlers': {
-        'default_stdout': {
-            'level': settings.logging_level,
-            'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stdout',
-            'formatter': 'default',
-            'filters': ['info_and_below', ],
+        'filters': {'info_and_below': {'()': 'python3_commons.logging.filters.filter_maker', 'level': 'INFO'}},
+        'handlers': {
+            'default_stdout': {
+                'level': settings.logging_level,
+                'class': 'logging.StreamHandler',
+                'stream': 'ext://sys.stdout',
+                'formatter': 'default',
+                'filters': [
+                    'info_and_below',
+                ],
+            },
+            'default_stderr': {
+                'level': 'WARNING',
+                'class': 'logging.StreamHandler',
+                'stream': 'ext://sys.stderr',
+                'formatter': 'default',
+            },
         },
-        'default_stderr': {
-            'level': 'WARNING',
-            'class': 'logging.StreamHandler',
-            'stream': 'ext://sys.stderr',
-            'formatter': 'default',
+        'loggers': {
+            '': {
+                'handlers': [
+                    'default_stderr',
+                    'default_stdout',
+                ],
+            },
+            'cash_backend': {
+                'handlers': [
+                    'default_stderr',
+                    'default_stdout',
+                ],
+                'level': settings.logging_level,
+                'propagate': False,
+            },
+            'aioworldline': {
+                'handlers': [
+                    'default_stderr',
+                    'default_stdout',
+                ],
+                'level': settings.logging_level,
+                'propagate': False,
+            },
+            '__main__': {
+                'handlers': [
+                    'default_stderr',
+                    'default_stdout',
+                ],
+                'level': settings.logging_level,
+                'propagate': False,
+            },
         },
-    },
-    'loggers': {
-        '': {
-            'handlers': ['default_stderr', 'default_stdout', ],
-        },
-        'cash_backend': {
-            'handlers': ['default_stderr', 'default_stdout', ],
-            'level': settings.logging_level,
-            'propagate': False,
-        },
-        'aioworldline': {
-            'handlers': ['default_stderr', 'default_stdout', ],
-            'level': settings.logging_level,
-            'propagate': False,
-        },
-        '__main__': {
-            'handlers': ['default_stderr', 'default_stdout', ],
-            'level': settings.logging_level,
-            'propagate': False,
-        }
     }
-})
+)
 
 logger = logging.getLogger(__name__)
 
