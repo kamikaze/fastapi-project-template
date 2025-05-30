@@ -15,7 +15,7 @@ requires-python = "==3.13.*"
 dependencies = [
     "alembic==1.16.1",
     "asyncpg==0.30.0",
-    "Authlib==1.5.2",
+    "Authlib==1.6.0",
     "fastapi==0.115.12",
     "fastapi-pagination==0.13.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
@@ -23,12 +23,12 @@ dependencies = [
     "orjson==3.10.18",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
-    "pydantic==2.11.4",
+    "pydantic==2.11.5",
     "pydantic-settings==2.9.1",
-    "python3-commons==0.8.26",
+    "python3-commons==0.8.33",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "SQLAlchemy==2.0.40",
+    "SQLAlchemy==2.0.41",
     "uvicorn[standard]==0.34.2",
     "uvloop==0.21.0;platform_system=='Linux'"
 ]
@@ -39,8 +39,8 @@ dev = [
     "pip==25.1.1",
     "pre-commit==4.2.0",
     "pyright==1.1.401",
-    "ruff==0.11.11",
-    "setuptools==80.8.0",
+    "ruff==0.11.12",
+    "setuptools==80.9.0",
     "setuptools_rust",
     "wheel==0.45.1",
 ]
