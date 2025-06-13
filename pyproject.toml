@@ -23,7 +23,7 @@ dependencies = [
     "orjson==3.10.18",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
-    "pydantic==2.11.5",
+    "pydantic==2.11.6",
     "pydantic-settings==2.9.1",
     "python3-commons==0.8.33",
     "PyJWT==2.10.1",
