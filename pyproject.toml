@@ -13,23 +13,23 @@ license = "GPL-3.0"
 readme = {file = "README.rst", content-type = "text/x-rst; charset=UTF-8"}
 requires-python = "==3.13.*"
 dependencies = [
-    "alembic==1.16.2",
+    "alembic==1.16.4",
     "asyncpg==0.30.0",
     "Authlib==1.6.0",
-    "fastapi==0.115.13",
-    "fastapi-pagination==0.13.2",
+    "fastapi-pagination==0.13.3",
+    "fastapi-slim==0.116.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==14.0.1",
     "orjson==3.10.18",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
     "pydantic==2.11.7",
-    "pydantic-settings==2.9.1",
-    "python3-commons==0.8.33",
+    "pydantic-settings==2.10.1",
+    "python3-commons==0.8.35",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
     "SQLAlchemy==2.0.41",
-    "uvicorn[standard]==0.34.3",
+    "uvicorn[standard]==0.35.0",
     "uvloop==0.21.0;platform_system=='Linux'"
 ]
 
@@ -38,8 +38,8 @@ dev = [
     "build",
     "pip==25.1.1",
     "pre-commit==4.2.0",
-    "pyright==1.1.402",
-    "ruff==0.12.0",
+    "pyright==1.1.403",
+    "ruff==0.12.3",
     "setuptools==80.9.0",
     "setuptools_rust",
     "wheel==0.45.1",
