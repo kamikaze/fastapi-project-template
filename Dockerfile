@@ -1,5 +1,5 @@
-ARG BASE_BUILD_IMAGE
-FROM ${BASE_BUILD_IMAGE:-python:3.13-slim-bookworm} AS build-image
+ARG BASE_REGISTRY
+FROM ${BASE_REGISTRY}python:3.13-slim-bookworm AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -41,8 +41,8 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN uvx pip wheel --wheel-dir /build/wheels .
 
 
-ARG BASE_APP_IMAGE
-FROM ${BASE_APP_IMAGE:-python:3.13-slim-bookworm} AS app
+ARG BASE_REGISTRY
+FROM ${BASE_REGISTRY}python:3.13-slim-bookworm AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
