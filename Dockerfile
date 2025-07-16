@@ -41,7 +41,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN uvx pip wheel --wheel-dir /build/wheels .
 
 
-FROM ${BASE_REGISTRY}python:3.13-slim-bookworm AS app
+FROM ${BASE_REGISTRY}/python:3.13-slim-bookworm AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
