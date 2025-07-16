@@ -1,4 +1,4 @@
-ARG BASE_REGISTRY=docker.io
+ARG BASE_REGISTRY=docker.io/library
 FROM ${BASE_REGISTRY}/python:3.13-slim-bookworm AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
