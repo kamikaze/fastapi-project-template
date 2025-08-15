@@ -1,5 +1,5 @@
 ARG BASE_REGISTRY=docker.io/library
-FROM ${BASE_REGISTRY}/python:3.13-slim-bookworm AS build-image
+FROM ${BASE_REGISTRY}/python:3.13-slim-trixie AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -13,14 +13,14 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     apt upgrade -y && \
     apt install -y curl ca-certificates gnupg2 && \
     curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg && \
-    echo "deb https://apt.postgresql.org/pub/repos/apt bookworm-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    echo "deb https://apt.postgresql.org/pub/repos/apt trixie-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
     apt update && \
     apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-17 libpq-dev libpq5 libffi-dev git cargo pkg-config nfs-common weasyprint && \
     curl https://sh.rustup.rs -sSf | bash -s -- -y && \
     mkdir -p /usr/lib/linux-gnu && \
     cp /usr/lib/${ARCH}-linux-gnu/libpq.so.* \
-    /usr/lib/${ARCH}-linux-gnu/liblber-2.5.so.* \
-    /usr/lib/${ARCH}-linux-gnu/libldap-2.5.so.* \
+    /usr/lib/${ARCH}-linux-gnu/liblber.so.* \
+    /usr/lib/${ARCH}-linux-gnu/libldap.so.* \
     /usr/lib/${ARCH}-linux-gnu/libsasl2.so.* \
     /usr/lib/${ARCH}-linux-gnu/libgobject-2.0.so.* \
     /usr/lib/linux-gnu/ && \
@@ -41,7 +41,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN uvx pip wheel --wheel-dir /build/wheels .
 
 
-FROM ${BASE_REGISTRY}/python:3.13-slim-bookworm AS app
+FROM ${BASE_REGISTRY}/python:3.13-slim-trixie AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
