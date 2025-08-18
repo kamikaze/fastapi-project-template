@@ -36,23 +36,40 @@ dependencies = [
 [dependency-groups]
 dev = [
     "build",
-    "pip==25.1.1",
-    "pre-commit==4.2.0",
-    "pyright==1.1.403",
-    "ruff==0.12.3",
-    "setuptools==80.9.0",
+    "pip",
+    "pre-commit",
+    "pyright",
+    "ruff",
+    "setuptools",
     "setuptools_rust",
     "wheel==0.45.1",
 ]
+profiling = [
+    "aiomonitor",
+    "pyinstrument",
+]
 testing = [
     "pytest",
-    "pytest-cov"
+    "pytest-asyncio",
+    "pytest-cov",
+    "pytest-mock",
 ]
 
 [tool.ruff]
 line-length = 120
+indent-width = 4
+target-version = "py313"
+
+[tool.ruff.analyze]
+detect-string-imports = true
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
 
 [tool.ruff.format]
+exclude = ["*.pyi"]
+indent-style = "space"
 quote-style = "single"
 
 [tool.pyright]
@@ -67,9 +84,20 @@ Homepage = "https://github.com/kamikaze/fastapi-project-template"
 Documentation = "https://github.com/kamikaze/fastapi-project-template/wiki"
 
 [tool.pytest.ini_options]
-addopts = "--cov fastapi_project_template --cov-report term-missing --verbose"
+pythonpath = ["src"]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--cov fastapi_project_template --cov-fail-under=20 --cov-report term-missing --verbose"
 norecursedirs = ["dist", "build", ".tox"]
 testpaths = ["tests"]
+
+[tool.uv.sources]
+torch = { index = "pytorch" }
+
+[[tool.uv.index]]
+name = "pytorch"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
 
 [tool.setuptools]
 zip-safe = false
