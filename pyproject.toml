@@ -15,17 +15,17 @@ requires-python = "==3.13.*"
 dependencies = [
     "alembic==1.16.5",
     "asyncpg==0.30.0",
-    "Authlib==1.6.2",
-    "fastapi-pagination==0.14.0",
+    "Authlib==1.6.3",
+    "fastapi-pagination==0.14.1",
     "fastapi-slim==0.116.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==14.0.1",
     "orjson==3.11.3",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
-    "pydantic==2.11.7",
+    "pydantic==2.11.9",
     "pydantic-settings==2.10.1",
-    "python3-commons==0.9.12",
+    "python3-commons==0.9.18",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
     "SQLAlchemy[asyncio]==2.0.43",
@@ -51,8 +51,24 @@ testing = [
 
 [tool.ruff]
 line-length = 120
+indent-width = 4
+target-version = "py313"
+select = [
+    "FAST", "YTT", "ANN", "ASYNC", "S", "FBT", "B", "A", "C4", "DTZ", "EM", "EXE", "FA", "ISC", "ICN",
+    "LOG", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "SLOT", "TID", "TC", "ARG", "PTH",
+    "FLY", "I", "NPY", "PD", "N", "PERF", "E", "W", "F", "PLC", "PLE", "PLR", "PLW", "UP", "FURB", "RUF", "TRY"
+]
+
+[tool.ruff.analyze]
+detect-string-imports = true
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
 
 [tool.ruff.format]
+exclude = ["*.pyi"]
+indent-style = "space"
 quote-style = "single"
 
 [tool.pyright]
@@ -61,13 +77,11 @@ venv = ".venv"
 reportMatchNotExhaustive = "error"
 reportUnnecessaryComparison = "error"
 
-
-[project.urls]
-Homepage = "https://github.com/kamikaze/fastapi-project-template"
-Documentation = "https://github.com/kamikaze/fastapi-project-template/wiki"
-
 [tool.pytest.ini_options]
-addopts = "--cov fastapi_project_template --cov-report term-missing --verbose"
+pythonpath = ["src"]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--cov fastapi_project_template --cov-fail-under=20 --cov-report term-missing --verbose"
 norecursedirs = ["dist", "build", ".tox"]
 testpaths = ["tests"]
 
