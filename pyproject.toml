@@ -1,92 +1,74 @@
 [build-system]
-requires = ["setuptools", "setuptools_rust", "wheel"]
+requires = ["setuptools", "setuptools_scm", "setuptools_rust", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
 name = "fastapi-project-template"
-version = "0.1.0"
 description = "FastAPI project template"
 authors = [
-    {name = "Oleg Korsak", email = "kamikaze.is.waiting.you@gmail.com"}
+    { name = "Oleg Korsak", email = "kamikaze.is.waiting.you@gmail.com" }
 ]
 license = "GPL-3.0"
 readme = {file = "README.rst", content-type = "text/x-rst; charset=UTF-8"}
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Programming Language :: Python",
+]
 requires-python = "==3.13.*"
+dynamic = ["version"]
 dependencies = [
+    "aiohttp[speedups]==3.12.15",
+    "aioworldline==0.2.11",
     "alembic==1.16.5",
+    "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
     "Authlib==1.6.3",
+    "certifi==2025.8.3",
+    "fastapi-observability==1.0.0",
     "fastapi-pagination==0.14.1",
-    "fastapi-slim==0.116.1",
+    "fastapi-slim==0.116.2",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==14.0.1",
+    "msgpack==1.1.1",
     "orjson==3.11.3",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
     "pydantic==2.11.9",
     "pydantic-settings==2.10.1",
-    "python3-commons==0.9.18",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
+    "python3-commons==0.9.18",
     "SQLAlchemy[asyncio]==2.0.43",
+    "starlette==0.48.0",
     "uvicorn[standard]==0.35.0",
-    "uvloop==0.21.0;platform_system=='Linux'"
+    "uvloop==0.21.0; platform_system == 'Linux'",
 ]
+
+[project.urls]
+"Homepage" = "https://github.com/kamikaze/fastapi-project-template"
+"Documentation" = "https://github.com/kamikaze/fastapi-project-template/wiki"
 
 [dependency-groups]
 dev = [
     "build",
     "pip",
     "pre-commit",
+    "pyright",
     "ruff",
     "setuptools",
     "setuptools_rust",
     "wheel",
+    "tzdata"
 ]
 testing = [
-    "pyright",
     "pytest",
-    "pytest-cov"
+    "pytest-asyncio",
+    "pytest-cov",
 ]
-
-[tool.ruff]
-line-length = 120
-indent-width = 4
-target-version = "py313"
-select = [
-    "FAST", "YTT", "ANN", "ASYNC", "S", "FBT", "B", "A", "C4", "DTZ", "EM", "EXE", "FA", "ISC", "ICN",
-    "LOG", "G", "INP", "PIE", "T20", "PYI", "PT", "Q", "RSE", "RET", "SLF", "SIM", "SLOT", "TID", "TC", "ARG", "PTH",
-    "FLY", "I", "NPY", "PD", "N", "PERF", "E", "W", "F", "PLC", "PLE", "PLR", "PLW", "UP", "FURB", "RUF", "TRY"
-]
-
-[tool.ruff.analyze]
-detect-string-imports = true
-
-[tool.ruff.lint.flake8-quotes]
-docstring-quotes = "double"
-inline-quotes = "single"
-
-[tool.ruff.format]
-exclude = ["*.pyi"]
-indent-style = "space"
-quote-style = "single"
-
-[tool.pyright]
-venvPath = "."
-venv = ".venv"
-reportMatchNotExhaustive = "error"
-reportUnnecessaryComparison = "error"
-
-[tool.pytest.ini_options]
-pythonpath = ["src"]
-asyncio_mode = "strict"
-asyncio_default_fixture_loop_scope = "function"
-addopts = "--cov fastapi_project_template --cov-fail-under=20 --cov-report term-missing --verbose"
-norecursedirs = ["dist", "build", ".tox"]
-testpaths = ["tests"]
 
 [tool.setuptools]
 zip-safe = false
+package-dir = { "" = "src" }
 include-package-data = true
 
 [tool.setuptools.packages.find]
@@ -111,3 +93,99 @@ version = {attr = "setuptools_scm.get_version"}
 # Optional Rust-specific configuration
 # Positioning of the compiled extension
 extensionmodule = true
+
+[tool.bdist_wheel]
+universal = true
+
+[tool.build_sphinx]
+source_dir = "docs"
+build_dir = "build/sphinx"
+
+[tool.devpi.upload]
+no-vcs = true
+formats = ["bdist_wheel"]
+
+[tool.ruff]
+line-length = 120
+indent-width = 4
+target-version = "py313"
+
+[tool.ruff.analyze]
+detect-string-imports = true
+
+[tool.ruff.lint]
+select = [
+    "FAST",
+    "YTT",
+#    "ANN",
+    "I",
+    "E",
+    "W",
+    "PYI",
+
+#    "A",
+#    "ARG",
+#    "ASYNC",
+#    "B",
+#    "C4",
+#    "DTZ",
+#    "EM",
+#    "EXE",
+#    "F",
+#    "FA",
+#    "FBT",
+#    "FLY",
+#    "FURB",
+#    "G",
+#    "ICN",
+#    "INP",
+#    "ISC",
+#    "LOG",
+#    "N",
+#    "NPY",
+#    "PD",
+#    "PERF",
+#    "PIE",
+#    "PLC",
+#    "PLE",
+#    "PLR",
+#    "PLW",
+#    "PT",
+#    "PTH",
+#    "Q",
+#    "RET",
+#    "RSE",
+#    "RUF",
+#    "S",
+#    "SIM",
+#    "SLF",
+#    "SLOT",
+#    "T20",
+#    "TC",
+#    "TID",
+#    "TRY",
+#    "UP",
+]
+
+[tool.ruff.lint.flake8-quotes]
+docstring-quotes = "double"
+inline-quotes = "single"
+
+[tool.ruff.format]
+exclude = ["*.pyi"]
+indent-style = "space"
+quote-style = "single"
+
+[tool.pyright]
+venvPath = "."
+venv = ".venv"
+reportMatchNotExhaustive = "error"
+reportUnnecessaryComparison = "error"
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+asyncio_mode = "strict"
+asyncio_default_fixture_loop_scope = "function"
+addopts = "--cov fastapi_project_template --cov-fail-under=20 --cov-report term-missing --verbose"
+norecursedirs = ["dist", "build", ".tox"]
+testpaths = ["tests"]
