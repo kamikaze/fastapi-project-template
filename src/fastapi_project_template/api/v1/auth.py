@@ -1,7 +1,6 @@
 import logging
 import uuid
 from http import HTTPStatus
-from typing import Optional
 
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
@@ -56,10 +55,10 @@ async def verify_api_key(
 
 
 async def get_auth(
-    user: Optional[models.UP] = Depends(optional_get_current_user),
-    api_key: Optional[str] = Depends(optional_api_key_header),
+    user: models.UP | None = Depends(optional_get_current_user),
+    api_key: str | None = Depends(optional_api_key_header),
     session: AsyncSession = Depends(get_main_db_session),
-) -> Optional[models.UP] | ApiKey:
+) -> models.UP | None | ApiKey:
     if user:
         logger.debug(f'Authenticated user: {user.email}')
 

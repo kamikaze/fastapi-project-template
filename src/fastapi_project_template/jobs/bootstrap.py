@@ -15,19 +15,21 @@ async def create_superuser():
     try:
         async_session_context = async_session_manager.get_session_context('main')
 
-        async with async_session_context() as session:
-            async with get_user_db_context(session) as user_db:
-                async with get_user_manager_context(user_db) as user_manager:
-                    await user_manager.create(
-                        UserCreate(
-                            username=settings.bootstrap_user_name,
-                            email=settings.bootstrap_user_email,
-                            password=settings.bootstrap_user_password.get_secret_value(),
-                            is_superuser=True,
-                            is_active=True,
-                            is_verified=True,
-                        )
+        async with (
+            async_session_context() as session,
+            get_user_db_context(session) as user_db,
+            get_user_manager_context(user_db) as user_manager
+        ):
+                await user_manager.create(
+                    UserCreate(
+                        username=settings.bootstrap_user_name,
+                        email=settings.bootstrap_user_email,
+                        password=settings.bootstrap_user_password.get_secret_value(),
+                        is_superuser=True,
+                        is_active=True,
+                        is_verified=True,
                     )
-                    logger.info(f'User created: {settings.bootstrap_user_email}')
+                )
+                logger.info(f'User created: {settings.bootstrap_user_email}')
     except UserAlreadyExists:
         logger.info(f'User already exists: {settings.bootstrap_user_email}')

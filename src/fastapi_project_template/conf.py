@@ -1,5 +1,6 @@
 import decimal
-from typing import Annotated, Sequence
+from collections.abc import Sequence
+from typing import Annotated
 
 from pydantic import BeforeValidator, RedisDsn, SecretStr
 from pydantic_settings import SettingsConfigDict

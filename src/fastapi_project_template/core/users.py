@@ -1,7 +1,7 @@
 import contextlib
 import logging
 import uuid
-from typing import Mapping, Sequence
+from collections.abc import Mapping, Sequence
 
 import sqlalchemy as sa
 from fastapi import Depends, Request
@@ -45,19 +45,17 @@ get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
 
 
 async def create_user(user: UserCreate):
-    async with get_user_db_context() as user_db:
-        async with get_user_manager_context(user_db) as user_manager:
-            await user_manager.create(user)
+    async with get_user_db_context() as user_db, get_user_manager_context(user_db) as user_manager:
+        await user_manager.create(user)
 
 
 async def update_user(user_id: str, user: UserUpdate):
     user.id = user_id
 
-    async with get_user_db_context() as user_db:
-        async with get_user_manager_context(user_db) as user_manager:
-            r = await user_manager.update(user)
+    async with get_user_db_context() as user_db, get_user_manager_context(user_db) as user_manager:
+        r = await user_manager.update(user)
 
-            logger.info(f'updated: {r}')
+        logger.info(f'updated: {r}')
 
     return user
 

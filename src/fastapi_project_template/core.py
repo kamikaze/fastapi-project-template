@@ -1,7 +1,7 @@
 import gettext
 import logging
+from collections.abc import Mapping, Sequence
 from pathlib import Path
-from typing import Mapping, Sequence
 
 import sqlalchemy as sa
 from fastapi_pagination import Page
