@@ -148,7 +148,7 @@ select = [
     "PIE",
     "PLC",
     "PLE",
-#    "PLR",
+    "PLR",
     "PLW",
     "PT",
     "PTH",
