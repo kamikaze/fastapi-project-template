@@ -80,9 +80,7 @@ origins = [
 
 class CorrelationIdMiddleware(starlette.middleware.base.BaseHTTPMiddleware):
     async def dispatch(
-        self,
-        request: Request,
-        call_next: starlette.middleware.base.RequestResponseEndpoint
+        self, request: Request, call_next: starlette.middleware.base.RequestResponseEndpoint
     ) -> Response:
         correlation_id = str(uuid4())
         ctx_correlation_id.set(correlation_id)

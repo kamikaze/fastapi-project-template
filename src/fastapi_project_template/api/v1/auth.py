@@ -42,6 +42,7 @@ APIKeyHeaderDep = Annotated[str, Depends(api_key_header)]
 OptionalAPIKeyDep = Annotated[str | None, Depends(optional_api_key_header)]
 OptionalCurrentUserDep = Annotated[models.UP, Depends(optional_get_current_user)]
 
+
 async def verify_api_key(
     session: AsyncSessionDep,
     api_key: APIKeyHeaderDep,
