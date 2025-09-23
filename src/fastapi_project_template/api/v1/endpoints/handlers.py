@@ -15,8 +15,7 @@ T = TypeVar('T')
 def _handle_exceptions_helper(status_code: int, *args: Sequence) -> Never:
     if args:
         raise HTTPException(status_code=status_code, detail=args[0])
-    else:
-        raise HTTPException(status_code=status_code)
+    raise HTTPException(status_code=status_code)
 
 
 def handle_exceptions[T](func: Callable[..., Coroutine[Any, Any, T]]) -> Callable[..., Coroutine[Any, Any, T]]:

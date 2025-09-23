@@ -153,7 +153,7 @@ select = [
     "PT",
     "PTH",
     "Q",
-#    "RET",
+    "RET",
     "RSE",
 #    "RUF",
     "S",

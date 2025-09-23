@@ -66,17 +66,15 @@ async def get_users(
     session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
 ) -> Page[UserItem]:
     query = sa.select(User)
-    result = await apaginate(session, query)
 
-    return result
+    return await apaginate(session, query)
 
 
 async def get_user(session: AsyncSession, user_id: str) -> User:
     query = sa.select(User).where(User.id == user_id)
     cursor = await session.execute(query)
-    result = cursor.scalar_one()
 
-    return result
+    return cursor.scalar_one()
 
 
 async def get_user_groups(
@@ -84,6 +82,5 @@ async def get_user_groups(
 ) -> Sequence[UserGroupItem]:
     query = sa.select(UserGroup).order_by(UserGroup.name)
     cursor = await session.execute(query)
-    result = cursor.scalars()
 
-    return result
+    return cursor.scalars()
