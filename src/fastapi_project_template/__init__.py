@@ -12,4 +12,4 @@ except importlib.metadata.PackageNotFoundError:
 
 ctx_correlation_id: ContextVar[str | None] = ContextVar('correlation_id', default=None)
 
-__all__ = ['ctx_correlation_id', 'c_fib', 'rust_fib']
+__all__ = ['c_fib', 'ctx_correlation_id', 'rust_fib']

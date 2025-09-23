@@ -75,7 +75,7 @@ def get_parsed_args() -> Namespace:
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('--job', type=str)
 
-    args, args_other = parser.parse_known_args()
+    args, _ = parser.parse_known_args()
 
     return args
 
