@@ -11,7 +11,7 @@ from fastapi_project_template.db.user_db_helpers import get_user_db_context
 logger = logging.getLogger(__name__)
 
 
-async def create_superuser():
+async def create_superuser() -> None:
     try:
         async_session_context = async_session_manager.get_session_context('main')
 

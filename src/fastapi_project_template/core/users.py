@@ -1,7 +1,8 @@
 import contextlib
 import logging
 import uuid
-from collections.abc import Mapping, Sequence
+from collections.abc import AsyncGenerator, Mapping, Sequence
+from typing import Annotated
 
 import sqlalchemy as sa
 from fastapi import Depends, Request
@@ -19,6 +20,7 @@ from fastapi_project_template.conf import settings
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
 logger = logging.getLogger(__name__)
+UserDBDep = Annotated[SQLAlchemyUserDatabase, Depends(get_user_db)]
 context = CryptContext(schemes=['argon2', 'bcrypt'], deprecated='auto')
 password_helper = PasswordHelper(context)
 
@@ -27,29 +29,29 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserItem, uuid.UUID]):
     reset_password_token_secret = settings.auth_secret.get_secret_value()
     verification_token_secret = settings.auth_secret.get_secret_value()
 
-    async def on_after_register(self, user: UserItem, request: Request | None = None):
+    async def on_after_register(self, user: UserItem, request: Request | None = None) -> None:
         logger.info(f'User {user.id} has registered.')
 
-    async def on_after_forgot_password(self, user: UserItem, token: str, request: Request | None = None):
+    async def on_after_forgot_password(self, user: UserItem, token: str, request: Request | None = None) -> None:
         logger.info(f'User {user.id} has forgot their password. Reset token: {token}')
 
-    async def on_after_request_verify(self, user: UserItem, token: str, request: Request | None = None):
+    async def on_after_request_verify(self, user: UserItem, token: str, request: Request | None = None) -> None:
         logger.info(f'Verification requested for user {user.id}. Verification token: {token}')
 
 
-async def get_user_manager(user_db: SQLAlchemyUserDatabase = Depends(get_user_db)):
+async def get_user_manager(user_db: UserDBDep) -> AsyncGenerator[UserManager]:
     yield UserManager(user_db, password_helper)
 
 
 get_user_manager_context = contextlib.asynccontextmanager(get_user_manager)
 
 
-async def create_user(user: UserCreate):
+async def create_user(user: UserCreate) -> None:
     async with get_user_db_context() as user_db, get_user_manager_context(user_db) as user_manager:
         await user_manager.create(user)
 
 
-async def update_user(user_id: str, user: UserUpdate):
+async def update_user(user_id: str, user: UserUpdate) -> UserUpdate:
     user.id = user_id
 
     async with get_user_db_context() as user_db, get_user_manager_context(user_db) as user_manager:

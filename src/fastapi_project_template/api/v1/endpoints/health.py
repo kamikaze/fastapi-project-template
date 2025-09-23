@@ -1,4 +1,5 @@
 import logging
+from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from sqlalchemy import text
@@ -8,6 +9,7 @@ from fastapi_project_template.api.v1.routers import health_router
 from fastapi_project_template.db import get_main_db_session
 
 logger = logging.getLogger(__name__)
+AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
 
 
 @health_router.get('/alive')
@@ -16,7 +18,7 @@ async def alive() -> bool:
 
 
 @health_router.get('/ready')
-async def ready(session: AsyncSession = Depends(get_main_db_session)):
+async def ready(session: AsyncSessionDep) -> None:
     query = text('SELECT 1;')
 
     try:

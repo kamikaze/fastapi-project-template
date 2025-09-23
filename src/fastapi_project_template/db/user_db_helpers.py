@@ -1,14 +1,18 @@
 import contextlib
+from collections.abc import AsyncGenerator
+from typing import Annotated
 
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from python3_commons.db.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_project_template.db import async_session_manager
+from fastapi_project_template.db import get_main_db_session
+
+AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
 
 
-async def get_user_db(session: AsyncSession = Depends(async_session_manager.get_async_session('main'))):
+async def get_user_db(session: AsyncSessionDep) -> AsyncGenerator[SQLAlchemyUserDatabase]:
     yield SQLAlchemyUserDatabase(session, User)
 
 

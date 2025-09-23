@@ -17,31 +17,31 @@ branch_labels = ${repr(branch_labels)}
 depends_on = ${repr(depends_on)}
 
 
-def upgrade():
+def upgrade() -> None:
     schema_upgrades()
     data_upgrades()
 
 
-def downgrade():
+def downgrade() -> None:
     data_downgrades()
     schema_downgrades()
 
 
-def schema_upgrades():
+def schema_upgrades() -> None:
     """schema upgrade migrations go here."""
     ${upgrades if upgrades else "pass"}
 
 
-def schema_downgrades():
+def schema_downgrades() -> None:
     """schema downgrade migrations go here."""
     ${downgrades if downgrades else "pass"}
 
 
-def data_upgrades():
+def data_upgrades() -> None:
     """Add any optional data upgrade migrations here!"""
     pass
 
 
-def data_downgrades():
+def data_downgrades() -> None:
     """Add any optional data downgrade migrations here!"""
     pass

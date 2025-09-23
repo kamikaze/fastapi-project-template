@@ -1,6 +1,7 @@
 import argparse
 import asyncio
 import logging.config
+from argparse import Namespace
 
 from fastapi_project_template.conf import settings
 from fastapi_project_template.jobs import bootstrap
@@ -70,7 +71,7 @@ logging.config.dictConfig(
 logger = logging.getLogger(__name__)
 
 
-def get_parsed_args():
+def get_parsed_args() -> Namespace:
     parser = argparse.ArgumentParser(add_help=False)
     parser.add_argument('--job', type=str)
 
@@ -79,7 +80,7 @@ def get_parsed_args():
     return args
 
 
-async def main():
+async def main() -> None:
     args = get_parsed_args()
     job_mapping = {
         'create_superuser': bootstrap.create_superuser,

@@ -117,7 +117,7 @@ detect-string-imports = true
 select = [
     "FAST",
     "YTT",
-#    "ANN",
+    "ANN",
     "I",
     "E",
     "W",
