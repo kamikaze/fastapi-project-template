@@ -21,7 +21,7 @@ def parse_string_list(v: str | Sequence[str]) -> Sequence[str]:
 class Settings(CommonSettings):
     timezone: str = 'UTC'
 
-    service_addr: str = '0.0.0.0'
+    service_addr: str = '0.0.0.0'  # noqa: S104
     service_port: int = 8080
     allowed_origins: Annotated[Sequence[str] | tuple[str, ...], BeforeValidator(parse_string_list)] = ('*',)
 

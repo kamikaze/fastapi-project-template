@@ -1,4 +1,5 @@
 import logging.config
+from collections.abc import AsyncGenerator
 from contextlib import asynccontextmanager
 from uuid import uuid4
 
@@ -8,6 +9,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from fastapi_pagination import add_pagination
 from starlette.applications import Starlette
+from starlette.responses import Response
 
 from fastapi_project_template import ctx_correlation_id
 from fastapi_project_template.api.v1.endpoints.health import health_router
@@ -77,7 +79,11 @@ origins = [
 
 
 class CorrelationIdMiddleware(starlette.middleware.base.BaseHTTPMiddleware):
-    async def dispatch(self, request: Request, call_next):
+    async def dispatch(
+        self,
+        request: Request,
+        call_next: starlette.middleware.base.RequestResponseEndpoint
+    ) -> Response:
         correlation_id = str(uuid4())
         ctx_correlation_id.set(correlation_id)
 
@@ -85,7 +91,7 @@ class CorrelationIdMiddleware(starlette.middleware.base.BaseHTTPMiddleware):
 
 
 @asynccontextmanager
-async def lifespan(app: Starlette):
+async def lifespan(app: Starlette) -> AsyncGenerator:
     yield
 
 

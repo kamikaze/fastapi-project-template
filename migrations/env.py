@@ -1,20 +1,21 @@
 import asyncio
-import os
 import sys
 from logging.config import fileConfig
+from pathlib import Path
 
 from alembic import context
 from python3_commons.conf import DBSettings
 from sqlalchemy import engine_from_config, pool
+from sqlalchemy.engine.base import Connection
 from sqlalchemy.ext.asyncio import AsyncEngine
 
 from fastapi_project_template.db.models import Base
 
-sys.path.append(os.getcwd())
+sys.path.append(str(Path.cwd()))
 
 config = context.config
 
-if config.attributes.get('configure_logger', True):
+if config.attributes.get('configure_logger', True) and config.config_file_name is not None:
     fileConfig(config.config_file_name)
 
 target_metadata = Base.metadata
@@ -48,7 +49,7 @@ def run_migrations_offline() -> None:
         context.run_migrations()
 
 
-def do_run_migrations(connection) -> None:
+def do_run_migrations(connection: Connection) -> None:
     context.configure(connection=connection, target_metadata=target_metadata, compare_type=True)
 
     with context.begin_transaction():

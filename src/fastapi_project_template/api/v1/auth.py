@@ -38,9 +38,13 @@ optional_get_current_superuser = fastapi_users.current_user(optional=True, activ
 api_key_header = APIKeyHeader(name='X-API-Key', auto_error=True)
 optional_api_key_header = APIKeyHeader(name='X-API-Key', auto_error=False)
 
+APIKeyHeaderDep = Annotated[str, Depends(api_key_header)]
+OptionalAPIKeyDep = Annotated[str | None, Depends(optional_api_key_header)]
+OptionalCurrentUserDep = Annotated[models.UP, Depends(optional_get_current_user)]
 
 async def verify_api_key(
-    api_key: str = Depends(api_key_header), session: AsyncSession = Depends(get_main_db_session)
+    session: AsyncSessionDep,
+    api_key: APIKeyHeaderDep,
 ) -> ApiKey:
     query = select(ApiKey).where(ApiKey.key == api_key)
     result = await session.execute(query)
@@ -58,8 +62,8 @@ async def verify_api_key(
 
 async def get_auth(
     session: AsyncSessionDep,
-    user: models.UP | None = Depends(optional_get_current_user),
-    api_key: str | None = Depends(optional_api_key_header),
+    user: OptionalCurrentUserDep,
+    api_key: OptionalAPIKeyDep,
 ) -> models.UP | None | ApiKey:
     if user:
         logger.debug(f'Authenticated user: {user.email}')

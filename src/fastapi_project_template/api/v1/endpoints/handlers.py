@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 T = TypeVar('T')
 
 
-def _handle_exceptions_helper(status_code, *args) -> Never:
+def _handle_exceptions_helper(status_code: int, *args: Sequence) -> Never:
     if args:
         raise HTTPException(status_code=status_code, detail=args[0])
     else:
