@@ -30,15 +30,15 @@ jobs:
 
       - name: Ruff format check
         run: |
-          uvx ruff format --diff ./src/
+          uvx ruff format --diff ./src/ ./tests/ ./migrations/
 
       - name: Ruff default rules and import check
         run: |
-          uvx ruff check --extend-select I ./src/
+          uvx ruff check --extend-select I ./src/ ./tests/ ./migrations/
 
       - name: Pyright check
         run: |
-          uvx pyright ./src/
+          uvx pyright ./src/ ./tests/ ./migrations/
   tests:
     runs-on: ubuntu-latest
     steps:
