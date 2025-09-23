@@ -88,7 +88,7 @@ async def main():
     try:
         job = job_mapping[args.job]
     except KeyError:
-        logger.error(f'Unknown job: "{args.job}"')
+        logger.exception(f'Unknown job: "{args.job}"')
     else:
         await job()
 

@@ -22,11 +22,11 @@ dependencies = [
     "alembic==1.16.5",
     "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
-    "Authlib==1.6.3",
+    "Authlib==1.6.4",
     "certifi==2025.8.3",
     "fastapi-observability==1.0.0",
     "fastapi-pagination==0.14.1",
-    "fastapi-slim==0.116.2",
+    "fastapi-slim==0.117.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==14.0.1",
     "msgpack==1.1.1",
@@ -37,10 +37,10 @@ dependencies = [
     "pydantic-settings==2.10.1",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.9.18",
+    "python3-commons==0.9.20",
     "SQLAlchemy[asyncio]==2.0.43",
     "starlette==0.48.0",
-    "uvicorn[standard]==0.35.0",
+    "uvicorn[standard]==0.37.0",
     "uvloop==0.21.0; platform_system == 'Linux'",
 ]
 
@@ -126,9 +126,9 @@ select = [
     "A",
 #    "ARG",
     "ASYNC",
-#    "B",
+    "B",
     "C4",
-    "DTZ",
+#    "DTZ",
     "EM",
     "EXE",
     "F",
@@ -138,7 +138,7 @@ select = [
     "FURB",
 #    "G",
     "ICN",
-#    "INP",
+    "INP",
     "ISC",
     "LOG",
     "N",
@@ -148,7 +148,7 @@ select = [
     "PIE",
     "PLC",
     "PLE",
-    "PLR",
+#    "PLR",
     "PLW",
     "PT",
     "PTH",
@@ -156,16 +156,22 @@ select = [
 #    "RET",
     "RSE",
 #    "RUF",
-#    "S",
+    "S",
     "SIM",
     "SLF",
     "SLOT",
     "T20",
     "TC",
     "TID",
-#    "TRY",
+    "TRY",
     "UP",
 ]
+ignore = [
+    "ASYNC109",
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/*.py" = ["S101"]
 
 [tool.ruff.lint.flake8-quotes]
 docstring-quotes = "double"

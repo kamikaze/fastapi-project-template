@@ -24,19 +24,19 @@ def handle_exceptions(func):
         try:
             return await func(*args, **kwargs)
         except PermissionError as e:
-            logger.error(f'{type(e)}: {e}')
+            logger.exception('Permission error')
             return _handle_exceptions_helper(HTTPStatus.UNAUTHORIZED, *e.args)
         except LookupError as e:
-            logger.error(f'{type(e)}: {e}')
+            logger.exception('Lookup error')
             return _handle_exceptions_helper(HTTPStatus.NOT_FOUND, *e.args)
         except ValidationError as e:
-            logger.error(f'{type(e)}: {e}')
+            logger.exception('Validation error')
             return _handle_exceptions_helper(HTTPStatus.INTERNAL_SERVER_ERROR, *e.args)
         except ValueError as e:
-            logger.error(f'{type(e)}: {e}')
+            logger.exception('Value error')
             return _handle_exceptions_helper(HTTPStatus.BAD_REQUEST, *e.args)
-        except NotImplementedError as e:
-            logger.error(f'{type(e)}: {e}')
+        except NotImplementedError:
+            logger.exception('Not implemented error')
             return _handle_exceptions_helper(HTTPStatus.NOT_IMPLEMENTED)
 
     return wrapper

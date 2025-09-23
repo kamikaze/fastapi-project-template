@@ -22,8 +22,8 @@ async def ready(session: AsyncSession = Depends(get_main_db_session)):
     try:
         result = await session.execute(query)
         value = result.scalar_one()
-    except Exception as e:
-        logger.error(f'Failed readiness check for database: {e}')
+    except Exception:
+        logger.exception('Failed readiness check for database.')
         value = None
 
     if value != 1:
