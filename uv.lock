@@ -104,20 +104,6 @@ wheels = [
 ]
 
 [[package]]
-name = "aioworldline"
-version = "0.2.11"
-source = { registry = "https://pypi.org/simple" }
-dependencies = [
-    { name = "aiohttp", extra = ["speedups"] },
-    { name = "pydantic" },
-    { name = "pydantic-settings" },
-]
-sdist = { url = "https://files.pythonhosted.org/packages/2e/d0/dab64e39e6f961ddf730d307630af7f342be4dc2687364932efc6e23d7e9/aioworldline-0.2.11.tar.gz", hash = "sha256:8d16744cab5eb1454f50c7262a64adb0ee0cf6fae32cac88c70ce7f7a5bd7ee5", size = 61037, upload-time = "2025-06-23T11:40:02.284Z" }
-wheels = [
-    { url = "https://files.pythonhosted.org/packages/c0/0a/8151192c7e9e76314b16fb7b359605fb717a1f7983fcca9d7ff9a31e3e92/aioworldline-0.2.11-py3-none-any.whl", hash = "sha256:2ff6c550fd955bcd8586734f4bb0d36df34a1d0e6129a18e6e65adb83d217333", size = 16909, upload-time = "2025-06-23T11:40:00.962Z" },
-]
-
-[[package]]
 name = "alembic"
 version = "1.16.5"
 source = { registry = "https://pypi.org/simple" }
@@ -628,7 +614,6 @@ name = "fastapi-project-template"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
-    { name = "aioworldline" },
     { name = "alembic" },
     { name = "alembic-utils" },
     { name = "asyncpg" },
@@ -675,7 +660,6 @@ testing = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp", extras = ["speedups"], specifier = "==3.12.15" },
-    { name = "aioworldline", specifier = "==0.2.11" },
     { name = "alembic", specifier = "==1.16.5" },
     { name = "alembic-utils", specifier = "==0.8.8" },
     { name = "asyncpg", specifier = "==0.30.0" },
@@ -691,10 +675,10 @@ requires-dist = [
     { name = "passlib", extras = ["argon2"], specifier = "==1.7.4" },
     { name = "pwdlib", specifier = "==0.2.1" },
     { name = "pydantic", specifier = "==2.11.9" },
-    { name = "pydantic-settings", specifier = "==2.10.1" },
+    { name = "pydantic-settings", specifier = "==2.11.0" },
     { name = "pyjwt", specifier = "==2.10.1" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
-    { name = "python3-commons", specifier = "==0.9.20" },
+    { name = "python3-commons", specifier = "==0.9.21" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = "==2.0.43" },
     { name = "starlette", specifier = "==0.48.0" },
     { name = "uvicorn", extras = ["standard"], specifier = "==0.37.0" },
@@ -1600,16 +1584,16 @@ wheels = [
 
 [[package]]
 name = "pydantic-settings"
-version = "2.10.1"
+version = "2.11.0"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "pydantic" },
     { name = "python-dotenv" },
     { name = "typing-inspection" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/68/85/1ea668bbab3c50071ca613c6ab30047fb36ab0da1b92fa8f17bbc38fd36c/pydantic_settings-2.10.1.tar.gz", hash = "sha256:06f0062169818d0f5524420a360d632d5857b83cffd4d42fe29597807a1614ee", size = 172583, upload-time = "2025-06-24T13:26:46.841Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/20/c5/dbbc27b814c71676593d1c3f718e6cd7d4f00652cefa24b75f7aa3efb25e/pydantic_settings-2.11.0.tar.gz", hash = "sha256:d0e87a1c7d33593beb7194adb8470fc426e95ba02af83a0f23474a04c9a08180", size = 188394, upload-time = "2025-09-24T14:19:11.764Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/58/f0/427018098906416f580e3cf1366d3b1abfb408a0652e9f31600c24a1903c/pydantic_settings-2.10.1-py3-none-any.whl", hash = "sha256:a60952460b99cf661dc25c29c0ef171721f98bfcb52ef8d9ea4c943d7c8cc796", size = 45235, upload-time = "2025-06-24T13:26:45.485Z" },
+    { url = "https://files.pythonhosted.org/packages/83/d6/887a1ff844e64aa823fb4905978d882a633cfe295c32eacad582b78a7d8b/pydantic_settings-2.11.0-py3-none-any.whl", hash = "sha256:fe2cea3413b9530d10f3a5875adffb17ada5c1e1bab0b2885546d7310415207c", size = 48608, upload-time = "2025-09-24T14:19:10.015Z" },
 ]
 
 [[package]]
@@ -1745,7 +1729,7 @@ wheels = [
 
 [[package]]
 name = "python3-commons"
-version = "0.9.20"
+version = "0.9.21"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiobotocore" },
@@ -1763,9 +1747,9 @@ dependencies = [
     { name = "valkey", extra = ["libvalkey"] },
     { name = "zeep" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/ca/ec/fe0eeb151e800cb56d3500d058cc071f1a7d9731460c09245bfbec39ea94/python3_commons-0.9.20.tar.gz", hash = "sha256:477ec9528e043cd1a258e34694a4abb85a08a893ed3ad4fbf76495fdd26d1fbe", size = 105171, upload-time = "2025-09-23T16:58:26.879Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/75/98/e399a6c0305d5ee17e6c15655dd7ac60ca48729c0cf71026ee2eb121ddcf/python3_commons-0.9.21.tar.gz", hash = "sha256:c7e15d591b18e96afc8691dd177bb66f4a40126fb6c0f640b3fe74202707294e", size = 105517, upload-time = "2025-09-24T19:32:36.881Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/08/89/a94bbaa3d59009126d65ee573b19c47f9846b964e8275873f6d4b7c50dbe/python3_commons-0.9.20-py3-none-any.whl", hash = "sha256:c679eeb77920ce547e54a17b1c9e94d4646577c0b4af9183e6c87820d8f06e15", size = 34761, upload-time = "2025-09-23T16:58:25.321Z" },
+    { url = "https://files.pythonhosted.org/packages/08/4b/a001f9596b23310946b81ea5697dc2bcbee3e7bb9a3392f4c7595eac90c4/python3_commons-0.9.21-py3-none-any.whl", hash = "sha256:e4321ad8f3bc26905e36a61a3a3323dd3412cf74ea2384e3fd0897d87ce4c82c", size = 34761, upload-time = "2025-09-24T19:32:35.47Z" },
 ]
 
 [[package]]

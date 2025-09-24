@@ -18,7 +18,6 @@ requires-python = "==3.13.*"
 dynamic = ["version"]
 dependencies = [
     "aiohttp[speedups]==3.12.15",
-    "aioworldline==0.2.11",
     "alembic==1.16.5",
     "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
@@ -34,10 +33,10 @@ dependencies = [
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
     "pydantic==2.11.9",
-    "pydantic-settings==2.10.1",
+    "pydantic-settings==2.11.0",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.9.20",
+    "python3-commons==0.9.21",
     "SQLAlchemy[asyncio]==2.0.43",
     "starlette==0.48.0",
     "uvicorn[standard]==0.37.0",
