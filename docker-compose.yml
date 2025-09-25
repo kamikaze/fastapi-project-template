@@ -1,4 +1,22 @@
 services:
+  minio:
+    image: quay.io/minio/minio:latest
+    container_name: minio
+    ports:
+      - "9000:9000"
+      - "9001:9001"
+    environment:
+      MINIO_ROOT_USER: "${MINIO_ROOT_USER:-root}"
+      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD:-rootroot}"
+    command: [
+      "server",
+      "/data",
+      "--console-address",
+      ":9001"
+    ]
+    volumes:
+      - minio-data:/data
+
   rabbitmq-service:
     image: docker.io/rabbitmq:management
     container_name: rabbitmq-service
@@ -36,19 +54,13 @@ services:
       POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-dev}"
       POSTGRES_USER: "${POSTGRES_USER:-dev}"
     healthcheck:
-      test:
-        [
-          "CMD",
-          "pg_isready",
-          "-d",
-          "${DATABASE_NAME}",
-          "-U",
-          "${DATABASE_USER}",
-        ]
+      test: [ "CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB -h $$(hostname -i)" ]
       start_period: 3s
-      interval: 5s
-      timeout: 5s
-      retries: 5
+      interval: 3s
+      timeout: 15s
+      retries: 10
+    volumes:
+      - db:/var/lib/postgresql/17
 
   pgweb:
     image: sosedoff/pgweb
@@ -95,6 +107,11 @@ services:
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
     depends_on:
       - db
+      - minio
       - rabbitmq-service
       - valkey-service
       - fastapi-template-migrate
+
+volumes:
+  db:
+  minio-data:
