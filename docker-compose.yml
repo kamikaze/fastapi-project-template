@@ -105,6 +105,17 @@ services:
       AMQP_DSN: "${AMQP_DSN:-amqp://guest:guest@rabbitmq-service/}"
       DB_DSN: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
+      OBJECT_STORAGE_ENDPOINT: "${OBJECT_STORAGE_ENDPOINT:-http://localhost:9000}"
+      OBJECT_STORAGE_BUCKET: "${OBJECT_STORAGE_BUCKET:-test}"
+      S3_ENDPOINT_URL: "${S3_ENDPOINT_URL:-http://localhost:9000}"
+      AWS_REGION: "${AWS_REGION:-us-east-1}"
+      S3_ADDRESSING_STYLE: "${S3_ADDRESSING_STYLE:-path}"
+      S3_BUCKET: "${S3_BUCKET:-test}"
+      S3_BUCKET_ROOT: "${S3_BUCKET_ROOT:-test}"
+      S3_SECURE: "${S3_SECURE:-false}"
+      S3_CERT_VERIFY: "${S3_CERT_VERIFY:-false}"
+      S3_ACCESS_KEY_ID: "${S3_ACCESS_KEY_ID:-root}"
+      S3_SECRET_ACCESS_KEY: "${S3_SECRET_ACCESS_KEY:-rootroot}"
     depends_on:
       - db
       - minio
