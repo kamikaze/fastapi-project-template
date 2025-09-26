@@ -36,7 +36,7 @@ dependencies = [
     "pydantic-settings==2.11.0",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.9.21",
+    "python3-commons==0.10.1",
     "SQLAlchemy[asyncio]==2.0.43",
     "starlette==0.48.0",
     "uvicorn[standard]==0.37.0",
