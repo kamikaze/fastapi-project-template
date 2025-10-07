@@ -17,7 +17,7 @@ classifiers = [
 requires-python = "==3.13.*"
 dynamic = ["version"]
 dependencies = [
-    "aiohttp[speedups]==3.12.15",
+    "aiohttp[speedups]==3.13.0",
     "alembic==1.16.5",
     "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
@@ -36,7 +36,7 @@ dependencies = [
     "pydantic-settings==2.11.0",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.10.2",
+    "python3-commons==0.11.0",
     "SQLAlchemy[asyncio]==2.0.43",
     "starlette==0.48.0",
     "uvicorn[standard]==0.37.0",
