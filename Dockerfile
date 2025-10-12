@@ -1,5 +1,5 @@
 ARG BASE_REGISTRY=docker.io/library
-FROM ${BASE_REGISTRY}/python:3.14-slim-trixie AS build-image
+FROM ${BASE_REGISTRY}/python:3.14.0-slim-trixie AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -15,7 +15,7 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg && \
     echo "deb https://apt.postgresql.org/pub/repos/apt trixie-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
     apt update && \
-    apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-17 libpq-dev libpq5 libffi-dev git cargo pkg-config nfs-common weasyprint && \
+    apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-18 libpq-dev libpq5 libffi-dev git cargo pkg-config nfs-common weasyprint && \
     curl https://sh.rustup.rs -sSf | bash -s -- -y && \
     mkdir -p /usr/lib/linux-gnu && \
     cp /usr/lib/${ARCH}-linux-gnu/libpq.so.* \
@@ -41,7 +41,7 @@ ENV PATH="/root/.cargo/bin:${PATH}"
 RUN uvx pip wheel --wheel-dir /build/wheels .
 
 
-FROM ${BASE_REGISTRY}/python:3.14-slim-trixie AS app
+FROM ${BASE_REGISTRY}/python:3.14.0-slim-trixie AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
