@@ -17,30 +17,30 @@ classifiers = [
 requires-python = "==3.14.0"
 dynamic = ["version"]
 dependencies = [
-    "aiohttp[speedups]==3.13.0",
+    "aiohttp[speedups]==3.13.1",
     "alembic==1.17.0",
     "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
     "Authlib==1.6.5",
     "certifi==2025.10.5",
-    "fastapi-commons==0.0.2",
+    "fastapi-commons==0.0.3",
     "fastapi-pagination==0.14.3",
-    "fastapi-slim==0.119.0",
+    "fastapi-slim==0.119.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==14.0.1",
     "msgpack==1.1.2",
     "orjson==3.11.3",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
-    "pydantic==2.12.2",
+    "pydantic==2.12.3",
     "pydantic-settings==2.11.0",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.12.3",
+    "python3-commons==0.12.4",
     "SQLAlchemy[asyncio]==2.0.44",
     "starlette==0.48.0",
-    "uvicorn[standard]==0.37.0",
-    "uvloop==0.21.0; platform_system == 'Linux'",
+    "uvicorn[standard]==0.38.0",
+    "uvloop==0.22.1; platform_system == 'Linux'",
 ]
 
 [project.urls]
