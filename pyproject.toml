@@ -25,7 +25,7 @@ dependencies = [
     "certifi==2025.10.5",
     "fastapi-commons==0.0.5",
     "fastapi-pagination==0.14.3",
-    "fastapi-slim==0.120.0",
+    "fastapi-slim==0.120.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==15.0.1",
     "msgpack==1.1.2",

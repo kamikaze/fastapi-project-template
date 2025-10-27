@@ -580,7 +580,7 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.120.0"
+version = "0.120.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -588,9 +588,9 @@ dependencies = [
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/f7/0e/7f29e8f7219e4526747db182e1afb5a4b6abc3201768fb38d81fa2536241/fastapi-0.120.0.tar.gz", hash = "sha256:6ce2c1cfb7000ac14ffd8ddb2bc12e62d023a36c20ec3710d09d8e36fab177a0", size = 337603, upload-time = "2025-10-23T20:56:34.743Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/40/cc/28aff6e246ee85bd571b26e4a793b84d42700e3bdc3008c3d747eda7b06d/fastapi-0.120.1.tar.gz", hash = "sha256:b5c6217e9ddca6dfcf54c97986180d4a1955e10c693d74943fc5327700178bff", size = 337616, upload-time = "2025-10-27T17:53:42.954Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/1d/60/7a639ceaba54aec4e1d5676498c568abc654b95762d456095b6cb529b1ca/fastapi-0.120.0-py3-none-any.whl", hash = "sha256:84009182e530c47648da2f07eb380b44b69889a4acfd9e9035ee4605c5cfc469", size = 108243, upload-time = "2025-10-23T20:56:33.281Z" },
+    { url = "https://files.pythonhosted.org/packages/7e/bb/1a74dbe87e9a595bf63052c886dfef965dc5b91d149456a8301eb3d41ce2/fastapi-0.120.1-py3-none-any.whl", hash = "sha256:0e8a2c328e96c117272d8c794d3a97d205f753cc2e69dd7ee387b7488a75601f", size = 108254, upload-time = "2025-10-27T17:53:40.076Z" },
 ]
 
 [[package]]
@@ -691,7 +691,7 @@ requires-dist = [
     { name = "certifi", specifier = "==2025.10.5" },
     { name = "fastapi-commons", specifier = "==0.0.5" },
     { name = "fastapi-pagination", specifier = "==0.14.3" },
-    { name = "fastapi-slim", specifier = "==0.120.0" },
+    { name = "fastapi-slim", specifier = "==0.120.1" },
     { name = "fastapi-users", extras = ["sqlalchemy"], specifier = "==15.0.1" },
     { name = "fastapi-users-db-sqlalchemy", specifier = "==7.0.0" },
     { name = "msgpack", specifier = "==1.1.2" },
@@ -729,7 +729,7 @@ testing = [
 
 [[package]]
 name = "fastapi-slim"
-version = "0.120.0"
+version = "0.120.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -737,9 +737,9 @@ dependencies = [
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/e5/d8/6372b479d6da1d0a30773e36d576f2b2775196862927fb9f2cac5512bbd5/fastapi_slim-0.120.0.tar.gz", hash = "sha256:91478eda0f463c600b854b328d85973375c3277d71696ea6f303c5c614b26a5c", size = 337502, upload-time = "2025-10-23T20:56:32.446Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b1/8b/f53767d7cde2af13398c16cd0ce98e52b4630df0b74764cc9eeb57d3d944/fastapi_slim-0.120.1.tar.gz", hash = "sha256:8a91cc32ce24b09b60f2173a49686779fe42be709ad9a554446e61d263c14d2c", size = 337665, upload-time = "2025-10-27T17:53:41.508Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/43/25/cf4d4e1b9839614cb86866b673a33916cc316fa6457c18a16b68dd0ff86d/fastapi_slim-0.120.0-py3-none-any.whl", hash = "sha256:159176f90fd6bbea910d4102b33eb3e9e19274fe943cf2d72acaaec3f921e571", size = 108295, upload-time = "2025-10-23T20:56:30.634Z" },
+    { url = "https://files.pythonhosted.org/packages/e7/4e/248208faaf602e8877934371f2e8184fc9a0b24d4d5714d128891fc1763c/fastapi_slim-0.120.1-py3-none-any.whl", hash = "sha256:6e78ac116c76f3aba7d3a6bb9c6401cd92a00e7827ad924bf1be07ba2c7df5bf", size = 108305, upload-time = "2025-10-27T17:53:39.997Z" },
 ]
 
 [[package]]
@@ -1735,11 +1735,11 @@ wheels = [
 
 [[package]]
 name = "python-dotenv"
-version = "1.1.1"
+version = "1.2.1"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/f6/b0/4bc07ccd3572a2f9df7e6782f52b0c6c90dcbb803ac4a167702d7d0dfe1e/python_dotenv-1.1.1.tar.gz", hash = "sha256:a8a6399716257f45be6a007360200409fce5cda2661e3dec71d23dc15f6189ab", size = 41978, upload-time = "2025-06-24T04:21:07.341Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/f0/26/19cadc79a718c5edbec86fd4919a6b6d3f681039a2f6d66d14be94e75fb9/python_dotenv-1.2.1.tar.gz", hash = "sha256:42667e897e16ab0d66954af0e60a9caa94f0fd4ecf3aaf6d2d260eec1aa36ad6", size = 44221, upload-time = "2025-10-26T15:12:10.434Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/5f/ed/539768cf28c661b5b068d66d96a2f155c4971a5d55684a514c1a0e0dec2f/python_dotenv-1.1.1-py3-none-any.whl", hash = "sha256:31f23644fe2602f88ff55e1f5c79ba497e01224ee7737937930c448e4d0e24dc", size = 20556, upload-time = "2025-06-24T04:21:06.073Z" },
+    { url = "https://files.pythonhosted.org/packages/14/1b/a298b06749107c305e1fe0f814c6c74aea7b2f1e10989cb30f544a1b3253/python_dotenv-1.2.1-py3-none-any.whl", hash = "sha256:b81ee9561e9ca4004139c6cbba3a238c32b03e4894671e181b671e8cb8425d61", size = 21230, upload-time = "2025-10-26T15:12:09.109Z" },
 ]
 
 [[package]]
