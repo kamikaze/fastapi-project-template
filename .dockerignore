@@ -1,11 +1,13 @@
 *
 
 # Allow files and directories
+!/.git
 !/clib
 !/migrations
 !/rustlib
 !/src
 !alembic.ini
 !pyproject.toml
+!README.rst
 !setup.py
 !uv.lock

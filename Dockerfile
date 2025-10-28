@@ -34,7 +34,7 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     /lib/${ARCH}-linux-gnu/libkrb5support.so.* \
     /lib/linux-gnu/
 
-COPY pyproject.toml uv.lock ./
+COPY ./ ./
 
 ENV PATH="/root/.cargo/bin:${PATH}"
 
