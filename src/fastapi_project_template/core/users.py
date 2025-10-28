@@ -12,7 +12,8 @@ from fastapi_users import BaseUserManager, UUIDIDMixin
 from fastapi_users.password import PasswordHelper
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from passlib.context import CryptContext
-from python3_commons.db.models import User, UserGroup
+from fastapi_commons.db.models import User
+from python3_commons.db.models import UserGroup
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi_project_template.api.v1.schemas import UserCreate, UserGroupItem, UserItem, UserUpdate

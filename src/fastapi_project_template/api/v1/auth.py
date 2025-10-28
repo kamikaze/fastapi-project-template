@@ -5,9 +5,9 @@ from typing import Annotated
 
 from fastapi import Depends, HTTPException
 from fastapi.security import APIKeyHeader
+from fastapi_commons.db.models import ApiKey, User
 from fastapi_users import FastAPIUsers, models
 from fastapi_users.authentication import AuthenticationBackend, CookieTransport, JWTStrategy
-from python3_commons.db.models import ApiKey, User
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status

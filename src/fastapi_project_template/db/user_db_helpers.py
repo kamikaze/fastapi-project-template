@@ -4,7 +4,7 @@ from typing import Annotated
 
 from fastapi import Depends
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
-from python3_commons.db.models import User
+from fastapi_commons.db.models import User
 from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi_project_template.db import get_main_db_session
