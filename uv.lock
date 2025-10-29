@@ -4,7 +4,7 @@ requires-python = "==3.14.0"
 
 [[package]]
 name = "aiobotocore"
-version = "2.25.0"
+version = "2.25.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp" },
@@ -15,9 +15,9 @@ dependencies = [
     { name = "python-dateutil" },
     { name = "wrapt" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/29/89/b1ae494cfd12520c5d3b19704a14ffa19153634be47d48052e45223eee86/aiobotocore-2.25.0.tar.gz", hash = "sha256:169d07de312fd51292292f2c8faf8f67d0f466f525cea03855fe065ddc85f79d", size = 120514, upload-time = "2025-10-10T17:39:12.291Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/62/94/2e4ec48cf1abb89971cb2612d86f979a6240520f0a659b53a43116d344dc/aiobotocore-2.25.1.tar.gz", hash = "sha256:ea9be739bfd7ece8864f072ec99bb9ed5c7e78ebb2b0b15f29781fbe02daedbc", size = 120560, upload-time = "2025-10-28T22:33:21.787Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/a8/4e/3592d88436bbd60984a08440793c0ba245f538f9f6287b59c1e2c0aead8c/aiobotocore-2.25.0-py3-none-any.whl", hash = "sha256:0524fd36f6d522ddc9d013df2c19fb56369ffdfbffd129895918fbfe95216dad", size = 86028, upload-time = "2025-10-10T17:39:10.423Z" },
+    { url = "https://files.pythonhosted.org/packages/95/2a/d275ec4ce5cd0096665043995a7d76f5d0524853c76a3d04656de49f8808/aiobotocore-2.25.1-py3-none-any.whl", hash = "sha256:eb6daebe3cbef5b39a0bb2a97cffbe9c7cb46b2fcc399ad141f369f3c2134b1f", size = 86039, upload-time = "2025-10-28T22:33:19.949Z" },
 ]
 
 [[package]]
@@ -122,16 +122,16 @@ wheels = [
 
 [[package]]
 name = "alembic"
-version = "1.17.0"
+version = "1.17.1"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "mako" },
     { name = "sqlalchemy" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/6b/45/6f4555f2039f364c3ce31399529dcf48dd60726ff3715ad67f547d87dfd2/alembic-1.17.0.tar.gz", hash = "sha256:4652a0b3e19616b57d652b82bfa5e38bf5dbea0813eed971612671cb9e90c0fe", size = 1975526, upload-time = "2025-10-11T18:40:13.585Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/6e/b6/2a81d7724c0c124edc5ec7a167e85858b6fd31b9611c6fb8ecf617b7e2d3/alembic-1.17.1.tar.gz", hash = "sha256:8a289f6778262df31571d29cca4c7fbacd2f0f582ea0816f4c399b6da7528486", size = 1981285, upload-time = "2025-10-29T00:23:16.667Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/44/1f/38e29b06bfed7818ebba1f84904afdc8153ef7b6c7e0d8f3bc6643f5989c/alembic-1.17.0-py3-none-any.whl", hash = "sha256:80523bc437d41b35c5db7e525ad9d908f79de65c27d6a5a5eab6df348a352d99", size = 247449, upload-time = "2025-10-11T18:40:16.288Z" },
+    { url = "https://files.pythonhosted.org/packages/a5/32/7df1d81ec2e50fb661944a35183d87e62d3f6c6d9f8aff64a4f245226d55/alembic-1.17.1-py3-none-any.whl", hash = "sha256:cbc2386e60f89608bb63f30d2d6cc66c7aaed1fe105bd862828600e5ad167023", size = 247848, upload-time = "2025-10-29T00:23:18.79Z" },
 ]
 
 [[package]]
@@ -298,16 +298,16 @@ wheels = [
 
 [[package]]
 name = "botocore"
-version = "1.40.49"
+version = "1.40.61"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "jmespath" },
     { name = "python-dateutil" },
     { name = "urllib3" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/01/6a/eb7503536552bbd3388b2607bc7a64e59d4f988336406b51a69d29f17ed2/botocore-1.40.49.tar.gz", hash = "sha256:fe8d4cbcc22de84c20190ae728c46b931bafeb40fce247010fb071c31b6532b5", size = 14415240, upload-time = "2025-10-09T19:21:37.133Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/28/a3/81d3a47c2dbfd76f185d3b894f2ad01a75096c006a2dd91f237dca182188/botocore-1.40.61.tar.gz", hash = "sha256:a2487ad69b090f9cccd64cf07c7021cd80ee9c0655ad974f87045b02f3ef52cd", size = 14393956, upload-time = "2025-10-28T19:26:46.108Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/fc/7b/dce396a3f7078e0432d40a9778602cbf0785ca91e7bcb64e05f19dfb5662/botocore-1.40.49-py3-none-any.whl", hash = "sha256:bf1089d0e77e4fc2e195d81c519b194ab62a4d4dd3e7113ee4e2bf903b0b75ab", size = 14085172, upload-time = "2025-10-09T19:21:32.721Z" },
+    { url = "https://files.pythonhosted.org/packages/38/c5/f6ce561004db45f0b847c2cd9b19c67c6bf348a82018a48cb718be6b58b0/botocore-1.40.61-py3-none-any.whl", hash = "sha256:17ebae412692fd4824f99cde0f08d50126dc97954008e5ba2b522eb049238aa7", size = 14055973, upload-time = "2025-10-28T19:26:42.15Z" },
 ]
 
 [[package]]
@@ -580,7 +580,7 @@ wheels = [
 
 [[package]]
 name = "fastapi"
-version = "0.120.1"
+version = "0.120.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -588,14 +588,14 @@ dependencies = [
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/40/cc/28aff6e246ee85bd571b26e4a793b84d42700e3bdc3008c3d747eda7b06d/fastapi-0.120.1.tar.gz", hash = "sha256:b5c6217e9ddca6dfcf54c97986180d4a1955e10c693d74943fc5327700178bff", size = 337616, upload-time = "2025-10-27T17:53:42.954Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/a0/fb/79e556bc8f9d360e5cc2fa7364a7ad6bda6f1736938b43a2791fa8baee7b/fastapi-0.120.2.tar.gz", hash = "sha256:4c5ab43e2a90335bbd8326d1b659eac0f3dbcc015e2af573c4f5de406232c4ac", size = 338684, upload-time = "2025-10-29T13:47:35.802Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/7e/bb/1a74dbe87e9a595bf63052c886dfef965dc5b91d149456a8301eb3d41ce2/fastapi-0.120.1-py3-none-any.whl", hash = "sha256:0e8a2c328e96c117272d8c794d3a97d205f753cc2e69dd7ee387b7488a75601f", size = 108254, upload-time = "2025-10-27T17:53:40.076Z" },
+    { url = "https://files.pythonhosted.org/packages/81/cc/1c33d05f62c9349bb80dfe789cc9a7409bdfb337a63fa347fd651d25294a/fastapi-0.120.2-py3-none-any.whl", hash = "sha256:bedcf2c14240e43d56cb9a339b32bcf15104fe6b5897c0222603cb7ec416c8eb", size = 108383, upload-time = "2025-10-29T13:47:32.978Z" },
 ]
 
 [[package]]
 name = "fastapi-commons"
-version = "0.1.2"
+version = "0.1.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
@@ -615,9 +615,9 @@ dependencies = [
     { name = "python3-commons" },
     { name = "sqlalchemy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/fe/8f/17ee0edb1f180544795e21a1b09b29b7059eca23ab1d89146bf70226b890/fastapi_commons-0.1.2.tar.gz", hash = "sha256:15f75db3437b0703604ddca6edcddf82c02c2c902c74e2d43c23afd58bfd402d", size = 139127, upload-time = "2025-10-28T21:43:22.979Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/36/7d/d2c39699a1485d227cc7a18b01b37a483c06ca57f0923e2228a59bbfcc4f/fastapi_commons-0.1.4.tar.gz", hash = "sha256:36c69922cf20eb550e423839b00179709bf55b0c2475202515700532f53342d9", size = 138736, upload-time = "2025-10-29T16:14:43.139Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/f0/c3/f444fff837fabcc005129eef582c7579023fefc2c9fc5406d3b663da894b/fastapi_commons-0.1.2-py3-none-any.whl", hash = "sha256:8e6dd05a5464b3acf5094b18d338f26902deb19c7c7c83186125331dbf87632b", size = 21857, upload-time = "2025-10-28T21:43:21.419Z" },
+    { url = "https://files.pythonhosted.org/packages/b9/13/07046dac96b48ef45b820b16b9226290a76207e9606b148362c73b4ad931/fastapi_commons-0.1.4-py3-none-any.whl", hash = "sha256:1cb3f6632f388ad28b25266efcfa7e3fa9ce51825e3b7eb5cb0c96ce08924b59", size = 21151, upload-time = "2025-10-29T16:14:42.355Z" },
 ]
 
 [[package]]
@@ -636,6 +636,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-project-template"
+version = "0.1.0"
 source = { editable = "." }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
@@ -685,14 +686,14 @@ testing = [
 [package.metadata]
 requires-dist = [
     { name = "aiohttp", extras = ["speedups"], specifier = "==3.13.2" },
-    { name = "alembic", specifier = "==1.17.0" },
+    { name = "alembic", specifier = "==1.17.1" },
     { name = "alembic-utils", specifier = "==0.8.8" },
     { name = "asyncpg", specifier = "==0.30.0" },
     { name = "authlib", specifier = "==1.6.5" },
     { name = "certifi", specifier = "==2025.10.5" },
-    { name = "fastapi-commons", specifier = "==0.1.2" },
+    { name = "fastapi-commons", specifier = "==0.1.4" },
     { name = "fastapi-pagination", specifier = "==0.15.0" },
-    { name = "fastapi-slim", specifier = "==0.120.1" },
+    { name = "fastapi-slim", specifier = "==0.120.2" },
     { name = "fastapi-users", extras = ["sqlalchemy"], specifier = "==15.0.1" },
     { name = "fastapi-users-db-sqlalchemy", specifier = "==7.0.0" },
     { name = "msgpack", specifier = "==1.1.2" },
@@ -703,7 +704,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = "==2.11.0" },
     { name = "pyjwt", specifier = "==2.10.1" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
-    { name = "python3-commons", specifier = "==0.13.0" },
+    { name = "python3-commons", specifier = "==0.13.2" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = "==2.0.44" },
     { name = "starlette", specifier = "==0.49.1" },
     { name = "uvicorn", extras = ["standard"], specifier = "==0.38.0" },
@@ -730,7 +731,7 @@ testing = [
 
 [[package]]
 name = "fastapi-slim"
-version = "0.120.1"
+version = "0.120.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "annotated-doc" },
@@ -738,9 +739,9 @@ dependencies = [
     { name = "starlette" },
     { name = "typing-extensions" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b1/8b/f53767d7cde2af13398c16cd0ce98e52b4630df0b74764cc9eeb57d3d944/fastapi_slim-0.120.1.tar.gz", hash = "sha256:8a91cc32ce24b09b60f2173a49686779fe42be709ad9a554446e61d263c14d2c", size = 337665, upload-time = "2025-10-27T17:53:41.508Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/69/00/0add63395c7138961033df36efa75c016ae11e1c655042c66124c00e95e3/fastapi_slim-0.120.2.tar.gz", hash = "sha256:8a4c97548eff8a174b5af3ebc93202eb5d449936606eb16288863b7d63059650", size = 338693, upload-time = "2025-10-29T13:47:32.721Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e7/4e/248208faaf602e8877934371f2e8184fc9a0b24d4d5714d128891fc1763c/fastapi_slim-0.120.1-py3-none-any.whl", hash = "sha256:6e78ac116c76f3aba7d3a6bb9c6401cd92a00e7827ad924bf1be07ba2c7df5bf", size = 108305, upload-time = "2025-10-27T17:53:39.997Z" },
+    { url = "https://files.pythonhosted.org/packages/17/ae/17950c03bf639f53c1f404a8b4d561515b35877bfa2d2d379c261b19a246/fastapi_slim-0.120.2-py3-none-any.whl", hash = "sha256:58c805e96dedb0dcf2659eae1f53db769fbb010bd3dcccee168399dc701a117c", size = 108433, upload-time = "2025-10-29T13:47:31.353Z" },
 ]
 
 [[package]]
@@ -1768,7 +1769,7 @@ wheels = [
 
 [[package]]
 name = "python3-commons"
-version = "0.13.0"
+version = "0.13.2"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiobotocore" },
@@ -1782,9 +1783,9 @@ dependencies = [
     { name = "valkey", extra = ["libvalkey"] },
     { name = "zeep" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/bc/ef/c4748cd97ed2f088cbbff7be1ca58bcb5b0759627b20b47c7487dee28883/python3_commons-0.13.0.tar.gz", hash = "sha256:bb3e0a58b497d993726a1699959440b2f51250bef9c8039e4abc0890eafc5aed", size = 131091, upload-time = "2025-10-28T21:23:29.37Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/08/dc/5e6b75c0ae7a2ef3916413033a5502439813a53b028d721ce2187b3576de/python3_commons-0.13.2.tar.gz", hash = "sha256:324002a1a847c1b288096b666d889c684674d48810ca77454e0f22d5d72766c7", size = 130646, upload-time = "2025-10-29T16:12:26.611Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0a/7b/e5082f0b0c8faccf9a0796f1456da0ecd63f56ca87bd87d3066474ffc1d2/python3_commons-0.13.0-py3-none-any.whl", hash = "sha256:7da28902a02d3fd79359c0df68581a539b98392f83f29f0a095e0064524b3072", size = 32997, upload-time = "2025-10-28T21:23:27.66Z" },
+    { url = "https://files.pythonhosted.org/packages/4d/ec/0b2737d337f9d87bd3c91de79e73e0e69f3e9691a0b3db87b6098c8c1a94/python3_commons-0.13.2-py3-none-any.whl", hash = "sha256:3a47df8b21b1a91c5ef1973f23b744db0370077a5a59727f8fceaa899e89bb9b", size = 32325, upload-time = "2025-10-29T16:12:24.758Z" },
 ]
 
 [[package]]
@@ -2077,16 +2078,16 @@ libvalkey = [
 
 [[package]]
 name = "virtualenv"
-version = "20.35.3"
+version = "20.35.4"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "distlib" },
     { name = "filelock" },
     { name = "platformdirs" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/a4/d5/b0ccd381d55c8f45d46f77df6ae59fbc23d19e901e2d523395598e5f4c93/virtualenv-20.35.3.tar.gz", hash = "sha256:4f1a845d131133bdff10590489610c98c168ff99dc75d6c96853801f7f67af44", size = 6002907, upload-time = "2025-10-10T21:23:33.178Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/20/28/e6f1a6f655d620846bd9df527390ecc26b3805a0c5989048c210e22c5ca9/virtualenv-20.35.4.tar.gz", hash = "sha256:643d3914d73d3eeb0c552cbb12d7e82adf0e504dbf86a3182f8771a153a1971c", size = 6028799, upload-time = "2025-10-29T06:57:40.511Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/27/73/d9a94da0e9d470a543c1b9d3ccbceb0f59455983088e727b8a1824ed90fb/virtualenv-20.35.3-py3-none-any.whl", hash = "sha256:63d106565078d8c8d0b206d48080f938a8b25361e19432d2c9db40d2899c810a", size = 5981061, upload-time = "2025-10-10T21:23:30.433Z" },
+    { url = "https://files.pythonhosted.org/packages/79/0c/c05523fa3181fdf0c9c52a6ba91a23fbf3246cc095f26f6516f9c60e6771/virtualenv-20.35.4-py3-none-any.whl", hash = "sha256:c21c9cede36c9753eeade68ba7d523529f228a403463376cf821eaae2b650f1b", size = 6005095, upload-time = "2025-10-29T06:57:37.598Z" },
 ]
 
 [[package]]
