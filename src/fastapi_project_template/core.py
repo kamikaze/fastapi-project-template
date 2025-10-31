@@ -1,6 +1,6 @@
 import gettext
 import logging
-from collections.abc import Mapping, Sequence
+from collections.abc import Sequence
 from pathlib import Path
 
 import sqlalchemy as sa
@@ -17,7 +17,9 @@ _ = t.gettext
 
 
 async def get_users(
-    session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
+    session: AsyncSession,
+    # search: Mapping[str, str] | None = None,
+    # order_by: str | None = None
 ) -> Page[UserItem]:
     query = sa.select([User])
 
@@ -31,7 +33,9 @@ async def get_user(session: AsyncSession, user_id: str) -> UserItem:
 
 
 async def get_user_groups(
-    session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
+    session: AsyncSession,
+    # search: Mapping[str, str] | None = None,
+    # order_by: str | None = None
 ) -> Sequence[UserGroup]:
     query = sa.select([UserGroup]).order_by(UserGroup.name)
     cursor = await session.execute(query)

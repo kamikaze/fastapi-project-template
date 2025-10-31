@@ -1,18 +1,18 @@
 import contextlib
 import logging
 import uuid
-from collections.abc import AsyncGenerator, Mapping, Sequence
+from collections.abc import AsyncGenerator, Sequence
 from typing import Annotated
 
 import sqlalchemy as sa
 from fastapi import Depends, Request
+from fastapi_commons.db.models import User
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import apaginate
 from fastapi_users import BaseUserManager, UUIDIDMixin
 from fastapi_users.password import PasswordHelper
 from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from passlib.context import CryptContext
-from fastapi_commons.db.models import User
 from python3_commons.db.models import UserGroup
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -30,13 +30,13 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserItem, uuid.UUID]):
     reset_password_token_secret = settings.auth_secret.get_secret_value()
     verification_token_secret = settings.auth_secret.get_secret_value()
 
-    async def on_after_register(self, user: UserItem, request: Request | None = None) -> None:
+    async def on_after_register(self, user: UserItem, _request: Request | None = None) -> None:
         logger.info(f'User {user.id} has registered.')
 
-    async def on_after_forgot_password(self, user: UserItem, token: str, request: Request | None = None) -> None:
+    async def on_after_forgot_password(self, user: UserItem, token: str, _request: Request | None = None) -> None:
         logger.info(f'User {user.id} has forgot their password. Reset token: {token}')
 
-    async def on_after_request_verify(self, user: UserItem, token: str, request: Request | None = None) -> None:
+    async def on_after_request_verify(self, user: UserItem, token: str, _request: Request | None = None) -> None:
         logger.info(f'Verification requested for user {user.id}. Verification token: {token}')
 
 
@@ -64,7 +64,9 @@ async def update_user(user_id: str, user: UserUpdate) -> UserUpdate:
 
 
 async def get_users(
-    session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
+    session: AsyncSession,
+    # search: Mapping[str, str] | None = None,
+    # order_by: str | None = None
 ) -> Page[UserItem]:
     query = sa.select(User)
 
@@ -79,7 +81,9 @@ async def get_user(session: AsyncSession, user_id: str) -> User:
 
 
 async def get_user_groups(
-    session: AsyncSession, search: Mapping[str, str] | None = None, order_by: str | None = None
+    session: AsyncSession,
+    # search: Mapping[str, str] | None = None,
+    # order_by: str | None = None
 ) -> Sequence[UserGroupItem]:
     query = sa.select(UserGroup).order_by(UserGroup.name)
     cursor = await session.execute(query)

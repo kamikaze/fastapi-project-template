@@ -89,7 +89,7 @@ class CorrelationIdMiddleware(starlette.middleware.base.BaseHTTPMiddleware):
 
 
 @asynccontextmanager
-async def lifespan(app: Starlette) -> AsyncGenerator:
+async def lifespan(_app: Starlette) -> AsyncGenerator:
     yield
 
 

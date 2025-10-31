@@ -124,7 +124,7 @@ select = [
     "PYI",
 
     "A",
-#    "ARG",
+    "ARG",
     "ASYNC",
     "B",
     "C4",

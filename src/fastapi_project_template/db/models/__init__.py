@@ -1,9 +1,9 @@
-from python3_commons.db import Base as Base
 from fastapi_commons.db.models.auth import ApiKey as ApiKey
 from fastapi_commons.db.models.auth import User as User
-from python3_commons.db.models.auth import UserGroup as UserGroup
 from fastapi_commons.db.models.rbac import RBACApiKeyRole as RBACApiKeyRole
+from fastapi_commons.db.models.rbac import RBACUserRole as RBACUserRole
+from python3_commons.db import Base as Base
+from python3_commons.db.models.auth import UserGroup as UserGroup
 from python3_commons.db.models.rbac import RBACPermission as RBACPermission
 from python3_commons.db.models.rbac import RBACRole as RBACRole
 from python3_commons.db.models.rbac import RBACRolePermission as RBACRolePermission
-from fastapi_commons.db.models.rbac import RBACUserRole as RBACUserRole
