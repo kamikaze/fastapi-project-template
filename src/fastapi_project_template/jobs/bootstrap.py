@@ -30,6 +30,10 @@ async def create_superuser() -> None:
                     is_verified=True,
                 )
             )
-            logger.info(f'User created: {settings.bootstrap_user_email}')
+            msg = f'User created: {settings.bootstrap_user_email}'
+
+            logger.info(msg)
     except UserAlreadyExists:
-        logger.info(f'User already exists: {settings.bootstrap_user_email}')
+        msg = f'User already exists: {settings.bootstrap_user_email}'
+
+        logger.info(msg)

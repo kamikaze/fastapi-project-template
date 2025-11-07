@@ -31,13 +31,19 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserItem, uuid.UUID]):
     verification_token_secret = settings.auth_secret.get_secret_value()
 
     async def on_after_register(self, user: UserItem, _request: Request | None = None) -> None:
-        logger.info(f'User {user.id} has registered.')
+        msg = f'User {user.id} has registered.'
+
+        logger.info(msg)
 
     async def on_after_forgot_password(self, user: UserItem, token: str, _request: Request | None = None) -> None:
-        logger.info(f'User {user.id} has forgot their password. Reset token: {token}')
+        msg = f'User {user.id} has forgot their password. Reset token: {token}'
+
+        logger.info(msg)
 
     async def on_after_request_verify(self, user: UserItem, token: str, _request: Request | None = None) -> None:
-        logger.info(f'Verification requested for user {user.id}. Verification token: {token}')
+        msg = f'Verification requested for user {user.id}. Verification token: {token}'
+
+        logger.info(msg)
 
 
 async def get_user_manager(user_db: UserDBDep) -> AsyncGenerator[UserManager]:
@@ -57,8 +63,9 @@ async def update_user(user_id: str, user: UserUpdate) -> UserUpdate:
 
     async with get_user_db_context() as user_db, get_user_manager_context(user_db) as user_manager:
         r = await user_manager.update(user)
+        msg = f'updated: {r}'
 
-        logger.info(f'updated: {r}')
+        logger.info(msg)
 
     return user
 

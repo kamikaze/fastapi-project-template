@@ -132,6 +132,7 @@ select = [
     "FBT",
     "FLY",
     "FURB",
+    "G",
     "I",
     "ICN",
     "INP",
@@ -164,10 +165,6 @@ select = [
     "UP",
     "W",
     "YTT",
-#    "G",
-]
-ignore = [
-    "ASYNC109",
 ]
 
 [tool.ruff.lint.per-file-ignores]
