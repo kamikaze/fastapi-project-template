@@ -1,0 +1,17 @@
+FROM python:3.14.0-slim-trixie
+
+COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+RUN apt update && \
+    apt upgrade -y && \
+    apt install -y curl ca-certificates gnupg2 && \
+    curl -fsSL https://www.postgresql.org/media/keys/ACCC4CF8.asc | gpg --dearmor -o /etc/apt/trusted.gpg.d/postgresql.gpg && \
+    echo "deb https://apt.postgresql.org/pub/repos/apt trixie-pgdg main" > /etc/apt/sources.list.d/pgdg.list && \
+    apt update && \
+    apt install -y --no-install-recommends gcc g++ make postgresql-server-dev-18 libpq-dev libpq5 libffi-dev git cargo pkg-config ssh && \
+    curl https://sh.rustup.rs -sSf | bash -s -- -y && \
+    apt clean && \
+    rm -rf /var/lib/{apt,dpkg,cache,log}/
