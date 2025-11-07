@@ -46,3 +46,67 @@ class RODBSettings(DBSettings):
 
 ro_db_settings = RODBSettings()
 settings = Settings()
+
+
+LOGGING_CONFIG = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'default': {'format': settings.logging_format},
+        'json': {
+            '()': 'python3_commons.log.formatters.JSONFormatter',
+        },
+    },
+    'filters': {
+        'info_and_below': {'()': 'python3_commons.log.filters.filter_maker', 'level': 'INFO'},
+        'correlation_id': {'()': 'fastapi_project_template.log.filters.CorrelationIDFilter'},
+        'add_client_info': {'()': 'fastapi_project_template.log.filters.LogContextFilter'},
+    },
+    'handlers': {
+        'default_stdout': {
+            'level': settings.logging_level,
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stdout',
+            'formatter': settings.logging_formatter,
+            'filters': [
+                'info_and_below',
+                'correlation_id',
+                'add_client_info',
+            ],
+        },
+        'default_stderr': {
+            'level': 'WARNING',
+            'class': 'logging.StreamHandler',
+            'stream': 'ext://sys.stderr',
+            'formatter': settings.logging_formatter,
+            'filters': [
+                'correlation_id',
+                'add_client_info',
+            ],
+        },
+    },
+    'loggers': {
+        '': {
+            'handlers': [
+                'default_stderr',
+                'default_stdout',
+            ],
+        },
+        'fastapi_project_template': {
+            'handlers': [
+                'default_stderr',
+                'default_stdout',
+            ],
+            'level': settings.logging_level,
+            'propagate': False,
+        },
+        '__main__': {
+            'handlers': [
+                'default_stderr',
+                'default_stdout',
+            ],
+            'level': settings.logging_level,
+            'propagate': False,
+        },
+    },
+}

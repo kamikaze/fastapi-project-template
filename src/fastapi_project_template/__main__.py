@@ -1,24 +1,22 @@
-import logging.config
+from granian import Granian
+from granian.constants import Interfaces
 
-import uvicorn
-from uvicorn.config import LOGGING_CONFIG
+from fastapi_project_template.conf import LOGGING_CONFIG, settings
 
-from fastapi_project_template import c_fib, rust_fib
-from fastapi_project_template.api.http import app
-from fastapi_project_template.conf import settings
-
-logging.config.dictConfig(LOGGING_CONFIG)
-logger = logging.getLogger(__name__)
-
-
-logger.info(f'{c_fib(10)=}')
-logger.info(f'{rust_fib(10)=}')
-logger.info('Starting uvicorn.')
-uvicorn.run(
-    app,
-    host=settings.service_addr,
+server = Granian(
+    'fastapi_project_template.api.http:app',
+    address=settings.service_addr,
     port=settings.service_port,
-    forwarded_allow_ips='*',
-    proxy_headers=True,
-    log_config=LOGGING_CONFIG,
+    interface=Interfaces.ASGI,
+    backlog=4096,
+    workers=1,
+    runtime_threads=2,
+    runtime_blocking_threads=8,
+    respawn_failed_workers=False,
+    websockets=False,
+    log_dictconfig=LOGGING_CONFIG,
+    log_access=False,
+    reload=False,
 )
+
+server.serve()
