@@ -26,7 +26,7 @@ dependencies = [
     "certifi==2025.10.5",
     "fastapi-commons==0.1.4",
     "fastapi-pagination==0.15.0",
-    "fastapi-slim==0.121.0",
+    "fastapi-slim==0.121.1",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==15.0.1",
     "granian==2.5.7; platform_system == 'Windows'",
