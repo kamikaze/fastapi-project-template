@@ -23,7 +23,7 @@ dependencies = [
     "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
     "Authlib==1.6.5",
-    "certifi==2025.10.5",
+    "certifi==2025.11.12",
     "fastapi-commons==0.2.0",
     "fastapi-pagination==0.15.0",
     "fastapi-slim==0.121.1",
