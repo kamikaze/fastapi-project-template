@@ -1,3 +1,5 @@
+name: fastapi-project-template
+
 services:
   minio:
     image: quay.io/minio/minio:latest
