@@ -13,6 +13,16 @@ logger = logging.getLogger(__name__)
 
 async def create_superuser() -> None:
     try:
+        if not settings.bootstrap_user_name:
+            msg = 'No name is set for a bootstrapped user.'
+
+            raise ValueError(msg)
+
+        if not settings.bootstrap_user_password:
+            msg = 'No password is set for a bootstrapped user.'
+
+            raise ValueError(msg)
+
         async_session_context = async_session_manager.get_session_context('main')
 
         async with (

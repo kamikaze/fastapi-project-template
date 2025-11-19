@@ -44,11 +44,11 @@ OptionalCurrentUserDep = Annotated[models.UP, Depends(optional_get_current_user)
 
 
 async def verify_api_key(
-    session: AsyncSessionDep,
+    db_session: AsyncSessionDep,
     api_key: APIKeyHeaderDep,
 ) -> ApiKey:
     query = select(ApiKey).where(ApiKey.key == api_key)
-    result = await session.execute(query)
+    result = await db_session.execute(query)
     row = result.fetchone()
 
     if not row:
@@ -62,7 +62,7 @@ async def verify_api_key(
 
 
 async def get_auth(
-    session: AsyncSessionDep,
+    db_session: AsyncSessionDep,
     user: OptionalCurrentUserDep,
     api_key: OptionalAPIKeyDep,
 ) -> models.UP | None | ApiKey:
@@ -74,7 +74,7 @@ async def get_auth(
         return user
 
     if api_key:
-        api_key = await verify_api_key(api_key, session)
+        api_key = await verify_api_key(db_session, api_key)
         msg = f'Authenticated API key: id={api_key.uid}, name={api_key.partner_name}'
 
         logger.debug(msg)

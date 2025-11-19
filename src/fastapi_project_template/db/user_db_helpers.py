@@ -12,8 +12,8 @@ from fastapi_project_template.db import get_main_db_session
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
 
 
-async def get_user_db(session: AsyncSessionDep) -> AsyncGenerator[SQLAlchemyUserDatabase]:
-    yield SQLAlchemyUserDatabase(session, User)
+async def get_user_db(db_session: AsyncSessionDep) -> AsyncGenerator[SQLAlchemyUserDatabase]:
+    yield SQLAlchemyUserDatabase(db_session, User)
 
 
 get_user_db_context = contextlib.asynccontextmanager(get_user_db)

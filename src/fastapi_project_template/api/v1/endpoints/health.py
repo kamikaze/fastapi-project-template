@@ -18,11 +18,11 @@ async def alive() -> bool:
 
 
 @router.get('/ready')
-async def ready(session: AsyncSessionDep) -> None:
+async def ready(db_session: AsyncSessionDep) -> None:
     query = text('SELECT 1;')
 
     try:
-        result = await session.execute(query)
+        result = await db_session.execute(query)
         value = result.scalar_one()
     except Exception:
         logger.exception('Failed readiness check for database.')
