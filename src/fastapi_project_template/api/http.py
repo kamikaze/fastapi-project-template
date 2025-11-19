@@ -12,8 +12,9 @@ from starlette.applications import Starlette
 from starlette.responses import Response
 
 from fastapi_project_template import ctx_correlation_id
-from fastapi_project_template.api.v1.endpoints.health import health_router
-from fastapi_project_template.api.v1.routers import auth_router, users_router
+from fastapi_project_template.api.v1.auth import auth_backend, fastapi_users
+from fastapi_project_template.api.v1.endpoints import health
+from fastapi_project_template.api.v1.schemas import UserRead, UserUpdate
 from fastapi_project_template.conf import settings
 
 LOGGING_CONFIG = {
@@ -109,7 +110,12 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-app.include_router(health_router, prefix=f'{app_prefix}/v1')
+app.include_router(health.router, prefix=f'{app_prefix}/v1')
+
+auth_router = fastapi_users.get_auth_router(auth_backend, requires_verification=True)
+users_router = fastapi_users.get_users_router(UserRead, UserUpdate, requires_verification=True)
+# auth_register_router = fastapi_users.get_register_router(UserRead, UserCreate)
+
 app.include_router(
     auth_router,
     prefix=f'{app_prefix}/v1/auth',
