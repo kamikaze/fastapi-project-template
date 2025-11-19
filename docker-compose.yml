@@ -60,7 +60,7 @@ services:
       timeout: 15s
       retries: 10
     volumes:
-      - db:/var/lib/postgresql/17
+      - db:/var/lib/postgresql/18
 
   pgweb:
     image: sosedoff/pgweb
