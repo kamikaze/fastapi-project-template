@@ -83,7 +83,7 @@ services:
   fastapi-template-migrate:
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Containerfile
     image: fastapi-template-service
     container_name: fastapi-template-migrate
     environment:
@@ -98,7 +98,7 @@ services:
   fastapi-template-service:
     build:
       context: ./
-      dockerfile: Dockerfile
+      dockerfile: Containerfile
     image: fastapi-template-service
     container_name: fastapi-template-service
     ports:

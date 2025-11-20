@@ -2,7 +2,7 @@ services:
   fastapi-project-template-alembic:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: Containerfile
     image: fastapi-project-template
     container_name: fastapi-project-template-alembic
 
@@ -20,7 +20,7 @@ services:
   fastapi-project-template:
     build:
       context: ..
-      dockerfile: .devcontainer/Dockerfile
+      dockerfile: Containerfile
     image: fastapi-project-template
     container_name: fastapi-project-template
 
