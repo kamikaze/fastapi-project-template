@@ -2,6 +2,7 @@ import logging
 from typing import Annotated
 
 from fastapi import APIRouter, Depends, HTTPException
+from fastapi_commons.handlers import handle_exceptions
 from sqlalchemy import text
 from sqlalchemy.ext.asyncio import AsyncSession
 
@@ -18,6 +19,7 @@ async def alive() -> bool:
 
 
 @router.get('/ready')
+@handle_exceptions
 async def ready(db_session: AsyncSessionDep) -> None:
     query = text('SELECT 1;')
 
