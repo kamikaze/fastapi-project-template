@@ -3,6 +3,7 @@ import sys
 from logging.config import fileConfig
 from pathlib import Path
 
+import alembic_postgresql_enum as alembic_postgresql_enum  # noqa: PLC0414
 from alembic import context
 from python3_commons.conf import DBSettings
 from sqlalchemy import engine_from_config, pool

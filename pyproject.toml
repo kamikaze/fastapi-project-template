@@ -20,6 +20,7 @@ requires-python = "==3.14.0"
 dependencies = [
     "aiohttp[speedups]==3.13.2",
     "alembic==1.17.2",
+    "alembic-postgresql-enum==1.8.0",
     "alembic_utils==0.8.8",
     "asyncpg==0.30.0",
     "Authlib==1.6.5",
