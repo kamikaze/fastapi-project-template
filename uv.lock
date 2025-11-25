@@ -641,7 +641,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-commons"
-version = "0.2.8"
+version = "0.2.10"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
@@ -661,9 +661,9 @@ dependencies = [
     { name = "python3-commons" },
     { name = "sqlalchemy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b9/94/66145cb4f67848b5dca33d3f824cdad0d88fd2a564fb7f26385b9f728b90/fastapi_commons-0.2.8.tar.gz", hash = "sha256:a8a6ce16fe516bc9b2f9ed9800b3b1573b61fe513939e7224d4ff9ab82d918f2", size = 144032, upload-time = "2025-11-24T23:51:24.389Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/b5/2b/0650a7cad8381974706716c0dec26212ee65002fb91315f3b62359c1b37f/fastapi_commons-0.2.10.tar.gz", hash = "sha256:c5a19991f37212de6ac42cec12551c37c2cd48c5f8745b96b0962296d2cc18ae", size = 144053, upload-time = "2025-11-25T18:30:36.19Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0b/ae/c8b7c12acd6c63e97191fff3d40addafefb31f8eb7407c0ee3715f002e88/fastapi_commons-0.2.8-py3-none-any.whl", hash = "sha256:cfdb9788893b8e9cb711858212009d3c882a0f4913ba138cce0792e9d53ffb3d", size = 22274, upload-time = "2025-11-24T23:51:23.04Z" },
+    { url = "https://files.pythonhosted.org/packages/14/04/cd8ee800cbffba09ce8b4a97ee00d14b6b1d1672230241282993771eacaf/fastapi_commons-0.2.10-py3-none-any.whl", hash = "sha256:f37613a4d64fdb34aff66a0812476207c74a41c3674c3c3613beccf05b43a894", size = 22338, upload-time = "2025-11-25T18:30:35.124Z" },
 ]
 
 [[package]]
@@ -741,7 +741,7 @@ requires-dist = [
     { name = "asyncpg", specifier = "==0.31.0" },
     { name = "authlib", specifier = "==1.6.5" },
     { name = "certifi", specifier = "==2025.11.12" },
-    { name = "fastapi-commons", specifier = "==0.2.8" },
+    { name = "fastapi-commons", specifier = "==0.2.10" },
     { name = "fastapi-pagination", specifier = "==0.15.0" },
     { name = "fastapi-slim", specifier = "==0.122.0" },
     { name = "fastapi-users", extras = ["sqlalchemy"], specifier = "==15.0.1" },
