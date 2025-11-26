@@ -15,6 +15,8 @@ router = APIRouter(tags=['config'])
 @handle_exceptions
 async def get_app_config() -> AppConfig:
     return AppConfig(
-        oidc_authority_url=oidc_settings.oidc_authority_url,
-        oidc_client_id=oidc_settings.oidc_client_id,
+        oidc_authority_url=oidc_settings.authority_url,
+        oidc_client_id=oidc_settings.client_id,
+        oidc_redirect_uri=oidc_settings.redirect_uri,
+        oidc_scopes=oidc_settings.scopes,
     )

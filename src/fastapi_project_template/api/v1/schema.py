@@ -1,4 +1,5 @@
 import uuid
+from collections.abc import Sequence
 
 from fastapi_users import schemas
 from pydantic import UUID4, BaseModel, ConfigDict
@@ -48,6 +49,9 @@ class UserApiSchema(BaseModel):
     is_superuser: bool
     is_verified: bool
 
+
 class AppConfig(BaseModel):
     oidc_authority_url: str | None
     oidc_client_id: str | None
+    oidc_redirect_uri: str | None = None
+    oidc_scopes: Sequence[str] | None = None
