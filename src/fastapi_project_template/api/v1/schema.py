@@ -2,7 +2,7 @@ import uuid
 from collections.abc import Sequence
 
 from fastapi_users import schemas
-from pydantic import UUID4, BaseModel, ConfigDict
+from pydantic import UUID4, BaseModel, ConfigDict, HttpUrl
 
 
 class UserRead(schemas.BaseUser[uuid.UUID]):
@@ -51,7 +51,7 @@ class UserApiSchema(BaseModel):
 
 
 class AppConfig(BaseModel):
-    oidc_authority_url: str | None
+    oidc_authority_url: HttpUrl | None
     oidc_client_id: str | None
     oidc_redirect_uri: str | None = None
     oidc_scopes: Sequence[str] | None = None
