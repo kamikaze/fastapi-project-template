@@ -2,7 +2,7 @@ import logging
 
 from fastapi_users.exceptions import UserAlreadyExists
 
-from fastapi_project_template.api.v1.schemas import UserCreate
+from fastapi_project_template.api.v1.schema import UserCreate
 from fastapi_project_template.conf import settings
 from fastapi_project_template.core.users import get_user_manager_context
 from fastapi_project_template.db import async_session_manager

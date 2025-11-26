@@ -15,7 +15,7 @@ from fastapi_users_db_sqlalchemy import SQLAlchemyUserDatabase
 from passlib.context import CryptContext
 from python3_commons.db.models import UserGroup
 
-from fastapi_project_template.api.v1.schemas import UserApiSchema, UserCreate, UserUpdate
+from fastapi_project_template.api.v1.schema import UserApiSchema, UserCreate, UserUpdate
 from fastapi_project_template.conf import settings
 from fastapi_project_template.db.user_db_helpers import get_user_db, get_user_db_context
 
