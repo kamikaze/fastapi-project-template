@@ -13,7 +13,7 @@ from starlette.responses import Response
 
 from fastapi_project_template import ctx_correlation_id
 from fastapi_project_template.api.v1.auth import auth_backend, fastapi_users
-from fastapi_project_template.api.v1.endpoints import health, config
+from fastapi_project_template.api.v1.endpoints import config, health
 from fastapi_project_template.api.v1.schema import UserRead, UserUpdate
 from fastapi_project_template.conf import settings
 
