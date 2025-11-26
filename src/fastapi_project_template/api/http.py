@@ -13,7 +13,7 @@ from starlette.responses import Response
 
 from fastapi_project_template import ctx_correlation_id
 from fastapi_project_template.api.v1.auth import auth_backend, fastapi_users
-from fastapi_project_template.api.v1.endpoints import health
+from fastapi_project_template.api.v1.endpoints import health, config
 from fastapi_project_template.api.v1.schemas import UserRead, UserUpdate
 from fastapi_project_template.conf import settings
 
@@ -23,10 +23,10 @@ LOGGING_CONFIG = {
     'formatters': {
         'default': {'format': settings.logging_format},
         'json': {
-            '()': 'python3_commons.logging.formatters.JSONFormatter',
+            '()': 'python3_commons.log.formatters.JSONFormatter',
         },
     },
-    'filters': {'info_and_below': {'()': 'python3_commons.logging.filters.filter_maker', 'level': 'INFO'}},
+    'filters': {'info_and_below': {'()': 'python3_commons.log.filters.filter_maker', 'level': 'INFO'}},
     'handlers': {
         'default_stdout': {
             'level': settings.logging_level,
@@ -111,6 +111,7 @@ app.add_middleware(
 )
 
 app.include_router(health.router, prefix=f'{app_prefix}/v1')
+app.include_router(config.router, prefix=f'{app_prefix}/v1')
 
 auth_router = fastapi_users.get_auth_router(auth_backend, requires_verification=True)
 users_router = fastapi_users.get_users_router(UserRead, UserUpdate, requires_verification=True)

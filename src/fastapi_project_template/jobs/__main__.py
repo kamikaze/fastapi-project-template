@@ -12,10 +12,10 @@ logging.config.dictConfig(
         'disable_existing_loggers': False,
         'formatters': {
             'default': {
-                '()': 'python3_commons.logging.formatters.JSONFormatter',
+                '()': 'python3_commons.log.formatters.JSONFormatter',
             },
         },
-        'filters': {'info_and_below': {'()': 'python3_commons.logging.filters.filter_maker', 'level': 'INFO'}},
+        'filters': {'info_and_below': {'()': 'python3_commons.log.filters.filter_maker', 'level': 'INFO'}},
         'handlers': {
             'default_stdout': {
                 'level': settings.logging_level,

@@ -47,3 +47,7 @@ class UserApiSchema(BaseModel):
     is_active: bool
     is_superuser: bool
     is_verified: bool
+
+class AppConfig(BaseModel):
+    oidc_authority_url: str | None
+    oidc_client_id: str | None

@@ -6,7 +6,7 @@ from fastapi_project_template.middleware.log_context import log_context
 
 class LogContextFilter(logging.Filter):
     def filter(self, record: logging.LogRecord) -> bool:
-        if context := log_context.get() is None:
+        if not (context := log_context.get()):
             log_context.set({})
         else:
             for key, value in context.items():
