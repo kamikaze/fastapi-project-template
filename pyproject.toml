@@ -24,7 +24,7 @@ dependencies = [
     "asyncpg==0.31.0",
     "Authlib==1.6.5",
     "certifi==2025.11.12",
-    "fastapi-commons==0.2.12",
+    "fastapi-commons==0.2.14",
     "fastapi-pagination==0.15.1",
     "fastapi==0.123.9",
     "fastapi-users-db-sqlalchemy==7.0.0",
