@@ -14,7 +14,7 @@ classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python",
 ]
-requires-python = "==3.14.0"
+requires-python = "==3.14.2"
 dynamic = ["version"]
 dependencies = [
     "aiohttp[speedups]==3.13.2",
@@ -25,14 +25,14 @@ dependencies = [
     "Authlib==1.6.5",
     "certifi==2025.11.12",
     "fastapi-commons==0.2.14",
-    "fastapi-pagination==0.15.1",
-    "fastapi==0.123.9",
+    "fastapi-pagination==0.15.2",
+    "fastapi==0.124.0",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==15.0.1",
     "granian==2.6.0; platform_system == 'Windows'",
     "granian[uvloop]==2.6.0; platform_system != 'Windows'",
     "msgpack==1.1.2",
-    "orjson==3.11.4",
+    "orjson==3.11.5",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.2.1",
     "pydantic==2.12.5",
