@@ -22,11 +22,11 @@ dependencies = [
     "alembic-postgresql-enum==1.8.0",
     "alembic_utils==0.8.8",
     "asyncpg==0.31.0",
-    "Authlib==1.6.5",
+    "Authlib==1.6.6",
     "certifi==2025.11.12",
     "fastapi-commons==0.2.19",
-    "fastapi-pagination==0.15.2",
-    "fastapi==0.124.2",
+    "fastapi-pagination==0.15.3",
+    "fastapi==0.124.4",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==15.0.1",
     "granian==2.6.0; platform_system == 'Windows'",
@@ -39,7 +39,7 @@ dependencies = [
     "pydantic-settings==2.12.0",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.14.15",
+    "python3-commons==0.14.17",
     "SQLAlchemy[asyncio]==2.0.45",
     "starlette<0.51.0",
     "uvloop==0.22.1; platform_system != 'Windows'",
@@ -166,6 +166,11 @@ select = [
     "UP",
     "W",
     "YTT",
+]
+ignore = [
+    "TC001",
+    "TC002",
+    "TC003", # issues with msgspec.Struct subclasses
 ]
 
 [tool.ruff.lint.per-file-ignores]

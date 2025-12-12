@@ -67,17 +67,14 @@ async def get_auth(
     api_key: OptionalAPIKeyDep,
 ) -> models.UP | None | ApiKey:
     if user:
-        msg = f'Authenticated user: {user.email}'
-
-        logger.debug(msg)
+        logger.debug('Authenticated user: %s', user.email)
 
         return user
 
     if api_key:
         api_key = await verify_api_key(db_session, api_key)
-        msg = f'Authenticated API key: id={api_key.uid}, name={api_key.partner_name}'
 
-        logger.debug(msg)
+        logger.debug('Authenticated API key: id=%s, name=%s', api_key.uid, api_key.partner_name)
 
         return api_key
 

@@ -89,15 +89,11 @@ async def main() -> None:
     try:
         job = job_mapping[args.job]
     except KeyError:
-        msg = f'Unknown job: "{args.job}"'
-
-        logger.exception(msg)
+        logger.exception('Unknown job: "%s"', {args.job})
     else:
         await job()
 
-    msg = f'Job {args.job} finished'
-
-    logger.info(msg)
+    logger.info('Job "%s" finished', args.job)
 
 
 asyncio.run(main())

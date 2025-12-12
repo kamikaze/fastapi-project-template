@@ -15,12 +15,10 @@ async def create_superuser() -> None:
     try:
         if not settings.bootstrap_user_name:
             msg = 'No name is set for a bootstrapped user.'
-
             raise ValueError(msg)
 
         if not settings.bootstrap_user_password:
             msg = 'No password is set for a bootstrapped user.'
-
             raise ValueError(msg)
 
         async_session_context = async_session_manager.get_session_context('main')
@@ -40,10 +38,7 @@ async def create_superuser() -> None:
                     is_verified=True,
                 )
             )
-            msg = f'User created: {settings.bootstrap_user_email}'
 
-            logger.info(msg)
+            logger.info('User created: %s', settings.bootstrap_user_email)
     except UserAlreadyExists:
-        msg = f'User already exists: {settings.bootstrap_user_email}'
-
-        logger.info(msg)
+        logger.info('User already exists: %s', settings.bootstrap_user_email)

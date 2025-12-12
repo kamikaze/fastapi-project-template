@@ -41,20 +41,17 @@ class UserManager(UUIDIDMixin, BaseUserManager[UserApiSchema, uuid.UUID]):
     verification_token_secret = settings.auth_secret.get_secret_value()
 
     async def on_after_register(self, user: UserApiSchema, request: Request | None = None) -> None:
-        msg = f'User {user.id} has registered.'
-        logger.info(msg)
+        logger.info('User %s has registered.', user.id)
 
         await super().on_after_register(user, request)
 
     async def on_after_forgot_password(self, user: UserApiSchema, token: str, request: Request | None = None) -> None:
-        msg = f'User {user.id} has forgot their password. Reset token: {token}'
-        logger.info(msg)
+        logger.info('User %s has forgot their password. Reset token: %s', user.id, token)
 
         await super().on_after_forgot_password(user, token, request)
 
     async def on_after_request_verify(self, user: UserApiSchema, token: str, request: Request | None = None) -> None:
-        msg = f'Verification requested for user {user.id}. Verification token: {token}'
-        logger.info(msg)
+        logger.info('Verification requested for user %s. Verification token: %s', user.id, token)
 
         await super().on_after_request_verify(user, token, request)
 
@@ -77,8 +74,7 @@ async def update_user(user_id: str, user: UserUpdate) -> UserUpdate:
     async with get_user_db_context() as user_db, get_user_manager_context(user_db) as user_manager:
         r = await user_manager.update(user)
 
-        msg = f'updated: {r}'
-        logger.info(msg)
+        logger.info('User updated: %s', r)
 
     return user
 
