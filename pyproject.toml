@@ -192,6 +192,9 @@ venv = ".venv"
 reportMatchNotExhaustive = "error"
 reportUnnecessaryComparison = "error"
 
+[tool.ty.rules]
+unknown-argument = "ignore"  # false positives for Pydantic model fields
+
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 asyncio_mode = "strict"
