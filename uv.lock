@@ -655,7 +655,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-commons"
-version = "0.2.23"
+version = "0.2.24"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
@@ -675,9 +675,9 @@ dependencies = [
     { name = "python3-commons" },
     { name = "sqlalchemy" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/de/2e/4723c4ce34d8f9e5c6f923618a324dd54c16e8d57bf32a9666269e4dc8ba/fastapi_commons-0.2.23.tar.gz", hash = "sha256:9a19dd463da369d55e97a33e74052ef887859ca850049955841d8d9243902cc1", size = 149928, upload-time = "2026-01-05T14:14:03.942Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/4c/a9/7a92c1a85a72bf8d29b4bd02396b6280d74e5137923e7608bc5e44875da1/fastapi_commons-0.2.24.tar.gz", hash = "sha256:0d346a1cc121fe399ffd8f274ee3eb04baa6d2fab6752e8dcab3a569711f2893", size = 149839, upload-time = "2026-01-09T15:41:27.081Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/79/bd/aef2ad6deebf6f57607de6cc128d777ed1225603fa547ba657d7b4418918/fastapi_commons-0.2.23-py3-none-any.whl", hash = "sha256:d819314d69b44d868e75c706018094a6fb2401e50578de1e00d85c93dbbfd784", size = 22400, upload-time = "2026-01-05T14:14:03.093Z" },
+    { url = "https://files.pythonhosted.org/packages/05/f1/d5fedbb6f7f2d25be6b6c01ba25f641a391dbfdb18f08d27ffdc9a2ca18d/fastapi_commons-0.2.24-py3-none-any.whl", hash = "sha256:74a175b8b979c448205a44039bd989d13fe311d89efeb2a4313b6729ea3c9e55", size = 22401, upload-time = "2026-01-09T15:41:25.86Z" },
 ]
 
 [[package]]
@@ -755,7 +755,7 @@ requires-dist = [
     { name = "authlib", specifier = "==1.6.6" },
     { name = "certifi", specifier = "==2026.1.4" },
     { name = "fastapi", specifier = "==0.128.0" },
-    { name = "fastapi-commons", specifier = "==0.2.23" },
+    { name = "fastapi-commons", specifier = "==0.2.24" },
     { name = "fastapi-pagination", specifier = "==0.15.5" },
     { name = "fastapi-users", extras = ["sqlalchemy"], specifier = "==15.0.3" },
     { name = "fastapi-users-db-sqlalchemy", specifier = "==7.0.0" },
@@ -769,7 +769,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = "==2.12.0" },
     { name = "pyjwt", specifier = "==2.10.1" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
-    { name = "python3-commons", specifier = "==0.14.21" },
+    { name = "python3-commons", specifier = "==0.14.22" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = "==2.0.45" },
     { name = "starlette", specifier = "<0.51.0" },
     { name = "uvloop", marker = "sys_platform != 'win32'", specifier = "==0.22.1" },
@@ -1882,7 +1882,7 @@ wheels = [
 
 [[package]]
 name = "python3-commons"
-version = "0.14.21"
+version = "0.14.22"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiobotocore" },
@@ -1896,9 +1896,9 @@ dependencies = [
     { name = "valkey", extra = ["libvalkey"] },
     { name = "zeep" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/9b/db/01bd3065f11bbabc18a39c8779c16c5c01e7e16b72da421735e5594764c8/python3_commons-0.14.21.tar.gz", hash = "sha256:871912bff9052aba45321ed231c23ae30c6cb3500a148c66ee860f11b836adbb", size = 144058, upload-time = "2026-01-05T14:13:16.578Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/d6/c6/2abb2289898039866d54db4efc8985726c8cecfafc94140c9715637f482f/python3_commons-0.14.22.tar.gz", hash = "sha256:0d7ada9821c29cd9caa316361e13d472de7e4f9404837d172a6726be71113f3c", size = 144004, upload-time = "2026-01-09T15:42:05.827Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/0e/ee/853c2d6f40fa252a2dcf10fd4cafdddb95f1be83cd407dd40952b103b8ef/python3_commons-0.14.21-py3-none-any.whl", hash = "sha256:c03f42ba1a7048b87b96a33bc8be02c2ad6afdba8f58d8f08650573b093aacb7", size = 32875, upload-time = "2026-01-05T14:13:15.207Z" },
+    { url = "https://files.pythonhosted.org/packages/ee/94/4788159e2124d0329553bd47b380a9becaaf1034baf65e8074787fd0cd71/python3_commons-0.14.22-py3-none-any.whl", hash = "sha256:beb4e0de74791eabd8b253267d78889b65de718a46118e791738db01f570e8c7", size = 32875, upload-time = "2026-01-09T15:42:04.769Z" },
 ]
 
 [[package]]
