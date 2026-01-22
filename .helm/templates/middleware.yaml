@@ -37,7 +37,6 @@ spec:
     browserXssFilter: true
     contentTypeNosniff: true
     frameDeny: true
-    referrerPolicy: "no-referrer"
     permissionsPolicy: >
       accelerometer=(),
       autoplay=(),
