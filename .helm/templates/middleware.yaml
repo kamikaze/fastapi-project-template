@@ -36,7 +36,7 @@ spec:
     stsPreload: true
     browserXssFilter: true
     contentTypeNosniff: true
-    frameDeny: false
+    frameDeny: true
     referrerPolicy: "no-referrer"
     permissionsPolicy: >
       accelerometer=(),
