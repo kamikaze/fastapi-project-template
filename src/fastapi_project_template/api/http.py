@@ -4,12 +4,10 @@ from contextlib import asynccontextmanager
 from uuid import uuid4
 
 import starlette.middleware.base
-from fastapi import FastAPI, Request
+from fastapi import FastAPI, Request, Response
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import ORJSONResponse
 from fastapi_pagination import add_pagination
-from starlette.applications import Starlette
-from starlette.responses import Response
 
 from fastapi_project_template import ctx_correlation_id
 from fastapi_project_template.api.v1.auth import auth_backend, fastapi_users
@@ -90,7 +88,7 @@ class CorrelationIdMiddleware(starlette.middleware.base.BaseHTTPMiddleware):
 
 
 @asynccontextmanager
-async def lifespan(_app: Starlette) -> AsyncGenerator:
+async def lifespan(_app: FastAPI) -> AsyncGenerator:
     yield
 
 

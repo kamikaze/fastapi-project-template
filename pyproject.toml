@@ -40,7 +40,7 @@ dependencies = [
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
     "python3-commons==0.14.23",
-    "SQLAlchemy[asyncio]==2.0.45",
+    "SQLAlchemy[asyncio]==2.0.46",
     "starlette<0.51.0",
     "uvloop==0.22.1; platform_system != 'Windows'",
 ]

@@ -3,14 +3,13 @@ import uuid
 from http import HTTPStatus
 from typing import Annotated
 
-from fastapi import Depends, HTTPException
+from fastapi import Depends, HTTPException, status
 from fastapi.security import APIKeyHeader
 from fastapi_commons.db.models import ApiKey, User
 from fastapi_users import FastAPIUsers, models
 from fastapi_users.authentication import AuthenticationBackend, CookieTransport, JWTStrategy
 from sqlalchemy import select
 from sqlalchemy.ext.asyncio import AsyncSession
-from starlette import status
 
 from fastapi_project_template.conf import settings
 from fastapi_project_template.core.users import get_user_manager
