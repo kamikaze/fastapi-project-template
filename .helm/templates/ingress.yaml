@@ -13,8 +13,12 @@ spec:
     - match: Host(`{{ $item.host }}`) && PathPrefix(`{{ $item.path }}`)
       kind: Rule
       middlewares:
-        - name: test-compress
+        - name: compress
           namespace: {{.Release.Namespace}}
+        - name: headers
+          namespace: {{.Release.Namespace}}
+{{/*        - name: ratelimit*/}}
+{{/*          namespace: {{.Release.Namespace}}*/}}
       services:
         - name: {{ $item.name }}
           port: {{ $item.port }}
