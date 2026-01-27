@@ -9,7 +9,7 @@ authors = [
     { name = "Oleg Korsak", email = "kamikaze.is.waiting.you@gmail.com" }
 ]
 license = "GPL-3.0"
-readme = {file = "README.rst", content-type = "text/x-rst; charset=UTF-8"}
+readme = { file = "README.rst", content-type = "text/x-rst; charset=UTF-8" }
 classifiers = [
     "Development Status :: 4 - Beta",
     "Programming Language :: Python",
@@ -24,8 +24,8 @@ dependencies = [
     "asyncpg==0.31.0",
     "Authlib==1.6.6",
     "certifi==2026.1.4",
-    "fastapi-commons==0.2.25",
-    "fastapi-pagination==0.15.6",
+    "fastapi-commons==0.2.29",
+    "fastapi-pagination==0.15.7",
     "fastapi==0.128.0",
     "fastapi-users-db-sqlalchemy==7.0.0",
     "fastapi-users[sqlalchemy]==15.0.3",
@@ -39,7 +39,7 @@ dependencies = [
     "pydantic-settings==2.12.0",
     "PyJWT==2.10.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.14.23",
+    "python3-commons==0.14.24",
     "SQLAlchemy[asyncio]==2.0.46",
     "starlette<0.51.0",
     "uvloop==0.22.1; platform_system != 'Windows'",
@@ -88,8 +88,8 @@ fastapi_project_template = [
 ]
 
 [tool.setuptools.dynamic]
-readme = {file = "README.rst"}
-version = {attr = "setuptools_scm.get_version"}
+readme = { file = "README.rst" }
+version = { attr = "setuptools_scm.get_version" }
 
 [tool.setuptools_rust]
 # Optional Rust-specific configuration
