@@ -1,9 +1,32 @@
 name: fastapi-project-template
 
 services:
+  keycloak:
+    image: quay.io/keycloak/keycloak:26.5.1
+    entrypoint: [ "/opt/keycloak/data/import/keycloak-entrypoint.sh" ]
+    environment:
+      # Disable Scalable Vector Extension, otherwise Critical error in keycloak container (emulation does not work locally on Mac M4 >15.2)
+      JAVA_TOOL_OPTIONS: ${KEYCLOAK_JAVA_TOOL_OPTIONS}
+      KC_DB: dev-file
+      KC_DB_USERNAME: dev
+      KC_DB_PASSWORD: dev
+      KC_BOOTSTRAP_ADMIN_USERNAME: dev
+      KC_BOOTSTRAP_ADMIN_PASSWORD: dev
+      KC_HOSTNAME_STRICT: false
+      KC_HTTP_ENABLED: true
+    volumes:
+      - keycloak-data:/opt/keycloak/data
+      - ./.docker/keycloak/data/import:/opt/keycloak/data/import
+    restart: unless-stopped
+    ports:
+      - "8085:8080"
+    networks:
+      common:
+        aliases:
+          - keycloak
+
   minio:
     image: quay.io/minio/minio:latest
-    container_name: minio
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -18,10 +41,13 @@ services:
     ]
     volumes:
       - minio-data:/data
+    networks:
+      common:
+        aliases:
+          - minio
 
   rabbitmq-service:
     image: docker.io/rabbitmq:management
-    container_name: rabbitmq-service
     environment:
       RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
       RABBITMQ_DEFAULT_USER: guest
@@ -32,10 +58,13 @@ services:
     volumes:
       - ./.docker/rabbitmq_init.sh:/rabbitmq_init.sh
     command: [ "bash", "-c", "/rabbitmq_init.sh" ]
+    networks:
+      common:
+        aliases:
+          - rabbitmq-service
 
   valkey-service:
     image: "docker.io/valkey/valkey:alpine"
-    container_name: valkey
     command:
       - /bin/sh
       - -c
@@ -45,10 +74,13 @@ services:
     environment:
       VALKEY_REPLICATION_MODE: "master"
       VALKEY_PASSWORD: "${VALKEY_PASSWORD}"
+    networks:
+      common:
+        aliases:
+          - valkey-service
 
   db:
-    image: postgres:18-alpine
-    container_name: db
+    image: postgres:18.1
     ports:
       - "5432:5432"
     environment:
@@ -63,44 +95,34 @@ services:
       retries: 10
     volumes:
       - db:/var/lib/postgresql/18
+    networks:
+      common:
+        aliases:
+          - db
 
-  pgweb:
-    image: sosedoff/pgweb
-    container_name: pgweb
-    ports:
-      - "8081:8081"
-    environment:
-      DATABASE_URL: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}?sslmode=disable"
-    entrypoint: /bin/bash
-    command: [
-      "-c",
-      "until pg_isready -h ${POSTGRES_HOST:-db} -d ${POSTGRES_DB:-template_app_db}; do echo 'wait for db'; sleep 1; done && pgweb --bind=0.0.0.0"
-    ]
-    depends_on:
-      db:
-        condition: service_healthy
-
-  fastapi-template-migrate:
+  db-migrate:
     build:
       context: ./
       dockerfile: Containerfile
-    image: fastapi-template-service
-    container_name: fastapi-template-migrate
+    image: localhost/fastapi-project-template
     environment:
       DB_DSN: "postgresql+asyncpg://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
     entrypoint: python3
-    command: ["-m", "alembic", "upgrade", "head"]
+    command: [ "-m", "alembic", "upgrade", "head" ]
     depends_on:
       db:
         condition: service_healthy
+    networks:
+      common:
+        aliases:
+          - db-migrate
 
   fastapi-template-service:
     build:
       context: ./
       dockerfile: Containerfile
     image: fastapi-template-service
-    container_name: fastapi-template-service
     ports:
       - "8080:8080"
     environment:
@@ -127,9 +149,20 @@ services:
         condition: service_started
       valkey-service:
         condition: service_started
+      keycloak:
+        condition: service_started
       fastapi-template-migrate:
         condition: service_started
+    networks:
+      common:
+        aliases:
+          - fastapi-template-service
 
 volumes:
   db:
+  keycloak-data:
   minio-data:
+
+networks:
+  common:
+    driver: bridge
