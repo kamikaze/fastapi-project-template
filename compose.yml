@@ -151,7 +151,7 @@ services:
         condition: service_started
       keycloak:
         condition: service_started
-      fastapi-template-migrate:
+      db-migrate:
         condition: service_started
     networks:
       common:
