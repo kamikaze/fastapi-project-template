@@ -1,5 +1,5 @@
 ARG BASE_REGISTRY=docker.io/library
-FROM ${BASE_REGISTRY}/python:3.14.2-slim-trixie AS build-image
+FROM ${BASE_REGISTRY}/python:3.14.3-slim-trixie AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -45,7 +45,7 @@ RUN uv sync --no-dev --frozen --no-install-project && \
     cp -r .venv/lib/python3.14/site-packages /install-packages
 
 
-FROM ${BASE_REGISTRY}/python:3.14.2-slim-trixie AS app
+FROM ${BASE_REGISTRY}/python:3.14.3-slim-trixie AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
