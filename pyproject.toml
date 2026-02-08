@@ -54,7 +54,6 @@ dev = [
     "build",
     "pip",
     "pre-commit",
-    "pyrefly",
     "pyright",
     "ruff",
     "setuptools",
