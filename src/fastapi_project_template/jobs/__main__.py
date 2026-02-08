@@ -4,7 +4,6 @@ import logging.config
 from argparse import Namespace
 
 from fastapi_project_template.conf import settings
-from fastapi_project_template.jobs import bootstrap
 
 logging.config.dictConfig(
     {
@@ -80,10 +79,14 @@ def get_parsed_args() -> Namespace:
     return args
 
 
+async def poc() -> None:
+    return None
+
+
 async def main() -> None:
     args = get_parsed_args()
     job_mapping = {
-        'create_superuser': bootstrap.create_superuser,
+        'poc': poc,
     }
 
     try:

@@ -1,26 +1,17 @@
-import uuid
 from collections.abc import Sequence
+from uuid import UUID
 
-from fastapi_users import schemas
 from pydantic import UUID4, BaseModel, ConfigDict, HttpUrl
 
 
-class UserRead(schemas.BaseUser[uuid.UUID]):
+class UserRead(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
+    uid: UUID
     group_id: int | None = None
 
 
-class UserCreate(schemas.BaseUserCreate):
-    model_config = ConfigDict(from_attributes=True)
-
-    username: str
-    email: str | None = None
-    password: str
-    group_id: int | None = None
-
-
-class UserUpdate(schemas.BaseUserUpdate):
+class UserUpdate(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
     group_id: int | None = None
@@ -54,4 +45,4 @@ class AppConfig(BaseModel):
     oidc_authority_url: HttpUrl | None
     oidc_client_id: str | None
     oidc_redirect_uri: str | None = None
-    oidc_scopes: Sequence[str] | None = None
+    oidc_scope: Sequence[str] | None = None
