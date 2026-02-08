@@ -79,6 +79,17 @@ services:
         aliases:
           - valkey-service
 
+  opa:
+    image: docker.io/openpolicyagent/opa:1.13.1
+    ports:
+      - "8181:8181"
+    command:
+      - run
+      - --server
+      - --log-level
+      - debug
+      - --addr=0.0.0.0:8181
+
   db:
     image: docker.io/postgres:18.1
     ports:
@@ -139,7 +150,7 @@ services:
       - "8000:8080"
     environment:
       AMQP_DSN: "${AMQP_DSN:-amqp://guest:guest@rabbitmq-service/}"
-      DB_DSN: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
+      DB_DSN: "postgresql+asyncpg://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
       OBJECT_STORAGE_ENDPOINT: "${OBJECT_STORAGE_ENDPOINT:-http://localhost:9000}"
       OBJECT_STORAGE_BUCKET: "${OBJECT_STORAGE_BUCKET:-test}"

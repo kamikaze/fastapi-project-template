@@ -1,8 +1,8 @@
 """initial
 
-Revision ID: 777701db082a
+Revision ID: 7a217dc110d6
 Revises:
-Create Date: 2026-02-08 16:00:29.983498+00:00
+Create Date: 2026-02-08 21:51:22.976484+00:00
 
 """
 
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 from alembic import op
 
 # revision identifiers, used by Alembic.
-revision = '777701db082a'
+revision = '7a217dc110d6'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -57,6 +57,25 @@ def schema_upgrades() -> None:
         sa.Column('name', sa.String(), nullable=False),
         sa.PrimaryKeyConstraint('uid'),
     )
+    op.create_table(
+        'user_profiles',
+        sa.Column('uid', sa.UUID(), nullable=False),
+        sa.Column(
+            'created_at',
+            sa.DateTime(timezone=True),
+            server_default=sa.text("TIMEZONE('utc', CURRENT_TIMESTAMP)"),
+            nullable=False,
+        ),
+        sa.Column('updated_at', sa.DateTime(timezone=True), nullable=True),
+        sa.Column('deleted_at', sa.DateTime(timezone=True), nullable=True),
+        sa.Column('subject', sa.String(), nullable=False),
+        sa.Column('issuer', sa.String(), nullable=False),
+        sa.Column('name', sa.String(), nullable=True),
+        sa.Column('email', sa.String(), nullable=True),
+        sa.PrimaryKeyConstraint('uid'),
+    )
+    op.create_index('uix_user_profile_name', 'user_profiles', ['name'], unique=True)
+    op.create_index('uix_user_profile_origin', 'user_profiles', ['subject', 'issuer'], unique=True)
     op.create_table(
         'rbac_role_permissions',
         sa.Column('role_uid', sa.UUID(), nullable=False),
@@ -156,6 +175,9 @@ def schema_downgrades() -> None:
     op.drop_index(op.f('ix_rbac_role_permissions_role_uid'), table_name='rbac_role_permissions')
     op.drop_index(op.f('ix_rbac_role_permissions_permission_uid'), table_name='rbac_role_permissions')
     op.drop_table('rbac_role_permissions')
+    op.drop_index('uix_user_profile_origin', table_name='user_profiles')
+    op.drop_index('uix_user_profile_name', table_name='user_profiles')
+    op.drop_table('user_profiles')
     op.drop_table('user_groups')
     op.drop_table('rbac_roles')
     op.drop_table('rbac_permissions')

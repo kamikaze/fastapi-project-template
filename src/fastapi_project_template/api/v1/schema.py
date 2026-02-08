@@ -1,7 +1,7 @@
 from collections.abc import Sequence
 from uuid import UUID
 
-from pydantic import UUID4, BaseModel, ConfigDict, HttpUrl
+from pydantic import BaseModel, ConfigDict, HttpUrl
 
 
 class UserRead(BaseModel):
@@ -33,7 +33,7 @@ class UserGroupApiSchema(BaseModel):
 class UserApiSchema(BaseModel):
     model_config = ConfigDict(from_attributes=True)
 
-    id: UUID4
+    id: UUID
     email: str
     group_id: int | None
     is_active: bool
