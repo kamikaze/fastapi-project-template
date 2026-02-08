@@ -15,6 +15,57 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
+  prepare:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Get lowercase GitHub username
+        id: repository
+        uses: ASzc/change-string-case-action@v6
+        with:
+          string: ${{ github.repository }}
+
+      - name: Set outputs
+        id: set-outputs
+        run: |
+          echo 'image=ghcr.io/${{ steps.repository.outputs.lowercase }}' >> "${GITHUB_OUTPUT}"
+          # Only enable push on release event with action 'published'
+          echo 'push=${{ github.event_name == 'release' && github.event.action == 'published' }}' >> "${GITHUB_OUTPUT}"
+
+      - name: Get short SHA
+        id: short-sha
+        run: echo "short_sha=${GITHUB_SHA:0:12}" >> $GITHUB_ENV && echo "short_sha=${GITHUB_SHA:0:12}" >> $GITHUB_OUTPUT
+
+      - name: Extract tag name
+        id: extract_tag
+        if: github.event_name == 'release'
+        run: |
+          echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
+
+      - name: Extract branch name
+        shell: bash
+        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
+        id: extract_branch
+
+      - name: Docker meta
+        id: meta
+        uses: docker/metadata-action@v5
+        with:
+          images: |
+            ${{ steps.set-outputs.outputs.image }}
+          tags: |
+            type=raw,value=${{ steps.extract_tag.outputs.tag }}
+    #            type=raw,value=latest
+
+    outputs:
+      image: ${{ steps.set-outputs.outputs.image }}
+      push: ${{ steps.set-outputs.outputs.push }}
+      meta-version: ${{ steps.meta.outputs.version }}
+      meta-labels: ${{ steps.meta.outputs.labels }}
+      meta-json: ${{ steps.meta.outputs.json }}
+      tag: ${{ steps.extract_tag.outputs.tag }}  # Save the extracted tag name to outputs
+
   build:
     runs-on: ubuntu-latest
     strategy:
