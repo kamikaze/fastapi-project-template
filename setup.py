@@ -1,12 +1,13 @@
 import sys
+from importlib.metadata import PackageNotFoundError, version
 
-from pkg_resources import VersionConflict, require
-from setuptools import setup, Extension
+from setuptools import Extension, setup
 from setuptools_rust import Binding, RustExtension
 
 try:
-    require('setuptools>=78.0')
-except VersionConflict:
+    if int(version('setuptools').split('.')[0]) < 78:
+        raise ValueError
+except (PackageNotFoundError, ValueError):
     print('Error: version of setuptools is too old (<78.0)!')
     sys.exit(1)
 
