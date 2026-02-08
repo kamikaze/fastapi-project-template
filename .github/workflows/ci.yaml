@@ -67,6 +67,8 @@ jobs:
       tag: ${{ steps.extract_tag.outputs.tag }}  # Save the extracted tag name to outputs
 
   build:
+    needs:
+      - prepare
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -80,7 +82,7 @@ jobs:
 
     steps:
       - name: Checkout
-        uses: actions/checkout@v6
+        uses: actions/checkout@v4
         with:
           # Needed to calculate branch for tag
           fetch-depth: 0
@@ -155,7 +157,7 @@ jobs:
           touch "/tmp/digests/${digest#sha256:}"
 
       - name: Upload digest
-        uses: actions/upload-artifact@v6
+        uses: actions/upload-artifact@v4
         with:
           name: digests-${{ strategy.job-index }}
           path: /tmp/digests/*
@@ -164,6 +166,7 @@ jobs:
 
   push:
     needs:
+      - prepare
       - build
     runs-on: ubuntu-latest
     permissions:
@@ -171,7 +174,7 @@ jobs:
       packages: write
     steps:
       - name: Download digests
-        uses: actions/download-artifact@v7
+        uses: actions/download-artifact@v4
         with:
           pattern: digests-*
           merge-multiple: true
