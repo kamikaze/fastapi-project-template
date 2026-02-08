@@ -130,7 +130,7 @@ services:
           - db-migrate
 
   react-template-service:
-    image: ghcr.io/kamikaze/react-project-template:v0.0.4
+    image: ghcr.io/kamikaze/react-project-template:v0.0.5
     ports:
       - "5173:8080"
     depends_on:
