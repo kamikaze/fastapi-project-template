@@ -46,3 +46,4 @@ class AppConfig(BaseModel):
     oidc_client_id: str | None
     oidc_redirect_uri: str | None = None
     oidc_scope: Sequence[str] | None = None
+    oidc_audience: Sequence[str] | None = None

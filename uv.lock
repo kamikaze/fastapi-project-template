@@ -710,7 +710,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = "==2.12.0" },
     { name = "pyjwt", specifier = "==2.11.0" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
-    { name = "python3-commons", specifier = "==0.15.6" },
+    { name = "python3-commons", specifier = "==0.15.7" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = "==2.0.46" },
     { name = "starlette", specifier = "<1.0.0" },
     { name = "uvloop", marker = "sys_platform != 'win32'", specifier = "==0.22.1" },
@@ -1740,7 +1740,7 @@ wheels = [
 
 [[package]]
 name = "python3-commons"
-version = "0.15.6"
+version = "0.15.7"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiobotocore" },
@@ -1754,9 +1754,9 @@ dependencies = [
     { name = "valkey", extra = ["libvalkey"] },
     { name = "zeep" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/b2/ba/ea5dad13515995b8ebc31a9e912f1c8090df9eb1d2f6bac5131fef6ac76b/python3_commons-0.15.6.tar.gz", hash = "sha256:901840daa81a9e7b6ce6f37ea0f4b9dc31fc70b869f616010cbc02c863645512", size = 109430, upload-time = "2026-02-08T14:11:02.051Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/34/5f/997c54da3f5b0f4420c898fb47dcccfe5b3455fa926f9c338d0181c063c3/python3_commons-0.15.7.tar.gz", hash = "sha256:82ed3687d45f729ecc95299df8bed2e76bc87cb27c1d640e044e1ae103f0456a", size = 109477, upload-time = "2026-02-08T20:18:17.979Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/82/51/1771a42aebfd0d4dfe86accd076309e21c13f53c71f2b816ccbbacf86695/python3_commons-0.15.6-py3-none-any.whl", hash = "sha256:1c1ff7f85342c581a0eda1d51ee8735550bda6301a080d5c41f17c4a792eb249", size = 37015, upload-time = "2026-02-08T14:11:01.013Z" },
+    { url = "https://files.pythonhosted.org/packages/59/9e/be21375fb5742a6a6499259c4bbf448c853abe38b3ba6431f485846b97e6/python3_commons-0.15.7-py3-none-any.whl", hash = "sha256:04f080846e7ff9fb7577735dfc72cb377a571cd455accf13d563e640c29ca702", size = 37041, upload-time = "2026-02-08T20:18:16.597Z" },
 ]
 
 [[package]]
@@ -1881,11 +1881,11 @@ wheels = [
 
 [[package]]
 name = "setuptools"
-version = "81.0.0"
+version = "82.0.0"
 source = { registry = "https://pypi.org/simple" }
-sdist = { url = "https://files.pythonhosted.org/packages/0d/1c/73e719955c59b8e424d015ab450f51c0af856ae46ea2da83eba51cc88de1/setuptools-81.0.0.tar.gz", hash = "sha256:487b53915f52501f0a79ccfd0c02c165ffe06631443a886740b91af4b7a5845a", size = 1198299, upload-time = "2026-02-06T21:10:39.601Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/82/f3/748f4d6f65d1756b9ae577f329c951cda23fb900e4de9f70900ced962085/setuptools-82.0.0.tar.gz", hash = "sha256:22e0a2d69474c6ae4feb01951cb69d515ed23728cf96d05513d36e42b62b37cb", size = 1144893, upload-time = "2026-02-08T15:08:40.206Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/e1/e3/c164c88b2e5ce7b24d667b9bd83589cf4f3520d97cad01534cd3c4f55fdb/setuptools-81.0.0-py3-none-any.whl", hash = "sha256:fdd925d5c5d9f62e4b74b30d6dd7828ce236fd6ed998a08d81de62ce5a6310d6", size = 1062021, upload-time = "2026-02-06T21:10:37.175Z" },
+    { url = "https://files.pythonhosted.org/packages/e1/c6/76dc613121b793286a3f91621d7b75a2b493e0390ddca50f11993eadf192/setuptools-82.0.0-py3-none-any.whl", hash = "sha256:70b18734b607bd1da571d097d236cfcfacaf01de45717d59e6e04b96877532e0", size = 1003468, upload-time = "2026-02-08T15:08:38.723Z" },
 ]
 
 [[package]]

@@ -136,7 +136,7 @@ services:
       dockerfile: Containerfile
     image: localhost/fastapi-template-service
     ports:
-      - "8080:8080"
+      - "8000:8080"
     environment:
       AMQP_DSN: "${AMQP_DSN:-amqp://guest:guest@rabbitmq-service/}"
       DB_DSN: "postgresql://${POSTGRES_USER:-dev}:${POSTGRES_PASSWORD:-dev}@${POSTGRES_HOST:-db}:${POSTGRES_PORT:-5432}/${POSTGRES_DB:-template_app_db}"
@@ -152,6 +152,14 @@ services:
       S3_CERT_VERIFY: "${S3_CERT_VERIFY:-false}"
       S3_ACCESS_KEY_ID: "${S3_ACCESS_KEY_ID:-root}"
       S3_SECRET_ACCESS_KEY: "${S3_SECRET_ACCESS_KEY:-rootroot}"
+      OIDC_ENABLED: "${OIDC_ENABLED:-false}"
+      OIDC_AUDIENCE: "${OIDC_AUDIENCE:-backend-api}"
+      OIDC_AUTHORITY_URL: "${OIDC_AUTHORITY_URL:-http://keycloak:8080/realms/app}"
+      OIDC_AUTHORITY_INTERNAL_URL: "http://keycloak:8080/realms/app"
+      OIDC_CLIENT_ID: "${OIDC_CLIENT_ID:-frontend}"
+      OIDC_CLIENT_SECRET: "${OIDC_CLIENT_SECRET:-}"
+      OIDC_REDIRECT_URI: "${OIDC_REDIRECT_URI:-http://localhost:5173/}"
+      OIDC_SCOPE: "${OIDC_SCOPE:-openid profile email}"
     depends_on:
       db:
         condition: service_healthy

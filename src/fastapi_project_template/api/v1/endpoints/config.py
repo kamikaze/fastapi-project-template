@@ -12,6 +12,7 @@ router = APIRouter(tags=['config'])
 
 
 @router.get('/config', include_in_schema=True)
+@router.head('/config', include_in_schema=False)
 @handle_exceptions
 async def get_app_config() -> AppConfig:
     return AppConfig(
@@ -19,4 +20,5 @@ async def get_app_config() -> AppConfig:
         oidc_client_id=oidc_settings.client_id,
         oidc_redirect_uri=oidc_settings.redirect_uri,
         oidc_scope=oidc_settings.scope,
+        oidc_audience=oidc_settings.audience,
     )
