@@ -90,7 +90,7 @@ async def lifespan(_app: FastAPI) -> AsyncGenerator:
     yield
 
 
-app_prefix = '/api/project'
+app_prefix = '/api/app'
 app = FastAPI(
     default_response_class=ORJSONResponse,
     docs_url=f'{app_prefix}/docs',

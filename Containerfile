@@ -3,7 +3,6 @@ FROM ${BASE_REGISTRY}/python:3.14.3-slim-trixie AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
-ENV PATH="/root/.cargo/bin:${PATH}"
 
 COPY --from=ghcr.io/astral-sh/uv:latest /uv /uvx /bin/
 
@@ -23,7 +22,6 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
        /usr/lib/${ARCH}-linux-gnu/liblber.so.* \
        /usr/lib/${ARCH}-linux-gnu/libldap.so.* \
        /usr/lib/${ARCH}-linux-gnu/libsasl2.so.* \
-       /usr/lib/${ARCH}-linux-gnu/libgobject-2.0.so.* \
        /usr/lib/linux-gnu/ && \
     mkdir -p /lib/linux-gnu && \
     cp /lib/${ARCH}-linux-gnu/libtirpc.so.* \
@@ -49,12 +47,10 @@ FROM ${BASE_REGISTRY}/python:3.14.3-slim-trixie AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
+ENV PYTHONPATH=/app
 
 COPY --from=build-image /install-packages /usr/local/lib/python3.14/site-packages/
-COPY --from=build-image /lib/linux-gnu/* /lib/linux-gnu/
 COPY --from=build-image /usr/lib/linux-gnu/* /usr/lib/linux-gnu/
-
-WORKDIR /app
 
 RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     apt clean && \
@@ -67,10 +63,13 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
     install -d -o appuser -g appgroup /app && \
     chown -Rc appuser:appgroup /app
 
-USER  appuser
+WORKDIR /app
+USER appuser
+
 COPY --chown=appuser src/fastapi_project_template ./fastapi_project_template/
 COPY --chown=appuser migrations ./migrations/
 COPY --chown=appuser alembic.ini ./alembic.ini
+
 EXPOSE 8000
 
-ENTRYPOINT ["python3", "-m", "fastapi_project_template"]
+CMD ["python3", "-m", "fastapi_project_template"]

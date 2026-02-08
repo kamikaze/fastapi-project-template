@@ -2,7 +2,7 @@ name: fastapi-project-template
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:26.5.1
+    image: quay.io/keycloak/keycloak:26.5.2
     entrypoint: [ "/opt/keycloak/data/import/keycloak-entrypoint.sh" ]
     environment:
       # Disable Scalable Vector Extension, otherwise Critical error in keycloak container (emulation does not work locally on Mac M4 >15.2)
@@ -26,7 +26,7 @@ services:
           - keycloak
 
   minio:
-    image: quay.io/minio/minio:latest
+    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z
     ports:
       - "9000:9000"
       - "9001:9001"
@@ -47,7 +47,7 @@ services:
           - minio
 
   rabbitmq-service:
-    image: docker.io/rabbitmq:management
+    image: docker.io/rabbitmq:4.2.3-management
     environment:
       RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
       RABBITMQ_DEFAULT_USER: guest
@@ -64,7 +64,7 @@ services:
           - rabbitmq-service
 
   valkey-service:
-    image: "docker.io/valkey/valkey:alpine"
+    image: docker.io/valkey/valkey:9.0.2-alpine
     command:
       - /bin/sh
       - -c
@@ -80,7 +80,7 @@ services:
           - valkey-service
 
   db:
-    image: postgres:18.1
+    image: docker.io/postgres:18.1
     ports:
       - "5432:5432"
     environment:
@@ -122,7 +122,7 @@ services:
     build:
       context: ./
       dockerfile: Containerfile
-    image: fastapi-template-service
+    image: localhost/fastapi-template-service
     ports:
       - "8080:8080"
     environment:
