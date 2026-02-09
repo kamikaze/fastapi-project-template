@@ -51,6 +51,34 @@ app.kubernetes.io/instance: {{ .Release.Name }}
 {{- end }}
 
 {{/*
+Standard labels for specific components
+*/}}
+{{- define "fastapi-project-template.backend.selectorLabels" -}}
+{{ include "fastapi-project-template.selectorLabels" . }}
+app.kubernetes.io/component: backend
+{{- end }}
+
+{{- define "fastapi-project-template.db.selectorLabels" -}}
+{{ include "fastapi-project-template.selectorLabels" . }}
+app.kubernetes.io/component: db
+{{- end }}
+
+{{- define "fastapi-project-template.keycloak.selectorLabels" -}}
+{{ include "fastapi-project-template.selectorLabels" . }}
+app.kubernetes.io/component: keycloak
+{{- end }}
+
+{{- define "fastapi-project-template.opa.selectorLabels" -}}
+{{ include "fastapi-project-template.selectorLabels" . }}
+app.kubernetes.io/component: opa
+{{- end }}
+
+{{- define "fastapi-project-template.react.selectorLabels" -}}
+{{ include "fastapi-project-template.selectorLabels" . }}
+app.kubernetes.io/component: react
+{{- end }}
+
+{{/*
 Create the name of the service account to use
 */}}
 {{- define "fastapi-project-template.serviceAccountName" -}}

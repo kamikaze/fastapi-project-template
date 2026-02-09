@@ -1,0 +1,78 @@
+{{- if .Values.opa.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "fastapi-project-template.fullname" . }}-opa-policies
+  labels:
+    {{- include "fastapi-project-template.labels" . | nindent 4 }}
+data:
+{{ (.Files.Glob "files/opa/policies/*").AsConfig | indent 2 }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fastapi-project-template.fullname" . }}-opa
+  labels:
+    {{- include "fastapi-project-template.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.opa.service.type }}
+  ports:
+    - port: {{ .Values.opa.service.port }}
+      targetPort: 8181
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "fastapi-project-template.opa.selectorLabels" . | nindent 4 }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "fastapi-project-template.fullname" . }}-opa
+  labels:
+    {{- include "fastapi-project-template.labels" . | nindent 4 }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      {{- include "fastapi-project-template.opa.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "fastapi-project-template.opa.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: opa
+          image: "{{ .Values.opa.image.repository }}:{{ .Values.opa.image.tag }}"
+          imagePullPolicy: {{ .Values.opa.image.pullPolicy }}
+          args:
+            - "run"
+            - "--server"
+            - "--log-level"
+            - "debug"
+            - "--addr=0.0.0.0:8181"
+            - "/policies"
+          ports:
+            - containerPort: 8181
+              name: http
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: http
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          resources:
+            {{- toYaml .Values.opa.resources | nindent 12 }}
+          volumeMounts:
+            - name: policies
+              mountPath: /policies
+      volumes:
+        - name: policies
+          configMap:
+            name: {{ include "fastapi-project-template.fullname" . }}-opa-policies
+{{- end }}

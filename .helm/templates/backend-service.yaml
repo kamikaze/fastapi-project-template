@@ -1,7 +1,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: fastapi-project-template
+  name: {{ include "fastapi-project-template.fullname" . }}-backend
   labels:
     {{- include "fastapi-project-template.labels" . | nindent 4 }}
 spec:
@@ -12,5 +12,4 @@ spec:
       protocol: TCP
       name: http
   selector:
-    {{- include "fastapi-project-template.selectorLabels" . | nindent 4 }}
-    app: fastapi-project-template
+    {{- include "fastapi-project-template.backend.selectorLabels" . | nindent 4 }}

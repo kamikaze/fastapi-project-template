@@ -1,0 +1,17 @@
+{{- if .Values.react.enabled }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "fastapi-project-template.fullname" . }}-react
+  labels:
+    {{- include "fastapi-project-template.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.react.service.type }}
+  ports:
+    - port: {{ .Values.react.service.port }}
+      targetPort: 8080
+      protocol: TCP
+      name: http
+  selector:
+    {{- include "fastapi-project-template.react.selectorLabels" . | nindent 4 }}
+{{- end }}

@@ -1,30 +1,53 @@
-
 replicaCount: 1
 
 postgresql:
-  database: "fastapi_project_template"
+  image:
+    repository: docker.io/postgres
+    tag: "18.1"
+    pullPolicy: IfNotPresent
+  database: "template_app_db"
   username: "dev"
   password: "dev"
-  host: "fastapi-project-template-postgresql"
+  host: ""
   port: "5432"
+  persistence:
+    enabled: true
+    accessModes: [ "ReadWriteOnce" ]
+    size: 1Gi
+  resources: { }
+  #  limits:
+  #    cpu: 100m
+  #    memory: 256Mi
+  #  requests:
+  #    cpu: 100m
+  #    memory: 256Mi
 
 
 backend:
   image:
-    repository: "kamikazer/fastapi-project-template"
+    repository: "ghcr.io/kamikaze/fastapi-project-template"
     pullPolicy: IfNotPresent
     # Overrides the image tag whose default is the chart appVersion.
-    tag: "latest"
+    tag: "v0.0.2"
   service:
     type: ClusterIP
     port: 8080
   ingress:
     host: ""
     pathPrefix: "/api"
-  loggingLevel: INFO
+  loggingLevel: DEBUG
   timezone: "UTC"
   bootstrapUserEmail: ""
   bootstrapUserPassword: ""
+  env:
+    OIDC_AUDIENCE: "backend-api"
+    OIDC_AUTHORITY_URL: "http://keycloak:8080/realms/app"
+    OIDC_AUTHORITY_INTERNAL_URL: "http://keycloak:8080/realms/app"
+    OIDC_CLIENT_ID: "frontend"
+    OIDC_CLIENT_SECRET: ""
+    OIDC_REDIRECT_URI: "http://localhost:5173/"
+    OIDC_SCOPE: "openid profile email"
+    OPA_URL: "http://opa:8181/v1/data/app/authz"
 
 imageCredentials:
   name: dockerregistrycreds
@@ -33,8 +56,8 @@ imageCredentials:
   password: ""
   email: ""
 
-imagePullSecrets: []
-#  - name: dockerregistrycreds
+imagePullSecrets:
+#  - name: my-registry-secret
 
 nameOverride: ""
 fullnameOverride: ""
@@ -54,10 +77,10 @@ podSecurityContext: { }
 # fsGroup: 2000
 
 securityContext: { }
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
+# capabilities:
+#   drop:
+#   - ALL
+# readOnlyRootFilesystem: true
 # runAsNonRoot: true
 # runAsUser: 1000
 
@@ -65,23 +88,29 @@ ingress:
   enabled: false
   annotations: { }
   hosts:
-    - host: ""
+    - host: "api.example.com"
       paths:
         - pathType: Prefix
           path: "/api"
-          name: "fastapi-project-template"
-          port: 8088
+          name: "backend"
+          port: 8080
+    - host: "app.example.com"
+      paths:
+        - pathType: Prefix
+          path: "/"
+          name: "react"
+          port: 8080
   tls: [ ]
 
 resources: { }
   # We usually recommend not to specify default resources and to leave this as a conscious
   # choice for the user. This also increases chances charts run on environments with little
-  # resources, such as Minikube. If you do want to specify resources, uncomment the following
-  # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
-  # limits:
-  #   cpu: 100m
-  #   memory: 128Mi
-  # requests:
+# resources, such as Minikube. If you do want to specify resources, uncomment the following
+# lines, adjust them as necessary, and remove the curly braces after 'resources:'.
+# limits:
+#   cpu: 100m
+#   memory: 128Mi
+# requests:
 #   cpu: 100m
 #   memory: 128Mi
 
@@ -95,3 +124,46 @@ autoscaling:
 nodeSelector: { }
 tolerations: [ ]
 affinity: { }
+
+# Additional services from docker-compose
+keycloak:
+  enabled: true
+  image:
+    repository: "quay.io/keycloak/keycloak"
+    tag: "26.5.2"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8080
+  javaToolOptions: "-XX:UseSVE=0"
+  import:
+    enabled: true
+  resources: { }
+  #  limits:
+  #    cpu: 500m
+  #    memory: 1024Mi
+  #  requests:
+  #    cpu: 200m
+  #    memory: 512Mi
+
+opa:
+  enabled: true
+  image:
+    repository: "docker.io/openpolicyagent/opa"
+    tag: "1.13.1"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8181
+  resources: { }
+
+react:
+  enabled: true
+  image:
+    repository: "ghcr.io/kamikaze/react-project-template"
+    tag: "v0.0.5"
+    pullPolicy: IfNotPresent
+  service:
+    type: ClusterIP
+    port: 8080
+  resources: { }

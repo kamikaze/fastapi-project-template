@@ -2,7 +2,9 @@
 apiVersion: traefik.containo.us/v1alpha1
 kind: IngressRoute
 metadata:
-  name: fastapi-project-template
+  name: {{ include "fastapi-project-template.fullname" . }}
+  labels:
+    {{- include "fastapi-project-template.labels" . | nindent 4 }}
 spec:
   entryPoints:
     - web
@@ -20,7 +22,7 @@ spec:
 {{/*        - name: ratelimit*/}}
 {{/*          namespace: {{.Release.Namespace}}*/}}
       services:
-        - name: {{ $item.name }}
+        - name: {{ include "fastapi-project-template.fullname" . }}-{{ $item.name }}
           port: {{ $item.port }}
     {{- end }}
     {{- end }}

@@ -19,9 +19,12 @@ spec:
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
-        {{- include "fastapi-project-template.selectorLabels" . | nindent 8 }}
-        app: fastapi-project-template
+        {{- include "fastapi-project-template.backend.selectorLabels" . | nindent 8 }}
     spec:
+      {{- if .Values.imageCredentials.registry }}
+      imagePullSecrets:
+        - name: {{ include "fastapi-project-template.fullname" . }}-registry
+      {{- end }}
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -61,13 +64,23 @@ spec:
             {{- toYaml .Values.resources | nindent 12 }}
           env:
             - name: DB_DSN
-              value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
+              value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host | default (printf "%s-db" (include "fastapi-project-template.fullname" .)) }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
             - name: LOGGING_LEVEL
-              value: "{{ .Values.backend.loggingLevel }}"
+              value: {{ .Values.backend.loggingLevel | quote }}
             - name: SERVICE_ADDR
               value: "0.0.0.0"
             - name: TIMEZONE
-              value: "{{ .Values.backend.timezone }}"
+              value: {{ .Values.backend.timezone | quote }}
+            - name: OIDC_AUTHORITY_URL
+              value: 'http://{{ include "fastapi-project-template.fullname" . }}-keycloak:8080/realms/app'
+            - name: OPA_URL
+              value: 'http://{{ include "fastapi-project-template.fullname" . }}-opa:8181/v1/data/app/authz'
+{{- range $key, $val := .Values.backend.env }}
+{{- if and (ne $key "OIDC_AUTHORITY_URL") (ne $key "OPA_URL") }}
+            - name: {{ $key }}
+              value: {{ $val | quote }}
+{{- end }}
+{{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
