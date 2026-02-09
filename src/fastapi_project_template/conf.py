@@ -2,7 +2,7 @@ import decimal
 from collections.abc import Sequence
 from typing import Annotated
 
-from pydantic import BeforeValidator, RedisDsn, SecretStr
+from pydantic import BeforeValidator, HttpUrl, RedisDsn, SecretStr
 from pydantic_settings import SettingsConfigDict
 from python3_commons.conf import CommonSettings, DBSettings
 
@@ -38,6 +38,8 @@ class Settings(CommonSettings):
 
     telegram_api_token: SecretStr | None = None
     telegram_chat_id: int | None = None
+
+    opa_url: HttpUrl | None = None
 
 
 class RODBSettings(DBSettings):

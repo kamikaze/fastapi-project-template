@@ -1,5 +1,6 @@
 import logging
 import uuid
+from collections.abc import Sequence
 from http import HTTPStatus
 from typing import Annotated, TypeVar
 
@@ -23,6 +24,7 @@ api_key_header = APIKeyHeader(name='X-API-Key', auto_error=True)
 optional_api_key_header = APIKeyHeader(name='X-API-Key', auto_error=False)
 bearer_security = HTTPBearer(auto_error=api_auth_settings.enabled)
 optional_bearer_security = HTTPBearer(auto_error=False)
+
 
 get_verified_token = get_token_verifier(TokenData, _JWKS)
 

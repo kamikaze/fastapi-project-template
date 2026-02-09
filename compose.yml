@@ -83,12 +83,19 @@ services:
     image: docker.io/openpolicyagent/opa:1.13.1
     ports:
       - "8181:8181"
+    volumes:
+      - ./.docker/opa/policies:/policies
     command:
       - run
       - --server
       - --log-level
       - debug
       - --addr=0.0.0.0:8181
+      - /policies
+    networks:
+      common:
+        aliases:
+          - opa
 
   db:
     image: docker.io/postgres:18.1
@@ -171,9 +178,12 @@ services:
       OIDC_CLIENT_SECRET: "${OIDC_CLIENT_SECRET:-}"
       OIDC_REDIRECT_URI: "${OIDC_REDIRECT_URI:-http://localhost:5173/}"
       OIDC_SCOPE: "${OIDC_SCOPE:-openid profile email}"
+      OPA_URL: "${OPA_URL:-http://opa:8181/v1/data/app/authz}"
     depends_on:
       db:
         condition: service_healthy
+      opa:
+        condition: service_started
       minio:
         condition: service_started
       rabbitmq-service:

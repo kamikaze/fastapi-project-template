@@ -11,3 +11,8 @@ class UserProfile(BaseModel):
     updated_at: AwareDatetime | None
     name: str | None
     email: str | None
+
+
+class UserCreate(BaseModel):
+    name: str
+    email: str

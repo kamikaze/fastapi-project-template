@@ -16,6 +16,10 @@ async def get_or_create_user_profile_by_token(db_session: AsyncSession, token: T
     return user_profile
 
 
+async def create_user(db_session: AsyncSession, name: str, email: str) -> UserProfile:
+    return await dao.create_user(db_session, name, email)
+
+
 def get_users_stmt(*, existing_only: bool = True) -> Select[tuple[UserProfile]]:
     stmt = sa.select(UserProfile).order_by(UserProfile.name)
 

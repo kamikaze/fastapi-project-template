@@ -35,3 +35,15 @@ async def create_user_profile_from_token(db_session: AsyncSession, token: TokenD
         cursor = await db_session.execute(stmt)
 
         return cursor.scalar_one()
+
+
+async def create_user(db_session: AsyncSession, name: str, email: str) -> UserProfile:
+    # subject and issuer are required by the model.
+    # For manually created users, we might need some default or special values if they are not coming from OIDC
+    # However, the requirement doesn't specify OIDC for THESE new users.
+    # Assuming they will be OIDC users later, or we use 'manual' as issuer.
+    values = {'uid': uuid7(), 'name': name, 'email': email, 'subject': f'manual:{email}', 'issuer': 'manual'}
+    stmt = sa.insert(UserProfile).values(**values).returning(UserProfile)
+    async with db_session.begin():
+        cursor = await db_session.execute(stmt)
+        return cursor.scalar_one()
