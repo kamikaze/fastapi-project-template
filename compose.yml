@@ -98,7 +98,7 @@ services:
           - opa
 
   db:
-    image: docker.io/postgres:18.1
+    image: docker.io/postgres:18.2
     ports:
       - "5432:5432"
     environment:
@@ -137,7 +137,7 @@ services:
           - db-migrate
 
   react-template-service:
-    image: ghcr.io/kamikaze/react-project-template:v0.0.5
+    image: ghcr.io/kamikaze/react-project-template:v0.0.6
     ports:
       - "5173:8080"
     depends_on:
@@ -193,7 +193,7 @@ services:
       keycloak:
         condition: service_started
       db-migrate:
-        condition: service_started
+        condition: service_completed_successfully
     networks:
       common:
         aliases:
