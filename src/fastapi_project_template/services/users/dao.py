@@ -4,7 +4,7 @@ import sqlalchemy as sa
 from python3_commons.auth import TokenData
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_project_template.db.models import UserProfile
+from fastapi_project_template.db.models.users import UserProfile
 from fastapi_project_template.services.users.dto import UserUpdate
 
 
