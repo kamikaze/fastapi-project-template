@@ -1,6 +1,5 @@
 import logging
 import uuid
-from collections.abc import Sequence
 from http import HTTPStatus
 from typing import Annotated, TypeVar
 
