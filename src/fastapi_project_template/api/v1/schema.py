@@ -1,44 +1,6 @@
 from collections.abc import Sequence
-from uuid import UUID
 
-from pydantic import BaseModel, ConfigDict, HttpUrl
-
-
-class UserRead(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    uid: UUID
-    group_id: int | None = None
-
-
-class UserUpdate(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    group_id: int | None = None
-
-
-class UserGroupSearchParams(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    name: str | None
-
-
-class UserGroupApiSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: int
-    name: str
-
-
-class UserApiSchema(BaseModel):
-    model_config = ConfigDict(from_attributes=True)
-
-    id: UUID
-    email: str
-    group_id: int | None
-    is_active: bool
-    is_superuser: bool
-    is_verified: bool
+from pydantic import BaseModel, HttpUrl
 
 
 class AppConfig(BaseModel):

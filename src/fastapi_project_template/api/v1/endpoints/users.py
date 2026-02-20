@@ -1,5 +1,6 @@
 import logging
 from typing import Annotated
+from uuid import UUID
 
 from fastapi import APIRouter, Depends
 from fastapi_commons.auth import get_token_verifier
@@ -10,8 +11,8 @@ from sqlalchemy.ext.asyncio import AsyncSession
 
 from fastapi_project_template.api.v1.opa import opa_authorize
 from fastapi_project_template.db import get_main_db_session
-from fastapi_project_template.dto.users import UserCreate, UserProfile
 from fastapi_project_template.services.users import users_service
+from fastapi_project_template.services.users.dto import UserProfile, UserUpdate
 
 logger = logging.getLogger(__name__)
 JWKS = {}
@@ -35,6 +36,6 @@ async def get_user_list(db_session: AsyncSessionDep) -> Page[UserProfile]:
     return await apaginate(db_session, stmt)
 
 
-@router.post('')
-async def create_user(db_session: AsyncSessionDep, user: UserCreate) -> UserProfile:
-    return await users_service.create_user(db_session, user.name, user.email)
+@router.post('/{uid}')
+async def create_user(db_session: AsyncSessionDep, uid: UUID, user: UserUpdate) -> UserProfile:
+    return await users_service.update_user(db_session, uid, user)

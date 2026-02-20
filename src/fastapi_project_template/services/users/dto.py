@@ -13,6 +13,6 @@ class UserProfile(BaseModel):
     email: str | None
 
 
-class UserCreate(BaseModel):
+class UserUpdate(BaseModel):
     name: str
-    email: str
+    group_id: int | None = None
