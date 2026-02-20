@@ -34,7 +34,7 @@ dependencies = [
     "passlib[argon2]==1.7.4",
     "pwdlib==0.3.0",
     "pydantic==2.12.5",
-    "pydantic-settings==2.13.0",
+    "pydantic-settings==2.13.1",
     "PyJWT==2.11.0",
     "python-dateutil==2.9.0.post0",
     "python3-commons==0.15.9",
