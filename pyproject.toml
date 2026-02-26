@@ -26,7 +26,7 @@ dependencies = [
     "certifi==2026.2.25",
     "fastapi-commons==0.3.4",
     "fastapi-pagination==0.15.10",
-    "fastapi==0.133.0",
+    "fastapi==0.133.1",
     "granian==2.7.2; platform_system == 'Windows'",
     "granian[uvloop]==2.7.2; platform_system != 'Windows'",
     "msgpack==1.1.2",
