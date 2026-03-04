@@ -38,6 +38,7 @@ dependencies = [
     "PyJWT==2.11.0",
     "python-dateutil==2.9.0.post0",
     "python3-commons==0.15.11",
+    "scalar-fastapi==1.8.0",
     "SQLAlchemy[asyncio]==2.0.48",
     "starlette<1.0.0",
     "uvloop==0.22.1; platform_system != 'Windows'",
@@ -70,6 +71,9 @@ zip-safe = false
 package-dir = { "" = "src" }
 include-package-data = true
 
+[tool.setuptools.dynamic]
+version = { attr = "setuptools_scm.get_version" }
+
 [tool.setuptools.packages.find]
 where = ["src"]
 exclude = ["tests"]
@@ -83,10 +87,6 @@ fastapi_project_template = [
     "*.txt",
     "*.md"
 ]
-
-[tool.setuptools.dynamic]
-readme = { file = "README.rst" }
-version = { attr = "setuptools_scm.get_version" }
 
 [tool.setuptools_rust]
 # Optional Rust-specific configuration
@@ -188,6 +188,8 @@ venvPath = "."
 venv = ".venv"
 reportMatchNotExhaustive = "error"
 reportUnnecessaryComparison = "error"
+reportMissingModuleSource = false
+#strict = ["src"]
 
 [tool.ty.rules]
 unknown-argument = "ignore"  # false positives for Pydantic model fields

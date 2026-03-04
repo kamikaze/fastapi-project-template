@@ -4,8 +4,9 @@ from contextlib import asynccontextmanager
 
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import ORJSONResponse
+from fastapi.responses import HTMLResponse
 from fastapi_pagination import add_pagination
+from scalar_fastapi import AgentScalarConfig, get_scalar_api_reference
 from starlette.applications import Starlette
 
 from fastapi_project_template.api.v1.endpoints import config, health, users
@@ -25,11 +26,9 @@ async def lifespan(_app: Starlette) -> AsyncGenerator:
     logger.info('Shutting down backend API service.')
 
 
-app_prefix = '/api/app'
+api_prefix = '/api/app'
 app = FastAPI(
-    default_response_class=ORJSONResponse,
-    docs_url=f'{app_prefix}/docs',
-    openapi_url=f'{app_prefix}/openapi.json',
+    openapi_url=f'{api_prefix}/openapi.json',
     lifespan=lifespan,
     version='1.0.0',
     title='App backend',
@@ -44,10 +43,18 @@ app.add_middleware(
     allow_headers=['*'],
 )
 
-root_router = APIRouter(prefix=f'{app_prefix}/v1')
+root_router = APIRouter(prefix=f'{api_prefix}/v1')
 root_router.include_router(health.router)
 root_router.include_router(config.router)
 root_router.include_router(users.router)
 app.include_router(root_router)
 
 add_pagination(app)
+
+
+@app.get(f'{api_prefix}/docs', include_in_schema=False)
+async def scalar_html() -> HTMLResponse:
+    return get_scalar_api_reference(
+        agent=AgentScalarConfig(disabled=True),
+        openapi_url=app.openapi_url,
+    )
