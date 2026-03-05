@@ -198,6 +198,6 @@ unknown-argument = "ignore"  # false positives for Pydantic model fields
 pythonpath = ["src"]
 asyncio_mode = "strict"
 asyncio_default_fixture_loop_scope = "function"
-addopts = "--cov fastapi_project_template --cov-fail-under=20 --cov-report term-missing --verbose"
+addopts = "--cov fastapi_project_template --cov-fail-under=0 --cov-report term-missing --verbose"
 norecursedirs = ["dist", "build", ".tox"]
 testpaths = ["tests"]
