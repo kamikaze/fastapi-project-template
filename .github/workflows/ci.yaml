@@ -1,139 +1,145 @@
-name: Build and push release
+name: Continuous Integration
 
 on:
+  pull_request:
+  push:
+  workflow_dispatch:
   release:
     types: [ published ]
 
 permissions:
   contents: read
 
-env:
-  REGISTRY: ghcr.io
-
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  REGISTRY: ghcr.io
+  IMAGE_NAME: ${{ github.repository }}
+
 jobs:
-  prepare:
+  ###########################################################
+  # LINT
+  ###########################################################
+
+  lint:
+    name: Lint & Typecheck
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
+
     steps:
-      - name: Get lowercase GitHub username
-        id: repository
-        uses: ASzc/change-string-case-action@v6
+      - uses: actions/checkout@v6
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v6
         with:
-          string: ${{ github.repository }}
+          enable-cache: true
+          cache-dependency-glob: uv.lock
 
-      - name: Set outputs
-        id: set-outputs
-        run: |
-          echo 'image=ghcr.io/${{ steps.repository.outputs.lowercase }}' >> "${GITHUB_OUTPUT}"
-          # Only enable push on release event with action 'published'
-          echo 'push=${{ github.event_name == 'release' && github.event.action == 'published' }}' >> "${GITHUB_OUTPUT}"
-
-      - name: Get short SHA
-        id: short-sha
-        run: echo "short_sha=${GITHUB_SHA:0:12}" >> $GITHUB_ENV && echo "short_sha=${GITHUB_SHA:0:12}" >> $GITHUB_OUTPUT
-
-      - name: Extract tag name
-        id: extract_tag
-        if: github.event_name == 'release'
-        run: |
-          echo "tag=${{ github.event.release.tag_name }}" >> $GITHUB_OUTPUT
-
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
-
-      - name: Docker meta
-        id: meta
-        uses: docker/metadata-action@v5
+      - uses: actions/setup-python@v6
         with:
-          images: |
-            ${{ steps.set-outputs.outputs.image }}
-          tags: |
-            type=raw,value=${{ steps.extract_tag.outputs.tag }}
-    #            type=raw,value=latest
+          python-version-file: pyproject.toml
+
+      - name: Install project
+        env:
+          PYO3_USE_ABI3_FORWARD_COMPATIBILITY: 1
+        run: uv sync --locked --all-groups --all-extras --dev
+
+      - run: uvx ruff format --diff ./src/ ./tests/
+      - run: uvx ruff check --extend-select I ./src/ ./tests/
+      - run: uvx pyright ./src/ ./tests/
+
+
+  ###########################################################
+  # TESTS
+  ###########################################################
+
+  tests:
+    name: Unit Tests
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v6
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          enable-cache: true
+          cache-dependency-glob: uv.lock
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version-file: pyproject.toml
+
+      - name: Install project
+        env:
+          PYO3_USE_ABI3_FORWARD_COMPATIBILITY: 1
+        run: uv sync --locked --all-extras --all-groups --dev
+
+      - run: uv run pytest tests/unit/
+
+
+  ###########################################################
+  # PREPARE IMAGE METADATA
+  ###########################################################
+
+  prepare-image:
+    name: Prepare container metadata
+    needs: [ lint, tests ]
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
 
     outputs:
-      image: ${{ steps.set-outputs.outputs.image }}
-      push: ${{ steps.set-outputs.outputs.push }}
-      meta-version: ${{ steps.meta.outputs.version }}
-      meta-labels: ${{ steps.meta.outputs.labels }}
-      meta-json: ${{ steps.meta.outputs.json }}
-      tag: ${{ steps.extract_tag.outputs.tag }}  # Save the extracted tag name to outputs
+      image: ${{ steps.meta.outputs.image }}
+      tag: ${{ steps.meta.outputs.tag }}
 
-  build:
-    needs:
-      - prepare
+    steps:
+      - name: Compute metadata
+        id: meta
+        run: |
+          IMAGE="${{ env.REGISTRY }}/${{ env.IMAGE_NAME }}"
+          echo "image=${IMAGE}" >> "$GITHUB_OUTPUT"
+
+          if [[ "${GITHUB_REF}" == refs/tags/* ]]; then
+            TAG="${GITHUB_REF#refs/tags/}"
+          else
+            TAG="$(echo ${GITHUB_SHA} | cut -c1-7)"
+          fi
+
+          echo "tag=${TAG}" >> "$GITHUB_OUTPUT"
+
+
+  ###########################################################
+  # BUILD IMAGE (PARALLEL PER ARCH)
+  ###########################################################
+
+  build-image:
+    name: Build (${{ matrix.platform }})
+    needs: prepare-image
     runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' || github.event_name == 'pull_request'
+
     strategy:
       fail-fast: false
       matrix:
         platform:
           - linux/amd64
           - linux/arm64
-    permissions:
-      contents: read
-      packages: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v6
         with:
-          # Needed to calculate branch for tag
           fetch-depth: 0
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v3
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Log in to GitHub Container Registry
-        if: needs.prepare.outputs.push == 'true'
+      - name: Login to GHCR
+        if: github.ref == 'refs/heads/main'
         uses: docker/login-action@v3
         with:
           registry: ${{ env.REGISTRY }}
           username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
+          password: ${{ secrets.GITHUB_TOKEN }}     # <-- no IAM role needed
 
-      - name: Set cache flags
-        id: cache-flags
-        run: |
-          # Set the cache-to output
-          echo 'cache-to=type=gha,scope=${{ github.ref_name }}-${{ matrix.platform }}' >> "${GITHUB_OUTPUT}"
-
-          # Set the cache-from output
-          if [[ '${{ github.event_name }}' == 'push' ]]; then
-            if [[ '${{ github.ref }}' == 'refs/tags/v'* ]]; then
-              # Use cache from the branch when building a tag
-              branch="$(git branch -r --contains '${{ github.ref }}')"
-              branch="${branch##*/}"
-              echo "cache-from=type=gha,scope=${branch}-${{ matrix.platform }}" >> "${GITHUB_OUTPUT}"
-            else
-              # Use cache from the same branch when not building a tag
-              echo 'cache-from=type=gha,scope=${{ github.ref_name }}-${{ matrix.platform }}' >> "${GITHUB_OUTPUT}"
-            fi
-          else
-            # Use cache from target branch too when building a pull request
-
-            # In this case, it has to be a multiline string
-            # https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions#multiline-strings
-            EOF=$(dd if=/dev/urandom bs=15 count=1 status=none | base64)
-
-            echo "cache-from<<${EOF}" >> "${GITHUB_OUTPUT}"
-
-            printf '%s\n' \
-              "type=gha,scope=${{ github.ref_name }}-${{ matrix.platform }}" \
-              "type=gha,scope=${{ github.base_ref }}-${{ matrix.platform }}" \
-              >> "${GITHUB_OUTPUT}"
-
-            echo "${EOF}" >> "${GITHUB_OUTPUT}"
-          fi
+      - uses: docker/setup-qemu-action@v3
+      - uses: docker/setup-buildx-action@v3
 
       - name: Build and push by digest
         id: build
@@ -142,64 +148,73 @@ jobs:
           context: .
           file: Containerfile
           platforms: ${{ matrix.platform }}
-          labels: ${{ needs.prepare.outputs.meta-labels }}
+          push: ${{ github.ref == 'refs/heads/main' }}
           outputs: |
-            type=image,name=${{ needs.prepare.outputs.image }},push-by-digest=true,name-canonical=true,push=${{ needs.prepare.outputs.push }}
+            type=image,name=${{ needs.prepare-image.outputs.image }},push-by-digest=true,name-canonical=true,push=${{ github.ref == 'refs/heads/main' }}
           cache-from: |
-            ${{ steps.cache-flags.outputs.cache-from }}
+            type=gha,scope=${{ github.ref_name }}-${{ matrix.platform }}
           cache-to: |
-            ${{ steps.cache-flags.outputs.cache-to }}
+            type=gha,mode=max,scope=${{ github.ref_name }}-${{ matrix.platform }}
 
       - name: Export digest
+        if: github.ref == 'refs/heads/main'
         run: |
           mkdir -p /tmp/digests
-          digest='${{ steps.build.outputs.digest }}'
+          digest="${{ steps.build.outputs.digest }}"
           touch "/tmp/digests/${digest#sha256:}"
 
-      - name: Upload digest
-        uses: actions/upload-artifact@v4
+      - name: Sanitize platform name
+        if: github.ref == 'refs/heads/main'
+        id: platform
+        run: echo "name=${PLATFORM//\//-}" >> "$GITHUB_OUTPUT"
+        env:
+          PLATFORM: ${{ matrix.platform }}
+
+      - uses: actions/upload-artifact@v6
+        if: github.ref == 'refs/heads/main'
         with:
-          name: digests-${{ strategy.job-index }}
+          name: digests-${{ steps.platform.outputs.name }}
           path: /tmp/digests/*
-          if-no-files-found: error
           retention-days: 1
 
-  push:
-    needs:
-      - prepare
-      - build
+
+  ###########################################################
+  # CREATE MULTI-ARCH IMAGE
+  ###########################################################
+
+  push-image:
+    name: Publish multi-arch image
+    needs: [ prepare-image, build-image ]
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
+    if: github.ref == 'refs/heads/main'
+
     steps:
-      - name: Download digests
-        uses: actions/download-artifact@v4
+      - uses: actions/download-artifact@v7
         with:
           pattern: digests-*
           merge-multiple: true
           path: /tmp/digests
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
+      - uses: docker/setup-buildx-action@v3
 
-      - name: Login to GitHub Container Registry
-        if: needs.prepare.outputs.push == 'true'
+      - name: Login to GHCR
         uses: docker/login-action@v3
         with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Create manifest list and push
-        if: needs.prepare.outputs.push == 'true'
+      - name: Create manifest list
         working-directory: /tmp/digests
         run: |
-          docker buildx imagetools create $(jq -r '"-t " + (.tags | join(" -t "))' <<< '${{ needs.prepare.outputs.meta-json }}') \
-            $(printf '${{ needs.prepare.outputs.image }}@sha256:%s ' *)
-      #          docker buildx imagetools create -t ${{ needs.prepare.outputs.image }}:latest $(printf '${{ needs.prepare.outputs.image }}@sha256:%s ' *)
+          IMAGE=${{ needs.prepare-image.outputs.image }}
+          TAG=${{ needs.prepare-image.outputs.tag }}
+
+          docker buildx imagetools create \
+            -t ${IMAGE}:${TAG} \
+            $(printf "${IMAGE}@sha256:%s " *)
 
       - name: Inspect image
-        if: needs.prepare.outputs.push == 'true'
         run: |
-          docker buildx imagetools inspect '${{ needs.prepare.outputs.image }}:${{ needs.prepare.outputs.meta-version }}'
+          docker buildx imagetools inspect \
+          ${{ needs.prepare-image.outputs.image }}:${{ needs.prepare-image.outputs.tag }}
