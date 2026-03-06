@@ -30,7 +30,6 @@ dependencies = [
     "granian==2.7.2; platform_system == 'Windows'",
     "granian[uvloop]==2.7.2; platform_system != 'Windows'",
     "msgpack==1.1.2",
-    "orjson==3.11.7",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.3.0",
     "pydantic==2.12.5",
