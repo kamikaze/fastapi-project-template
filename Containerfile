@@ -36,10 +36,10 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
 COPY pyproject.toml uv.lock ./
 
 RUN uv sync --no-dev --frozen --no-install-project && \
-    find .venv/lib/python3.14/site-packages -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true && \
+    (find .venv/lib/python3.14/site-packages -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true) && \
     find .venv/lib/python3.14/site-packages -type f -name "*.pyc" -delete && \
     find .venv/lib/python3.14/site-packages -type f -name "*.pyo" -delete && \
-    find .venv/lib/python3.14/site-packages -name "*.so" -exec strip {} \; 2>/dev/null || true && \
+    (find .venv/lib/python3.14/site-packages -name "*.so" -exec strip {} \; 2>/dev/null || true) && \
     cp -r .venv/lib/python3.14/site-packages /install-packages
 
 
