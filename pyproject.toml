@@ -17,16 +17,16 @@ classifiers = [
 requires-python = "==3.14.3"
 dynamic = ["version"]
 dependencies = [
-    "aiohttp[speedups]==3.13.3",
+    "aiohttp[speedups]==3.13.4",
     "alembic==1.18.4",
     "alembic-postgresql-enum==1.10.0",
     "alembic_utils==0.8.8",
     "asyncpg==0.31.0",
     "Authlib==1.6.9",
     "certifi==2026.2.25",
-    "fastapi-commons==0.3.5",
-    "fastapi-pagination==0.15.10",
-    "fastapi==0.135.1",
+    "fastapi-commons==0.3.7",
+    "fastapi-pagination==0.15.12",
+    "fastapi==0.135.2",
     "granian==2.7.2; platform_system == 'Windows'",
     "granian[uvloop]==2.7.2; platform_system != 'Windows'",
     "msgpack==1.1.2",
@@ -34,12 +34,12 @@ dependencies = [
     "pwdlib==0.3.0",
     "pydantic==2.12.5",
     "pydantic-settings==2.13.1",
-    "PyJWT==2.11.0",
+    "PyJWT==2.12.1",
     "python-dateutil==2.9.0.post0",
-    "python3-commons==0.15.11",
-    "scalar-fastapi==1.8.0",
+    "python3-commons==0.15.17",
+    "scalar-fastapi==1.8.1",
     "SQLAlchemy[asyncio]==2.0.48",
-    "starlette<1.0.0",
+    "starlette==1.0.0",
     "uvloop==0.22.1; platform_system != 'Windows'",
 ]
 
