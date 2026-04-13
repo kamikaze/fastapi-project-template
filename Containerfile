@@ -22,6 +22,7 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
        /usr/lib/${ARCH}-linux-gnu/liblber.so.* \
        /usr/lib/${ARCH}-linux-gnu/libldap.so.* \
        /usr/lib/${ARCH}-linux-gnu/libsasl2.so.* \
+       /usr/lib/${ARCH}-linux-gnu/libkeyutils.so.* \
        /usr/lib/linux-gnu/ && \
     mkdir -p /lib/linux-gnu && \
     cp /lib/${ARCH}-linux-gnu/libtirpc.so.* \
