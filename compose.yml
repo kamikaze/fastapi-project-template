@@ -2,7 +2,7 @@ name: fastapi-project-template
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:26.5.4
+    image: quay.io/keycloak/keycloak:26.6.0
     entrypoint: [ "/opt/keycloak/data/import/keycloak-entrypoint.sh" ]
     environment:
       # Disable Scalable Vector Extension, otherwise Critical error in keycloak container (emulation does not work locally on Mac M4 >15.2)
