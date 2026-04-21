@@ -50,15 +50,16 @@ services:
     image: docker.io/library/rabbitmq:4.2.5-management
     environment:
       RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: "guest"
+      RABBITMQ_DEFAULT_PASS: "guest"
     ports:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - ./.docker/rabbitmq_init.sh:/rabbitmq_init.sh
+      - ./.docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
+      - ./.docker/rabbitmq/init.sh:/init.sh
       - rabbitmq_data:/var/lib/rabbitmq
-    command: [ "bash", "-c", "/rabbitmq_init.sh" ]
+    command: [ "bash", "-c", "/init.sh" ]
     healthcheck:
       test: [ "CMD", "rabbitmq-diagnostics", "ping" ]
       interval: 10s

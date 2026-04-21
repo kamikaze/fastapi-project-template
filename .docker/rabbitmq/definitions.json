@@ -1,0 +1,31 @@
+{
+    "queues": [
+        {
+            "name": "queue_a",
+            "vhost": "/",
+            "durable": true
+        },
+        {
+            "name": "queue_b",
+            "vhost": "/",
+            "durable": true
+        }
+    ],
+    "exchanges": [
+        {
+            "name": "xchg_queues",
+            "vhost": "/",
+            "type": "direct",
+            "durable": true
+        }
+    ],
+    "bindings": [
+        {
+            "source": "xchg_queues",
+            "vhost": "/",
+            "destination": "queue_b",
+            "destination_type": "queue",
+            "routing_key": "route_b"
+        }
+    ]
+}
