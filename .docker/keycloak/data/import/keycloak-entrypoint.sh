@@ -10,7 +10,7 @@ echo "Checking for H2 database files..."
 if [ ! -f "$H2_DIR/keycloakdb.mv.db" ]; then
     mkdir -p $H2_DIR
     echo "No existing H2 DB. Copying from import directory..."
-    cp -r "$IMPORT_DIR/"* "$H2_DIR/"
+    cp -r "$IMPORT_DIR/"* "$H2_DIR/" || true
 else
     echo "H2 DB already exists, skipping copy."
 fi
