@@ -61,8 +61,8 @@ LOGGING_CONFIG = {
     },
     'filters': {
         'info_and_below': {'()': 'python3_commons.log.filters.filter_maker', 'level': 'INFO'},
-        'correlation_id': {'()': 'fastapi_project_template.log.filters.CorrelationIDFilter'},
-        'add_client_info': {'()': 'fastapi_project_template.log.filters.LogContextFilter'},
+        'correlation_id': {'()': 'fastapi_commons.log.filters.CorrelationIDFilter'},
+        'add_client_info': {'()': 'fastapi_commons.log.filters.LogContextFilter'},
     },
     'handlers': {
         'default_stdout': {
