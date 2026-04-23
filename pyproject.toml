@@ -24,7 +24,7 @@ dependencies = [
     "asyncpg==0.31.0",
     "Authlib==1.7.0",
     "certifi==2026.4.22",
-    "fastapi-commons==0.4.5",
+    "fastapi-commons==0.4.6",
     "fastapi-pagination==0.15.12",
     "fastapi==0.136.0",
     "granian==2.7.3; platform_system == 'Windows'",

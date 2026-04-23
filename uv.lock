@@ -628,7 +628,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-commons"
-version = "0.4.5"
+version = "0.4.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
@@ -647,9 +647,9 @@ dependencies = [
     { name = "python3-commons" },
     { name = "sqlalchemy", extra = ["asyncio"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/5f/c6/f215474f49e93ad6f2f1920cb0862e56a2519d5a3e6cab5372edf180866e/fastapi_commons-0.4.5.tar.gz", hash = "sha256:6b45ebf6327bfaf9ea2a33b6e258ee307671c56f5630382c239eea1ad523d321", size = 97190, upload-time = "2026-04-22T23:22:18.984Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/83/e9/c920416ea2212bb9729a29dbd58df5b684e17a0a7bc2f9eb974928511083/fastapi_commons-0.4.6.tar.gz", hash = "sha256:26362c98420eb1a4e419cd6e747a5bbc43ef104639ec752d71f4dc01831baf67", size = 97205, upload-time = "2026-04-23T00:56:57.232Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c9/e8/1106e051bd2254df9ddcc51f2bcc286582c20a03bca906cb0dc67143ff8b/fastapi_commons-0.4.5-py3-none-any.whl", hash = "sha256:27d6c197b9a2e350d5ee51ae2733dcdb7681d7aa70cc9a6d6b28a3b0f85f8a6d", size = 21175, upload-time = "2026-04-22T23:22:17.911Z" },
+    { url = "https://files.pythonhosted.org/packages/3a/52/ba68662a8ea92ab4745b70a0b4a22dd480e6219e7dbd2f0c68f642e59e36/fastapi_commons-0.4.6-py3-none-any.whl", hash = "sha256:31dc93b3ba79e0f5c65ab675b95ee7081a597ae695349ed5aaa3f9c625f64a08", size = 21180, upload-time = "2026-04-23T00:56:56.013Z" },
 ]
 
 [[package]]
@@ -724,7 +724,7 @@ requires-dist = [
     { name = "authlib", specifier = "==1.7.0" },
     { name = "certifi", specifier = "==2026.4.22" },
     { name = "fastapi", specifier = "==0.136.0" },
-    { name = "fastapi-commons", specifier = "==0.4.5" },
+    { name = "fastapi-commons", specifier = "==0.4.6" },
     { name = "fastapi-pagination", specifier = "==0.15.12" },
     { name = "granian", marker = "sys_platform == 'win32'", specifier = "==2.7.3" },
     { name = "granian", extras = ["uvloop"], marker = "sys_platform != 'win32'", specifier = "==2.7.3" },

@@ -5,6 +5,8 @@ from contextlib import asynccontextmanager
 from fastapi import APIRouter, FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse
+from fastapi_commons.middleware.correlation_id import CorrelationIDMiddleware
+from fastapi_commons.middleware.log_context import LogContextMiddleware
 from fastapi_pagination import add_pagination
 from scalar_fastapi import AgentScalarConfig, get_scalar_api_reference
 from starlette.applications import Starlette
@@ -42,6 +44,8 @@ app.add_middleware(
     allow_methods=['*'],
     allow_headers=['*'],
 )
+app.add_middleware(CorrelationIDMiddleware)
+app.add_middleware(LogContextMiddleware)
 
 root_router = APIRouter(prefix=f'{api_prefix}/v1')
 root_router.include_router(health.router)
