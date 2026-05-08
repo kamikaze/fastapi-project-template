@@ -25,6 +25,15 @@ services:
         aliases:
           - keycloak
 
+
+  azurite:
+    image: mcr.microsoft.com/azure-storage/azurite
+    volumes:
+      - azurite-data:/data
+    command: azurite-blob --blobHost 0.0.0.0
+    ports:
+      - "10000:10000"
+
   minio:
     image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z.hotfix.7aa24e772
     ports:
@@ -208,6 +217,7 @@ services:
 
 volumes:
   db:
+  azurite-data:
   keycloak-data:
   minio-data:
   rabbitmq_data:
