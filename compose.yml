@@ -30,7 +30,7 @@ services:
     image: mcr.microsoft.com/azure-storage/azurite
     volumes:
       - azurite-data:/data
-    command: azurite-blob --blobHost 0.0.0.0
+    command: [ "azurite-blob", "--blobHost", "0.0.0.0" ]
     ports:
       - "10000:10000"
 
@@ -56,7 +56,7 @@ services:
           - minio
 
   rabbitmq:
-    image: docker.io/library/rabbitmq:4.2.5-management
+    image: docker.io/library/rabbitmq:4.3.0-management
     environment:
       RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
       RABBITMQ_DEFAULT_USER: "guest"
@@ -80,7 +80,7 @@ services:
           - rabbitmq
 
   valkey:
-    image: docker.io/valkey/valkey:9.0.3-alpine
+    image: docker.io/valkey/valkey:9.0.4-alpine
     command:
       - /bin/sh
       - -c
@@ -96,7 +96,7 @@ services:
           - valkey
 
   opa:
-    image: docker.io/openpolicyagent/opa:1.15.2
+    image: docker.io/openpolicyagent/opa:1.16.1
     ports:
       - "8181:8181"
     volumes:

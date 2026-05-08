@@ -5,6 +5,7 @@
 !/clib
 !/migrations
 !/rustlib
+/rustlib/target
 !/src
 !alembic.ini
 !pyproject.toml
