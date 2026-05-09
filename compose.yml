@@ -16,15 +16,12 @@ services:
       KC_HTTP_ENABLED: true
     volumes:
       - keycloak-data:/opt/keycloak/data
-      - ./.docker/keycloak/data/import:/opt/keycloak/data/import
+      - ./.docker/keycloak/data/import:/opt/keycloak/data/import:ro
     restart: unless-stopped
     ports:
       - "8085:8080"
     networks:
       common:
-        aliases:
-          - keycloak
-
 
   azurite:
     image: mcr.microsoft.com/azure-storage/azurite
@@ -52,8 +49,6 @@ services:
       - minio-data:/data
     networks:
       common:
-        aliases:
-          - minio
 
   rabbitmq:
     image: docker.io/library/rabbitmq:4.3.0-management
@@ -65,8 +60,8 @@ services:
       - "5672:5672"
       - "15672:15672"
     volumes:
-      - ./.docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json
-      - ./.docker/rabbitmq/init.sh:/init.sh
+      - ./.docker/rabbitmq/definitions.json:/etc/rabbitmq/definitions.json:ro,Z
+      - ./.docker/rabbitmq/init.sh:/init.sh:ro,Z
       - rabbitmq_data:/var/lib/rabbitmq
     command: [ "bash", "-c", "/init.sh" ]
     healthcheck:
@@ -76,8 +71,6 @@ services:
       retries: 5
     networks:
       common:
-        aliases:
-          - rabbitmq
 
   valkey:
     image: docker.io/valkey/valkey:9.0.4-alpine
@@ -92,15 +85,13 @@ services:
       VALKEY_PASSWORD: "${VALKEY_PASSWORD}"
     networks:
       common:
-        aliases:
-          - valkey
 
   opa:
     image: docker.io/openpolicyagent/opa:1.16.1
     ports:
       - "8181:8181"
     volumes:
-      - ./.docker/opa/policies:/policies
+      - ./.docker/opa/policies:/policies:ro
     command:
       - run
       - --server
@@ -110,8 +101,6 @@ services:
       - /policies
     networks:
       common:
-        aliases:
-          - opa
 
   db:
     image: docker.io/library/postgres:18.3
@@ -131,8 +120,6 @@ services:
       - db:/var/lib/postgresql/18
     networks:
       common:
-        aliases:
-          - db
 
   db-migrate:
     build:
@@ -149,8 +136,6 @@ services:
         condition: service_healthy
     networks:
       common:
-        aliases:
-          - db-migrate
 
   react-template:
     image: ghcr.io/kamikaze/react-project-template:v0.0.10
@@ -161,8 +146,6 @@ services:
         condition: service_started
     networks:
       common:
-        aliases:
-          - react-template
 
   fastapi-project-template:
     build:
@@ -212,8 +195,6 @@ services:
         condition: service_completed_successfully
     networks:
       common:
-        aliases:
-          - fastapi-project-template
 
 volumes:
   db:
