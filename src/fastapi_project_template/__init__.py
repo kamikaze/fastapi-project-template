@@ -6,7 +6,7 @@ from fastapi_project_template._rustmod import rust_fib
 try:
     from fastapi_project_template._version import __version__
 except ImportError:
-    __version__ = 'unknown'
+    __version__ = '0.0.0'
 
 ctx_correlation_id: ContextVar[str | None] = ContextVar('correlation_id', default=None)
 
