@@ -628,7 +628,7 @@ wheels = [
 
 [[package]]
 name = "fastapi-commons"
-version = "0.5.4"
+version = "0.5.6"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "aiohttp", extra = ["speedups"] },
@@ -647,9 +647,9 @@ dependencies = [
     { name = "python3-commons", extra = ["authn"] },
     { name = "sqlalchemy", extra = ["asyncio"] },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/d8/6b/ba48df29aff833ccd33812169e7738335c804ea491c9c20179be3d906a4e/fastapi_commons-0.5.4.tar.gz", hash = "sha256:be2686040640a52ce2ed60866fc3fbbd59289d03aad2a40219a4670be6946407", size = 97472, upload-time = "2026-05-24T11:32:08.563Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/fd/62/e715ec4f207251d27ad7db91a842866aea7ac8e32c8e4681ebbea6b96b17/fastapi_commons-0.5.6.tar.gz", hash = "sha256:83401418163b0e8428324d791c37691dbcc3665a43ce384a3709d6ed6ee5e368", size = 97498, upload-time = "2026-05-24T13:30:20.265Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/03/05/ec8aded5d41ea5184bf6d42584e0cac329c8ab0e97c5363c6770d520e923/fastapi_commons-0.5.4-py3-none-any.whl", hash = "sha256:02cbedb1a0fd51204d7cb666313f7de8eb37aefa0c6d100fdb3897513dfee6b8", size = 21185, upload-time = "2026-05-24T11:32:07.38Z" },
+    { url = "https://files.pythonhosted.org/packages/5f/19/15b47e484643df47e603c2bcecd2d2f90a8259eabe221e8b489e3cb11202/fastapi_commons-0.5.6-py3-none-any.whl", hash = "sha256:09a996091787c40365bc56222f4332c457b9fa202f2a52976db04912dd161121", size = 21187, upload-time = "2026-05-24T13:30:18.907Z" },
 ]
 
 [[package]]
@@ -724,7 +724,7 @@ requires-dist = [
     { name = "authlib", specifier = "==1.7.2" },
     { name = "certifi", specifier = "==2026.5.20" },
     { name = "fastapi", specifier = "==0.136.3" },
-    { name = "fastapi-commons", specifier = "==0.5.4" },
+    { name = "fastapi-commons", specifier = "==0.5.6" },
     { name = "fastapi-pagination", specifier = "==0.15.13" },
     { name = "granian", marker = "sys_platform == 'win32'", specifier = "==2.7.4" },
     { name = "granian", extras = ["uvloop"], marker = "sys_platform != 'win32'", specifier = "==2.7.4" },
@@ -735,7 +735,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = "==2.14.1" },
     { name = "pyjwt", specifier = "==2.13.0" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
-    { name = "python3-commons", extras = ["authn", "authz", "database"], specifier = "==0.18.20" },
+    { name = "python3-commons", extras = ["authn", "authz", "database"], specifier = "==0.18.22" },
     { name = "scalar-fastapi", specifier = "==1.8.2" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = "==2.0.49" },
     { name = "starlette", specifier = "==1.1.0" },
@@ -1807,16 +1807,16 @@ wheels = [
 
 [[package]]
 name = "python3-commons"
-version = "0.18.20"
+version = "0.18.22"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "msgpack" },
     { name = "msgspec" },
     { name = "pydantic-settings" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/46/5f/6aa8d2044b4bc9723416c3b24ddded958fc92c1500558132ac087b311679/python3_commons-0.18.20.tar.gz", hash = "sha256:267322084fbfa20114c79febdb78e37dead20a0cc4d9d826f1461689a7d48464", size = 120877, upload-time = "2026-05-24T11:26:01.2Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/da/81/78c53cf7471e705feb90197f1b8e207dc4a35ffda081e9d4b908ed98f7a5/python3_commons-0.18.22.tar.gz", hash = "sha256:3555c2687bcfa4755392351031acf6ae8f505853819c3eca40386aa2c56e091b", size = 120887, upload-time = "2026-05-24T13:29:26.062Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/c5/b0/11431f419a2448b8cee3cefe92f4f44a4b6ad66459b7a425b87fffe25a49/python3_commons-0.18.20-py3-none-any.whl", hash = "sha256:47383501a5771586ce7fea85ef9f03db80eb211aaa052dd94225ed435ba7934c", size = 42623, upload-time = "2026-05-24T11:25:59.716Z" },
+    { url = "https://files.pythonhosted.org/packages/5a/b6/4344ef78455ea58e13ff28724eae9d940a8a088ac0ac459ab8376c6523b2/python3_commons-0.18.22-py3-none-any.whl", hash = "sha256:019b8d5c3c9b27b7855cc26f0af3221e30a8d3f7fc38c6369fa9438a63acf20c", size = 42671, upload-time = "2026-05-24T13:29:24.766Z" },
 ]
 
 [package.optional-dependencies]
