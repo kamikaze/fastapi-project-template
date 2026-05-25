@@ -4,7 +4,7 @@ from typing import Annotated
 
 from pydantic import BeforeValidator, HttpUrl, RedisDsn, SecretStr
 from pydantic_settings import SettingsConfigDict
-from python3_commons.conf import CommonSettings, DBSettings
+from python3_commons.conf import CommonSettings, DBSettings, OIDCSettings
 
 global_decimal_context = decimal.getcontext()
 global_decimal_context.rounding = decimal.ROUND_HALF_UP
@@ -48,6 +48,7 @@ class RODBSettings(DBSettings):
 
 ro_db_settings = RODBSettings()
 settings = Settings()
+oidc_settings = OIDCSettings()
 
 
 LOGGING_CONFIG = {

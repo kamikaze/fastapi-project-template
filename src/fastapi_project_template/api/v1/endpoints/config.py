@@ -2,9 +2,9 @@ import logging
 
 from fastapi import APIRouter
 from fastapi_commons.handlers import handle_exceptions
-from python3_commons.conf import oidc_settings
 
 from fastapi_project_template.api.v1.schema import AppConfig
+from fastapi_project_template.conf import oidc_settings
 
 logger = logging.getLogger(__name__)
 

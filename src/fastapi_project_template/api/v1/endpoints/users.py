@@ -15,8 +15,8 @@ from fastapi_project_template.services.users import users_service
 from fastapi_project_template.services.users.dto import UserProfile, UserUpdate
 
 logger = logging.getLogger(__name__)
-JWKS = {}
-get_verified_token = get_token_verifier(TokenData, JWKS)
+
+get_verified_token = get_token_verifier(TokenData)
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
 TokenDep = Annotated[TokenData, Depends(get_verified_token)]
 

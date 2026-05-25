@@ -17,15 +17,13 @@ from fastapi_project_template.db.models import ApiKey
 
 logger = logging.getLogger(__name__)
 
-_JWKS = {}
-
 api_key_header = APIKeyHeader(name='X-API-Key', auto_error=True)
 optional_api_key_header = APIKeyHeader(name='X-API-Key', auto_error=False)
 bearer_security = HTTPBearer(auto_error=api_auth_settings.enabled)
 optional_bearer_security = HTTPBearer(auto_error=False)
 
 
-get_verified_token = get_token_verifier(TokenData, _JWKS)
+get_verified_token = get_token_verifier(TokenData)
 
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
 T = TypeVar('T', bound=TokenData)

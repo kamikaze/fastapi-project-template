@@ -2,7 +2,7 @@ name: fastapi-project-template
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:26.6.1
+    image: quay.io/keycloak/keycloak:26.6.2
     entrypoint: [ "/opt/keycloak/data/import/keycloak-entrypoint.sh" ]
     environment:
       # Disable Scalable Vector Extension, otherwise Critical error in keycloak container (emulation does not work locally on Mac M4 >15.2)
@@ -73,7 +73,7 @@ services:
       common:
 
   valkey:
-    image: docker.io/valkey/valkey:9.0.4-alpine
+    image: docker.io/valkey/valkey:9.1.0-alpine
     command:
       - /bin/sh
       - -c
@@ -87,7 +87,7 @@ services:
       common:
 
   opa:
-    image: docker.io/openpolicyagent/opa:1.16.1
+    image: docker.io/openpolicyagent/opa:1.16.2
     ports:
       - "8181:8181"
     volumes:
@@ -103,7 +103,7 @@ services:
       common:
 
   db:
-    image: docker.io/library/postgres:18.3
+    image: docker.io/library/postgres:18.4
     ports:
       - "5432:5432"
     environment:
@@ -138,7 +138,7 @@ services:
       common:
 
   react-template:
-    image: ghcr.io/kamikaze/react-project-template:v0.0.10
+    image: ghcr.io/kamikaze/react-project-template:v0.0.11
     ports:
       - "5173:8080"
     depends_on:
