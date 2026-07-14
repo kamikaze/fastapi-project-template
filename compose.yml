@@ -2,7 +2,7 @@ name: fastapi-project-template
 
 services:
   keycloak:
-    image: quay.io/keycloak/keycloak:26.6.2
+    image: quay.io/keycloak/keycloak:26.7.0
     entrypoint: [ "/opt/keycloak/data/import/keycloak-entrypoint.sh" ]
     environment:
       # Disable Scalable Vector Extension, otherwise Critical error in keycloak container (emulation does not work locally on Mac M4 >15.2)
@@ -51,7 +51,7 @@ services:
       common:
 
   rabbitmq:
-    image: docker.io/library/rabbitmq:4.3.0-management
+    image: docker.io/library/rabbitmq:4.3.2-management
     environment:
       RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
       RABBITMQ_DEFAULT_USER: "guest"
@@ -87,7 +87,7 @@ services:
       common:
 
   opa:
-    image: docker.io/openpolicyagent/opa:1.16.2
+    image: docker.io/openpolicyagent/opa:1.18.2
     ports:
       - "8181:8181"
     volumes:
