@@ -1,8 +1,18 @@
 use pyo3::prelude::*;
 
+unsafe extern "C" {
+    fn fib(n: i32) -> i32;
+}
+
 #[pymodule]
-mod _rustmod {
+mod _ext {
     use pyo3::prelude::*;
+    use super::*;
+
+    #[pyfunction]
+    fn c_fib(n: i32) -> i32 {
+        unsafe { fib(n) }
+    }
 
     #[pyfunction]
     fn rust_fib(n: i32) -> PyResult<i32> {

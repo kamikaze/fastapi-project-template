@@ -1,0 +1,16 @@
+[package]
+name = "fastapi-project-template"
+version = "0.1.0"
+edition = "2024"
+
+[lib]
+name = "_ext"
+path = "rustlib/lib.rs"
+crate-type = ["cdylib"]
+
+[dependencies]
+pyo3 = { version = "0.29", features = ["extension-module"] }
+pyo3-async-runtimes = { version = "0.29", features = ["tokio-runtime"] }
+
+[build-dependencies]
+cc = "1.0"

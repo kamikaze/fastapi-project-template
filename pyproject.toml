@@ -1,6 +1,6 @@
 [build-system]
-requires = ["setuptools", "setuptools_scm", "setuptools_rust", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["maturin>=1.0,<2.0"]
+build-backend = "maturin"
 
 [project]
 name = "fastapi-project-template"
@@ -27,8 +27,8 @@ dependencies = [
     "fastapi-commons==0.6.5",
     "fastapi-pagination==0.15.15",
     "fastapi==0.139.0",
-    "granian==2.7.5; platform_system == 'Windows'",
-    "granian[uvloop]==2.7.5; platform_system != 'Windows'",
+    "granian==2.7.9; platform_system == 'Windows'",
+    "granian[uvloop]==2.7.9; platform_system != 'Windows'",
     "msgpack==1.2.1",
     "passlib[argon2]==1.7.4",
     "pwdlib==0.3.0",
@@ -49,15 +49,11 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-    "build",
     "pip",
     "pre-commit",
     "pyright",
     "ruff",
-    "setuptools",
-    "setuptools_rust",
     "ty",
-    "wheel"
 ]
 testing = [
     "pytest",
@@ -65,32 +61,10 @@ testing = [
     "pytest-cov",
 ]
 
-[tool.setuptools]
-zip-safe = false
-package-dir = { "" = "src" }
-include-package-data = true
-
-[tool.setuptools.dynamic]
-version = { attr = "setuptools_scm.get_version" }
-
-[tool.setuptools.packages.find]
-where = ["src"]
-exclude = ["tests"]
-
-[tool.setuptools.package-data]
-fastapi_project_template = [
-    "rustlib/Cargo.toml",
-    "rustlib/lib.rs",
-    "clib/extmod.c",
-    "*.rst",
-    "*.txt",
-    "*.md"
-]
-
-[tool.setuptools_rust]
-# Optional Rust-specific configuration
-# Positioning of the compiled extension
-extensionmodule = true
+[tool.maturin]
+python-source = "src"
+module-name = "fastapi_project_template._ext"
+features = ["pyo3/extension-module"]
 
 [tool.bdist_wheel]
 universal = true
@@ -170,6 +144,7 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
+"docs/conf.py" = ["A001", "INP001", "PTH", "S110", "SIM105", "T201"]
 "tests/*.py" = ["S101"]
 
 [tool.ruff.lint.flake8-quotes]

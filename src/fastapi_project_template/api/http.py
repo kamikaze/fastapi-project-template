@@ -11,7 +11,7 @@ from fastapi_pagination import add_pagination
 from scalar_fastapi import AgentScalarConfig, get_scalar_api_reference
 from starlette.applications import Starlette
 
-from fastapi_project_template.api.v1.endpoints import config, health, users
+from fastapi_project_template.api.v1.endpoints import config, extensions, health, users
 from fastapi_project_template.conf import LOGGING_CONFIG, settings
 
 logging.config.dictConfig(LOGGING_CONFIG)
@@ -51,6 +51,7 @@ root_router = APIRouter(prefix=f'{api_prefix}/v1')
 root_router.include_router(health.router)
 root_router.include_router(config.router)
 root_router.include_router(users.router)
+root_router.include_router(extensions.router)
 app.include_router(root_router)
 
 add_pagination(app)
