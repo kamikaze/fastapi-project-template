@@ -717,7 +717,7 @@ requires-dist = [
     { name = "pydantic-settings", specifier = "==2.14.2" },
     { name = "pyjwt", specifier = "==2.13.0" },
     { name = "python-dateutil", specifier = "==2.9.0.post0" },
-    { name = "python3-commons", extras = ["authn", "authz", "database"], specifier = "==0.22.6" },
+    { name = "python3-commons", extras = ["authn", "authz", "database"], specifier = "==0.22.8" },
     { name = "scalar-fastapi", specifier = "==1.8.2" },
     { name = "sqlalchemy", extras = ["asyncio"], specifier = "==2.0.51" },
     { name = "starlette", specifier = "==1.3.1" },
@@ -1780,16 +1780,16 @@ wheels = [
 
 [[package]]
 name = "python3-commons"
-version = "0.22.6"
+version = "0.22.8"
 source = { registry = "https://pypi.org/simple" }
 dependencies = [
     { name = "msgpack" },
     { name = "msgspec" },
     { name = "pydantic-settings" },
 ]
-sdist = { url = "https://files.pythonhosted.org/packages/61/c3/e05a46b05a380c196f8af3dbbf4a06db07e3e1e5fb9c36ec9e9f781b93d1/python3_commons-0.22.6.tar.gz", hash = "sha256:f0d3d7e16b5e70d58fa4121f1d4a9d3516f5f2734a3de65977e9054b17bfbd80", size = 131857, upload-time = "2026-06-26T22:05:31.798Z" }
+sdist = { url = "https://files.pythonhosted.org/packages/1a/65/0d7ba668637cec024d1a7cc7e76b9998482e30439073f8b4abe35163cdfb/python3_commons-0.22.8.tar.gz", hash = "sha256:15716821e2ecaea566a80f5a1bfb1ff2e67530c7c8fb4093da797089acca1a70", size = 132908, upload-time = "2026-07-15T10:42:31.321Z" }
 wheels = [
-    { url = "https://files.pythonhosted.org/packages/47/6f/24b91d37bb0b858a22661dc13a7ca8df34714e064dd103ec0d59a9cb97ea/python3_commons-0.22.6-py3-none-any.whl", hash = "sha256:f75563c250f8495cb650f4f4956846ad5e0a09bf79fc93d6c471018d91f11152", size = 48739, upload-time = "2026-06-26T22:05:30.707Z" },
+    { url = "https://files.pythonhosted.org/packages/47/4f/3aabf6168a568aa7691c94dcc2e1d855f226af3a96262bbafee1b04b3f8c/python3_commons-0.22.8-py3-none-any.whl", hash = "sha256:8b072cd3cc650e0ee382936714598d554621bb0a0ca623fabfb1edd06d381328", size = 48931, upload-time = "2026-07-15T10:42:30.099Z" },
 ]
 
 [package.optional-dependencies]
