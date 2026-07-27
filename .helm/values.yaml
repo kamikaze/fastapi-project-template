@@ -3,7 +3,7 @@ replicaCount: 1
 postgresql:
   image:
     repository: docker.io/postgres
-    tag: "18.1"
+    tag: "18.4"
     pullPolicy: IfNotPresent
   database: "template_app_db"
   username: "dev"
@@ -112,7 +112,7 @@ ingress:
   tls: [ ]
 
 resources: { }
-  # We usually recommend not to specify default resources and to leave this as a conscious
+# We usually recommend not to specify default resources and to leave this as a conscious
 # choice for the user. This also increases chances charts run on environments with little
 # resources, such as Minikube. If you do want to specify resources, uncomment the following
 # lines, adjust them as necessary, and remove the curly braces after 'resources:'.
@@ -159,7 +159,7 @@ opa:
   enabled: true
   image:
     repository: "docker.io/openpolicyagent/opa"
-    tag: "1.13.1"
+    tag: "1.18.2"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
@@ -170,7 +170,7 @@ react:
   enabled: true
   image:
     repository: "ghcr.io/kamikaze/react-project-template"
-    tag: "v0.0.5"
+    tag: "v0.0.11"
     pullPolicy: IfNotPresent
   service:
     type: ClusterIP
