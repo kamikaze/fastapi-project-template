@@ -68,7 +68,9 @@ spec:
             - name: LOGGING_LEVEL
               value: {{ .Values.backend.loggingLevel | quote }}
             - name: SERVICE_ADDR
-              value: "0.0.0.0"
+              valueFrom:
+                fieldRef:
+                  fieldPath: status.podIP
             - name: TIMEZONE
               value: {{ .Values.backend.timezone | quote }}
             - name: OIDC_AUTHORITY_URL
