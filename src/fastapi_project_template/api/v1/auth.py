@@ -1,7 +1,8 @@
 import logging
 import uuid
+from collections.abc import Sequence
 from http import HTTPStatus
-from typing import Annotated, TypeVar
+from typing import Annotated
 
 import sqlalchemy as sa
 from fastapi import Depends, HTTPException
@@ -17,16 +18,28 @@ from fastapi_project_template.db.models import ApiKey
 
 logger = logging.getLogger(__name__)
 
-api_key_header = APIKeyHeader(name='X-API-Key', auto_error=True)
-optional_api_key_header = APIKeyHeader(name='X-API-Key', auto_error=False)
+api_key_header = APIKeyHeader(name='Api-Key', auto_error=True)
+optional_api_key_header = APIKeyHeader(name='Api-Key', auto_error=False)
 bearer_security = HTTPBearer(auto_error=api_auth_settings.enabled)
 optional_bearer_security = HTTPBearer(auto_error=False)
 
 
-get_verified_token = get_token_verifier(TokenData)
+class AppTokenData(TokenData):
+    """
+    Token claims including the ``groups`` claim, which Dex and most other OIDC providers use instead of
+    Keycloak's ``realm_access`` and ``resource_access``.
+    """
+
+    groups: Sequence[str] | None = None
+
+    @property
+    def roles(self) -> list[str]:
+        return list({*super().roles, *(self.groups or ())})
+
+
+get_verified_token = get_token_verifier(AppTokenData)
 
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
-T = TypeVar('T', bound=TokenData)
 
 
 async def verify_api_key(api_key: Annotated[uuid.UUID, Depends(api_key_header)], session: AsyncSessionDep) -> ApiKey:
@@ -46,9 +59,9 @@ async def verify_api_key(api_key: Annotated[uuid.UUID, Depends(api_key_header)],
 
 async def get_auth(
     api_key: Annotated[uuid.UUID, Depends(optional_api_key_header)] | None,
-    token_data: Annotated[TokenData, Depends(get_verified_token)] | None,
+    token_data: Annotated[AppTokenData, Depends(get_verified_token)] | None,
     db_session: AsyncSessionDep,
-) -> ApiKey | TokenData | None:
+) -> ApiKey | AppTokenData | None:
     if api_auth_settings.enabled:
         if api_key:
             api_key = await verify_api_key(api_key, db_session)

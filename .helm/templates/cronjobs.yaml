@@ -22,7 +22,7 @@ spec:
                 - foo
               env:
                 - name: DB_DSN
-                  value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
+                  value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host | default (printf "%s-db" (include "fastapi-project-template.fullname" .)) }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
                 - name: LOGGING_LEVEL
                   value: "{{ .Values.backend.loggingLevel }}"
                 - name: TIMEZONE
@@ -53,7 +53,7 @@ spec:
                 - bar
               env:
                 - name: DB_DSN
-                  value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
+                  value: "postgresql+asyncpg://{{ .Values.postgresql.username }}:{{ .Values.postgresql.password }}@{{ .Values.postgresql.host | default (printf "%s-db" (include "fastapi-project-template.fullname" .)) }}:{{ .Values.postgresql.port }}/{{ .Values.postgresql.database }}"
                 - name: LOGGING_LEVEL
                   value: "{{ .Values.backend.loggingLevel }}"
                 - name: TIMEZONE

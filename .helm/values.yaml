@@ -42,11 +42,10 @@ backend:
   env:
     OIDC_AUDIENCE: "backend-api"
     OIDC_AUTHORITY_URL: "http://keycloak:8080/realms/app"
-    OIDC_AUTHORITY_INTERNAL_URL: "http://keycloak:8080/realms/app"
     OIDC_CLIENT_ID: "frontend"
     OIDC_CLIENT_SECRET: ""
     OIDC_REDIRECT_URI: "http://localhost:5173/"
-    OIDC_SCOPE: "openid profile email"
+    OIDC_SCOPE: "openid,profile,email"
     OPA_URL: "http://opa:8181/v1/data/app/authz"
 
 imageCredentials:

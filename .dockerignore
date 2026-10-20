@@ -9,6 +9,6 @@
 !/src
 !alembic.ini
 !pyproject.toml
-!README.rst
+!README.md
 !setup.py
 !uv.lock

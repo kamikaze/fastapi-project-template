@@ -1,5 +1,5 @@
 ARG BASE_REGISTRY=docker.io/library
-FROM ${BASE_REGISTRY}/python:3.14.7-slim-trixie AS build-image
+FROM ${BASE_REGISTRY}/python:3.15.0-slim-trixie AS build-image
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
@@ -37,20 +37,20 @@ RUN if [ -z "$ARCH" ]; then ARCH="$(uname -m)"; fi && \
 COPY pyproject.toml uv.lock ./
 
 RUN uv sync --no-dev --frozen --no-install-project && \
-    (find .venv/lib/python3.14/site-packages -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true) && \
-    find .venv/lib/python3.14/site-packages -type f -name "*.pyc" -delete && \
-    find .venv/lib/python3.14/site-packages -type f -name "*.pyo" -delete && \
-    (find .venv/lib/python3.14/site-packages -name "*.so" -exec strip {} \; 2>/dev/null || true) && \
-    cp -r .venv/lib/python3.14/site-packages /install-packages
+    (find .venv/lib/python3.15/site-packages -type d -name "__pycache__" -exec rm -rf {} + 2>/dev/null || true) && \
+    find .venv/lib/python3.15/site-packages -type f -name "*.pyc" -delete && \
+    find .venv/lib/python3.15/site-packages -type f -name "*.pyo" -delete && \
+    (find .venv/lib/python3.15/site-packages -name "*.so" -exec strip {} \; 2>/dev/null || true) && \
+    cp -r .venv/lib/python3.15/site-packages /install-packages
 
 
-FROM ${BASE_REGISTRY}/python:3.14.7-slim-trixie AS app
+FROM ${BASE_REGISTRY}/python:3.15.0-slim-trixie AS app
 
 ENV PYTHONDONTWRITEBYTECODE=1
 ENV PYTHONUNBUFFERED=1
 ENV PYTHONPATH=/app
 
-COPY --from=build-image /install-packages /usr/local/lib/python3.14/site-packages/
+COPY --from=build-image /install-packages /usr/local/lib/python3.15/site-packages/
 COPY --from=build-image /usr/lib/linux-gnu/* /usr/lib/linux-gnu/
 COPY --from=build-image /lib/linux-gnu/* /lib/linux-gnu/
 

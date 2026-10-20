@@ -3,12 +3,11 @@ from typing import Annotated
 from uuid import UUID
 
 from fastapi import APIRouter, Depends
-from fastapi_commons.auth import get_token_verifier
 from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import apaginate
-from python3_commons.auth import TokenData
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from fastapi_project_template.api.v1.auth import AppTokenData, get_verified_token
 from fastapi_project_template.api.v1.opa import opa_authorize
 from fastapi_project_template.db import get_main_db_session
 from fastapi_project_template.services.users import users_service
@@ -16,9 +15,8 @@ from fastapi_project_template.services.users.dto import UserProfile, UserUpdate
 
 logger = logging.getLogger(__name__)
 
-get_verified_token = get_token_verifier(TokenData)
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
-TokenDep = Annotated[TokenData, Depends(get_verified_token)]
+TokenDep = Annotated[AppTokenData, Depends(get_verified_token)]
 
 
 router = APIRouter(prefix='/users', tags=['Users'], dependencies=[Depends(opa_authorize)])

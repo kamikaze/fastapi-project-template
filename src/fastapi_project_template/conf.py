@@ -1,21 +1,13 @@
 import decimal
-from collections.abc import Sequence
 from typing import Annotated
 
-from pydantic import BeforeValidator, HttpUrl, RedisDsn, SecretStr
-from pydantic_settings import SettingsConfigDict
-from python3_commons.conf import CommonSettings, DBSettings, OIDCSettings
+from pydantic import HttpUrl, RedisDsn, SecretStr
+from pydantic_settings import NoDecode, SettingsConfigDict
+from python3_commons.conf import CommonSettings, DBSettings, OIDCSettings, StringSeq
 
 global_decimal_context = decimal.getcontext()
 global_decimal_context.rounding = decimal.ROUND_HALF_UP
 decimal.DefaultContext = global_decimal_context
-
-
-def parse_string_list(v: str | Sequence[str]) -> Sequence[str]:
-    if isinstance(v, str):
-        return tuple(map(str.strip, v.split(',')))
-
-    return v
 
 
 class Settings(CommonSettings):
@@ -23,7 +15,7 @@ class Settings(CommonSettings):
 
     service_addr: str = '0.0.0.0'  # noqa: S104
     service_port: int = 8080
-    allowed_origins: Annotated[Sequence[str] | tuple[str, ...], BeforeValidator(parse_string_list)] = ('*',)
+    allowed_origins: Annotated[StringSeq, NoDecode] = ('*',)
 
     alembic_config: str = 'alembic.ini'
 

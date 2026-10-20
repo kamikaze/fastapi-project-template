@@ -23,7 +23,7 @@ async def update_user(db_session: AsyncSession, uid: UUID, user: UserUpdate) -> 
     return await dao.update_user(db_session, uid, user)
 
 
-def get_users_stmt(*, existing_only: bool = True) -> Select[tuple[UserProfile]]:
+def get_users_stmt(*, existing_only: bool = True) -> Select[UserProfile]:
     stmt = sa.select(UserProfile).order_by(UserProfile.name)
 
     if existing_only:

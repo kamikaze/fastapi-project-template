@@ -31,5 +31,5 @@ async def get_user(session: AsyncSession, user_id: uuid.UUID) -> User:
     return cursor.scalar_one()
 
 
-async def get_user_groups_stmt() -> Select[tuple[UserGroup]]:
+async def get_user_groups_stmt() -> Select[UserGroup]:
     return sa.select(UserGroup).order_by(UserGroup.name)

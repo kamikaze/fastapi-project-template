@@ -45,7 +45,7 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /api/v1/alive
+              path: /api/app/v1/alive
               port: http
             initialDelaySeconds: 5
             periodSeconds: 30
@@ -54,7 +54,7 @@ spec:
             terminationGracePeriodSeconds: 60
           readinessProbe:
             httpGet:
-              path: /api/v1/ready
+              path: /api/app/v1/ready
               port: http
             initialDelaySeconds: 5
             periodSeconds: 60

@@ -1,0 +1,41 @@
+# Local OIDC provider for compose.yml. Not for production use.
+# The issuer must be reachable from the browser; the backend reaches it through OIDC_AUTHORITY_INTERNAL_HOST.
+issuer: http://localhost:5556/dex
+
+storage:
+  type: memory
+
+web:
+  http: 0.0.0.0:5556
+  allowedOrigins:
+    - http://localhost:5173
+
+oauth2:
+  skipApprovalScreen: true
+
+enablePasswordDB: true
+
+staticClients:
+  - id: frontend
+    name: Frontend
+    public: true
+    redirectURIs:
+      - http://localhost:5173
+      - http://localhost:5173/
+
+# Both users have the password "dev". Groups are sent in the "groups" claim when the "groups" scope is
+# requested, and the backend treats them as roles for OPA (see .docker/opa/policies/authz.rego).
+staticPasswords:
+  - email: admin@example.com
+    hash: "$2a$10$iXdVJBRZIVzaCeFE5FCm2.bUA7CzmWwD8oROy9C1bh3e.7ihvZd/e"
+    username: admin
+    userID: 4f1c2d3e-8a6b-4c5d-9e7f-0a1b2c3d4e5f
+    groups:
+      - admin
+      - view-profile
+  - email: user@example.com
+    hash: "$2a$10$iXdVJBRZIVzaCeFE5FCm2.bUA7CzmWwD8oROy9C1bh3e.7ihvZd/e"
+    username: user
+    userID: 7a8b9c0d-1e2f-4a3b-8c4d-5e6f7a8b9c0d
+    groups:
+      - view-profile

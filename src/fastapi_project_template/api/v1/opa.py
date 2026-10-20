@@ -3,16 +3,15 @@ from typing import Annotated
 
 import aiohttp
 from fastapi import Depends, HTTPException, Request
-from python3_commons.auth import TokenData
 from starlette import status
 
-from fastapi_project_template.api.v1.auth import get_verified_token
+from fastapi_project_template.api.v1.auth import AppTokenData, get_verified_token
 from fastapi_project_template.conf import settings
 
 logger = logging.getLogger(__name__)
 
 
-async def check_opa_authorization(request: Request, token_data: TokenData) -> bool:
+async def check_opa_authorization(request: Request, token_data: AppTokenData) -> bool:
     if (opa_url := settings.opa_url) is None:
         return True
 
@@ -61,6 +60,6 @@ async def check_opa_authorization(request: Request, token_data: TokenData) -> bo
 
 async def opa_authorize(
     request: Request,
-    token: Annotated[TokenData, Depends(get_verified_token)],
+    token: Annotated[AppTokenData, Depends(get_verified_token)],
 ) -> None:
     await check_opa_authorization(request, token)
