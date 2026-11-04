@@ -68,7 +68,7 @@ services:
       common:
 
   valkey:
-    image: docker.io/valkey/valkey:9.1.0-alpine
+    image: docker.io/valkey/valkey:9.1.3-alpine
     command:
       - /bin/sh
       - -c
@@ -82,7 +82,7 @@ services:
       common:
 
   opa:
-    image: docker.io/openpolicyagent/opa:1.18.2
+    image: docker.io/openpolicyagent/opa:1.22.0
     ports:
       - "8181:8181"
     volumes:
