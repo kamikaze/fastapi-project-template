@@ -6,9 +6,9 @@ An idiomatic FastAPI project template with C and Rust extension modules built in
 
 - **FastAPI** on Python 3.15, served by [Granian](https://github.com/emmett-framework/granian).
 - **Native extensions**: one `_ext` module that contains C and Rust code, built with [maturin](https://www.maturin.rs/).
-- **Shared building blocks** from [`python3-commons`](https://github.com/kamikaze/python3-commons) (settings, async DB sessions, base models, JSON logging) and [`fastapi-commons`](https://github.com/kamikaze/fastapi-commons) (OIDC token verification, API key auth settings, correlation ID and log context middleware, exception handlers).
+- **Shared building blocks** from [`python3-commons`](https://github.com/kamikaze/python3-commons) (settings, async DB sessions, base models, JSON logging) and [`fastapi-commons`](https://github.com/kamikaze/fastapi-commons) (OIDC token verification, correlation ID, log context and unhandled error middleware, exception handlers).
 - **Database**: async SQLAlchemy over `asyncpg`, with Alembic migrations and a separate read-only connection.
-- **Auth**: OIDC bearer tokens ([Dex](https://dexidp.io/) in the dev stack) or `Api-Key` header, with authorization through [Open Policy Agent](https://www.openpolicyagent.org/).
+- **Auth**: OIDC bearer tokens ([Dex](https://dexidp.io/) in the dev stack) or `Api-Key` header (the app lifespan starts the OIDC client with `oidc_lifespan`, so token verification needs a reachable `OIDC_AUTHORITY_URL`), with authorization through [Open Policy Agent](https://www.openpolicyagent.org/).
 - **API reference** UI by [Scalar](https://github.com/scalar/scalar), plus pagination through `fastapi-pagination`.
 - **Tooling**: `uv`, `ruff`, `pyright`, `pytest` and `pre-commit`.
 - **Deployment**: a hardened `Containerfile`, a Compose dev stack and a Helm chart.
@@ -93,7 +93,7 @@ Settings are read from environment variables:
 | `ALLOWED_ORIGINS` | Comma-separated list of CORS origins |
 | `LOGGING_LEVEL`, `LOGGING_FORMATTER` | Log level, and `default` or `json` output |
 | `VALKEY_DSN`, `VALKEY_SENTINEL_DSN` | Valkey connection |
-| `API_AUTH_ENABLED` | Require authentication on the API |
+| `API_AUTH_ENABLED` | Require authentication on the API. When `false`, the OIDC client is not started and verified-token dependencies return `None` |
 | `OIDC_AUTHORITY_URL` | OIDC issuer URL as the browser sees it |
 | `OIDC_AUTHORITY_INTERNAL_HOST` | Origin that replaces the issuer's origin for server-side calls, for example `http://dex:5556/` inside compose |
 | `OIDC_CLIENT_ID`, `OIDC_CLIENT_SECRET`, `OIDC_REDIRECT_URI` | OIDC client |
@@ -102,7 +102,7 @@ Settings are read from environment variables:
 | `OPA_URL` | OPA decision endpoint used for authorization |
 | `OBJECT_STORAGE_WORK_PATH`, `S3_*` | Object storage root (for example `s3://bucket`) and S3 credentials |
 
-See `src/fastapi_project_template/conf.py` and the settings classes in `python3_commons.conf` and `fastapi_commons.conf` for the full list.
+See `src/fastapi_project_template/conf.py` and the settings classes in `python3_commons.conf` for the full list.
 
 ## API
 

@@ -23,6 +23,7 @@ class Settings(CommonSettings):
     bootstrap_user_name: str | None = None
     bootstrap_user_password: SecretStr | None = None
 
+    api_auth_enabled: bool = True
     auth_secret: SecretStr = SecretStr('secret-string')
 
     valkey_dsn: RedisDsn | None = None

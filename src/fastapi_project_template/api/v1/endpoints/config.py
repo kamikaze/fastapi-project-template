@@ -1,7 +1,6 @@
 import logging
 
 from fastapi import APIRouter
-from fastapi_commons.handlers import handle_exceptions
 
 from fastapi_project_template.api.v1.schema import AppConfig
 from fastapi_project_template.conf import oidc_settings
@@ -13,7 +12,6 @@ router = APIRouter(tags=['config'])
 
 @router.get('/config', include_in_schema=True)
 @router.head('/config', include_in_schema=False)
-@handle_exceptions
 async def get_app_config() -> AppConfig:
     return AppConfig(
         oidc_authority_url=oidc_settings.authority_url,

@@ -1,18 +1,19 @@
 import logging
 import uuid
-from collections.abc import Sequence
+from collections.abc import Callable, Coroutine
 from http import HTTPStatus
-from typing import Annotated
+from typing import Annotated, Any
 
 import sqlalchemy as sa
 from fastapi import Depends, HTTPException
-from fastapi.security import APIKeyHeader, HTTPBearer
+from fastapi.security import APIKeyHeader
 from fastapi_commons.auth import get_token_verifier
-from fastapi_commons.conf import api_auth_settings
+from fastapi_commons.exceptions import UnauthorizedError
 from python3_commons.auth import TokenData
 from sqlalchemy.ext.asyncio import AsyncSession
 from starlette import status
 
+from fastapi_project_template.conf import settings
 from fastapi_project_template.db import get_main_db_session
 from fastapi_project_template.db.models import ApiKey
 
@@ -20,8 +21,6 @@ logger = logging.getLogger(__name__)
 
 api_key_header = APIKeyHeader(name='Api-Key', auto_error=True)
 optional_api_key_header = APIKeyHeader(name='Api-Key', auto_error=False)
-bearer_security = HTTPBearer(auto_error=api_auth_settings.enabled)
-optional_bearer_security = HTTPBearer(auto_error=False)
 
 
 class AppTokenData(TokenData):
@@ -30,14 +29,29 @@ class AppTokenData(TokenData):
     Keycloak's ``realm_access`` and ``resource_access``.
     """
 
-    groups: Sequence[str] | None = None
-
     @property
     def roles(self) -> list[str]:
-        return list({*super().roles, *(self.groups or ())})
+        return list({*super().roles, *self.groups})
 
 
-get_verified_token = get_token_verifier(AppTokenData)
+async def _no_token() -> None:
+    return None
+
+
+# Decided once at import: with authentication disabled every verified-token dependency yields None.
+get_verified_token: Callable[..., Coroutine[Any, Any, AppTokenData | None]] = (
+    get_token_verifier(AppTokenData) if settings.api_auth_enabled else _no_token
+)
+
+
+async def get_current_token(token: Annotated[AppTokenData | None, Depends(get_verified_token)]) -> AppTokenData:
+    """Return the verified token, or answer 401 when authentication is disabled and there is no identity."""
+    if token is None:
+        msg = 'Not authenticated'
+        raise UnauthorizedError(msg, headers={'WWW-Authenticate': 'Bearer'})
+
+    return token
+
 
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
 
@@ -58,13 +72,13 @@ async def verify_api_key(api_key: Annotated[uuid.UUID, Depends(api_key_header)],
 
 
 async def get_auth(
-    api_key: Annotated[uuid.UUID, Depends(optional_api_key_header)] | None,
+    api_key_value: Annotated[uuid.UUID, Depends(optional_api_key_header)] | None,
     token_data: Annotated[AppTokenData, Depends(get_verified_token)] | None,
     db_session: AsyncSessionDep,
 ) -> ApiKey | AppTokenData | None:
-    if api_auth_settings.enabled:
-        if api_key:
-            api_key = await verify_api_key(api_key, db_session)
+    if settings.api_auth_enabled:
+        if api_key_value:
+            api_key = await verify_api_key(api_key_value, db_session)
             msg = f'Authenticated API key: id={api_key.uid}, name={api_key.name}'
             logger.debug(msg)
 

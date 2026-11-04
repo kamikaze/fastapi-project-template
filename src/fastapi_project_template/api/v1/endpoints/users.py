@@ -7,7 +7,7 @@ from fastapi_pagination import Page
 from fastapi_pagination.ext.sqlalchemy import apaginate
 from sqlalchemy.ext.asyncio import AsyncSession
 
-from fastapi_project_template.api.v1.auth import AppTokenData, get_verified_token
+from fastapi_project_template.api.v1.auth import AppTokenData, get_current_token
 from fastapi_project_template.api.v1.opa import opa_authorize
 from fastapi_project_template.db import get_main_db_session
 from fastapi_project_template.services.users import users_service
@@ -16,15 +16,15 @@ from fastapi_project_template.services.users.dto import UserProfile, UserUpdate
 logger = logging.getLogger(__name__)
 
 AsyncSessionDep = Annotated[AsyncSession, Depends(get_main_db_session)]
-TokenDep = Annotated[AppTokenData, Depends(get_verified_token)]
+TokenDep = Annotated[AppTokenData, Depends(get_current_token)]
 
 
 router = APIRouter(prefix='/users', tags=['Users'], dependencies=[Depends(opa_authorize)])
 
 
 @router.get('/me')
-async def get_current_user_profile(db_session: AsyncSessionDep, token: TokenDep) -> UserProfile:
-    return await users_service.get_or_create_user_profile_by_token(db_session, token)
+async def get_current_user_profile(token: TokenDep, db_session: AsyncSessionDep) -> UserProfile:
+    return UserProfile.model_validate(await users_service.get_or_create_user_profile_by_token(db_session, token))
 
 
 @router.get('')
@@ -36,4 +36,4 @@ async def get_user_list(db_session: AsyncSessionDep) -> Page[UserProfile]:
 
 @router.post('/{uid}')
 async def create_user(db_session: AsyncSessionDep, uid: UUID, user: UserUpdate) -> UserProfile:
-    return await users_service.update_user(db_session, uid, user)
+    return UserProfile.model_validate(await users_service.update_user(db_session, uid, user))
