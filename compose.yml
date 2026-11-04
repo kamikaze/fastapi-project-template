@@ -20,27 +20,33 @@ services:
     ports:
       - "10000:10000"
 
-  minio:
-    image: quay.io/minio/minio:RELEASE.2025-09-07T16-13-09Z.hotfix.7aa24e772
+  garage:
+    image: docker.io/dxflrs/garage:v2.5.0
+    command: [ "/garage", "server", "--single-node", "--default-bucket" ]
     ports:
-      - "9000:9000"
-      - "9001:9001"
+      - "3900:3900"
+      - "3902:3902"
+      - "3903:3903"
     environment:
-      MINIO_ROOT_USER: "${MINIO_ROOT_USER:-root}"
-      MINIO_ROOT_PASSWORD: "${MINIO_ROOT_PASSWORD:-rootroot}"
-    command: [
-      "server",
-      "/data",
-      "--console-address",
-      ":9001"
-    ]
+      GARAGE_DEFAULT_ACCESS_KEY: "${S3_ACCESS_KEY_ID:-GK0123456789abcdef01234567}"
+      GARAGE_DEFAULT_SECRET_KEY: "${S3_SECRET_ACCESS_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}"
+      GARAGE_DEFAULT_BUCKET: "${S3_BUCKET:-test}"
+    healthcheck:
+      test: [ "CMD", "/garage", "health", "-q" ]
+      interval: 3s
+      timeout: 10s
+      retries: 5
     volumes:
-      - minio-data:/data
+      - ./.docker/garage.toml:/etc/garage.toml:ro,Z
+      - garage-meta:/var/lib/garage/meta
+      - garage-data:/var/lib/garage/data
     networks:
       common:
+        aliases:
+          - garage
 
   rabbitmq:
-    image: docker.io/library/rabbitmq:4.3.2-management
+    image: docker.io/library/rabbitmq:4.4.0-management
     environment:
       RABBITMQ_ERLANG_COOKIE: 'secret_cookie'
       RABBITMQ_DEFAULT_USER: "guest"
@@ -92,7 +98,7 @@ services:
       common:
 
   db:
-    image: docker.io/library/postgres:18.4
+    image: docker.io/library/postgres:18.6
     ports:
       - "5432:5432"
     environment:
@@ -164,13 +170,13 @@ services:
       LOGGING_LEVEL: "${LOGGING_LEVEL:-DEBUG}"
       LOGGING_FORMATTER: "${LOGGING_FORMATTER:-json}"
       OBJECT_STORAGE_WORK_PATH: "${OBJECT_STORAGE_WORK_PATH:-s3://test}"
-      AWS_ENDPOINT_URL_S3: "${AWS_ENDPOINT_URL_S3:-http://minio:9000}"
-      S3_REGION: "${S3_REGION:-us-east-1}"
+      AWS_ENDPOINT_URL_S3: "${AWS_ENDPOINT_URL_S3:-http://garage:3900}"
+      S3_REGION: "${S3_REGION:-lv-riga-1}"
       S3_ADDRESSING_STYLE: "${S3_ADDRESSING_STYLE:-path}"
       S3_ALLOW_HTTP: "${S3_ALLOW_HTTP:-true}"
       S3_CERT_VERIFY: "${S3_CERT_VERIFY:-false}"
-      S3_ACCESS_KEY_ID: "${S3_ACCESS_KEY_ID:-root}"
-      S3_SECRET_ACCESS_KEY: "${S3_SECRET_ACCESS_KEY:-rootroot}"
+      S3_ACCESS_KEY_ID: "${S3_ACCESS_KEY_ID:-GK0123456789abcdef01234567}"
+      S3_SECRET_ACCESS_KEY: "${S3_SECRET_ACCESS_KEY:-0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcdef}"
       VALKEY_DSN: "redis://:${VALKEY_PASSWORD:-dev}@valkey:6379/0"
       API_AUTH_ENABLED: "${API_AUTH_ENABLED:-false}"
       OIDC_AUTHORITY_URL: "http://localhost:5556/dex"
@@ -185,8 +191,8 @@ services:
         condition: service_healthy
       opa:
         condition: service_started
-      minio:
-        condition: service_started
+      garage:
+        condition: service_healthy
       rabbitmq:
         condition: service_healthy
       valkey:
@@ -201,7 +207,8 @@ services:
 volumes:
   db:
   azurite-data:
-  minio-data:
+  garage-meta:
+  garage-data:
   rabbitmq_data:
 
 networks:
